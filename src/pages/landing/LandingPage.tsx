@@ -1,9 +1,13 @@
 import { Header } from "@/widgets/Header/Header";
+import { IdeaBlock } from "@/widgets/IdeaBlock/IdeaBlock";
 
 export const LandingPage = () => {
   return (
-    <div>
+    <>
       <Header />
-    </div>
+      <main>
+        <IdeaBlock />
+      </main>
+    </>
   );
 }

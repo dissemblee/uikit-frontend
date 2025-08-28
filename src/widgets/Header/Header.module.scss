@@ -1,11 +1,17 @@
 @use '../../shared/styles/variables' as *;
 @use '../../shared/styles/mixins' as *;
+@use "sass:color";
 
 .Header {
   background-color: $dark-bg-color;
   height: $value-30;
   padding: $value-14;
-  @include flexBetween
+  @include flexBetween;
+}
+
+.Header__logo {
+  @include flexCenter;
+  gap: $value-8;
 }
 
 .Header__name {
@@ -19,7 +25,7 @@
   font-weight: 700;
   font-size: $value-4;
   &:hover {
-    color: lighten($secondary-color, 20%)
+    color: color.scale($secondary-color, $lightness: 20%);
   }
 }
 

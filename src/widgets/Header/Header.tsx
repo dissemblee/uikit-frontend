@@ -1,11 +1,18 @@
 import Link from "next/link"
 import styles from "./Header.module.scss"
 import { Button } from "@/shared/ui/Buttons/Button"
+import Image from "next/image";
 
 export const Header = () => {
   return (
     <header className={styles.Header}>
-      <div>
+      <div className={styles.Header__logo}>
+        <Image
+          src="/Union.svg"
+          alt="Логотип"
+          width={75}
+          height={48}
+        />
         <span className={styles.Header__name}>UIKIT</span>
       </div>
       <nav className={styles.Header__nav}>
