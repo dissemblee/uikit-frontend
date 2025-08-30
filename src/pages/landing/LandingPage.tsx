@@ -1,12 +1,13 @@
+import { AboutTechnology } from "@/widgets/AboutTechnology/AboutTechnology";
 import { Header } from "@/widgets/Header/Header";
-import { IdeaBlock } from "@/widgets/IdeaBlock/IdeaBlock";
+import style from "./LandingPage.module.scss"
 
-export const LandingPage = () => {
+export default function LandingPage() {
   return (
     <>
       <Header />
-      <main>
-        <IdeaBlock />
+      <main className={style.LandingPage}>
+        <AboutTechnology />
       </main>
     </>
   );

@@ -1,75 +1,118 @@
-Особенности структуры и интеграция FSD и NextJS app routing:
-  папка app является точкой входа, в ней лежат маршруты, app routing обязывает создавать маршруты внутри папка app, и называть их page.tsx например для маршрута /.
-  Папка app будет иметь в себе маршруты, а фактическая реализация страницы будет лежать в папке pages. Таким образом получится изолировать маршруты от фактической реализации и избежать захломления папки app.
+# Архитектура проекта: FSD и Next.js App Router
 
-Нейминг: 
-  app: 
-    Файлы: всегда page.tsx
-    Функции: PascalCase + Route -> LandingRoute()
-    Пример:
-      app/landing/page.tsx -> LandingRoute()
+## Общие принципы
 
-  pages:
-    Файлы: PascalCase + Page.tsx - LandingPage.tsx, LoginPage.tsx
-    Функции: совпадает с именем файла, PascalCase
-    Пример:
-      pages/landing/LandingPage.tsx -> LandingPage()
-      pages/LoginPage.tsx -> LoginPage()
+### Проект сочетает методологию Feature-Sliced Design (FSD) с возможностями маршрутизации Next.js App Router.
 
-  widgets - составные UI компоненты:
-    Файлы и компоненты: PascalCase → Header.tsx, Sidebar.tsx
-    Стили: .module.css → Header.module.css
-    Пример: 
-      widgets/Header/Header.tsx || Header.module.css
+## Структура папок и назначение
 
-  features - блоки: 
-    Файлы UI: PascalCase → LoginForm.tsx, NotificationList.tsx
-    Файлы state / model / API: camelCase → authSlice.ts
-    Пример:
-      features/auth/ui/LoginForm.tsx -> LoginForm()
-      features/auth/model/authSlice.ts
+### 📁 `app/` - Точка входа приложения, содержащая маршруты в соответствии с Next.js App Router.
+- **Файлы:** всегда `page.tsx` или `layout.tsx`
+- **Компоненты:** `PascalCase + Route` → `LandingRoute()`
+- **Пример:**
+  ```tsx
+  export default function LandingRoute() {
+    return <LandingPage />;
+  }
+  ```
 
-  entities - доменные объекты:
-    Модели / типы: PascalCase → User.ts, Product.ts
-    API: camelCase → userApi.ts
-    Утилиты: camelCase → userUtils.ts
-    Пример:
-      entities/user/model.ts || api.ts || utils.ts
+### 📁 `pages/` - Содержит реальную реализацию страницы
+- **Файлы:** всегда `PascalCase + Page.tsx` → `LandingPage.tsx`
+- **Компонент:** совпадает с именем файла
+- **Пример:**
+  ```tsx
+    pages/
+    ├── LandingPage/
+        ├── LandingPage.tsx → LandingPage.tsx
+        └── LandingPage.module.css
+  ```
 
-  shared - переиспользуемые утилиты и UI: 
-    UI компоненты: PascalCase → Button.tsx, Modal.tsx
-    Утилиты: camelCase → fetcher.ts, debounce.ts
-    Пример:
-      shared/ui/Button.tsx || Input.tsx
+### 📁 `widgets/` - Содержит составные UI компоненты
+- **Файлы и компоненты:** всегда `PascalCase` → `Header.tsx`
+- **Стили:** `.module.css → Header.module.css`
+- **Пример:**
+  ```tsx
+    widgets/
+    ├── Header/
+        ├── Header.tsx
+        └── Header.module.css
+  ```
 
-Принципы БЭМ:
-  Блок (Block) -> Самостоятельный компонент с собственной логикой и стилями.
-    Название блока —> PascalCase.
-    Пример:
-      .Header {
-        background-color: #080A23;
-      }
+### 📁 `features/` - Содержит блоки
+- **Файлы UI:** всегда `PascalCase` → `LoginForm.tsx`
+- **Стили:** `.module.css → LoginForm.module.css`
+- **Файлы state / model / API:** всегда `camelCase` → `authSlice.ts`
+- **Пример:**
+  ```tsx
+    features/
+    └── auth/
+        ├── ui/
+        │   └── LoginForm.tsx
+        |   └── LoginForm.module.css
+        └── model/
+            └── authSlice.ts
+  ```
 
-  Элемент (Element) -> Составная часть блока, не существует без блока.
-    Обозначение: block__element
-    Пример:
-      .Header__logo {
-        width: 120px;
-      }
-      .Header__nav {
-        display: flex;
-      }
+### 📁 `entities/` - доменные объекты
+- **Модели / типы:** всегда `PascalCase` → `User.ts`
+- **API:** всегда `camelCase` → `userApi.ts`
+- **Утилиты:** всегда `camelCase` → `userUtils.ts`
+- **Пример:**
+  ```tsx
+    entities/
+    └── user/
+        ├── model.ts
+        ├── api.ts
+        └── utils.ts
+  ```
 
-  Модификатор (Modifier) -> Вариант блока или элемента (цвет, состояние, размер).
-    Обозначение: block--modifier или block__element--modifier
-    Пример:
-      .Button--primary {
-        background-color: #344AEB;
-      }
-      .Button--disabled {
-        opacity: 0.5;
-      }
-      .Header__nav--mobile {
-        display: none;
-      }
+### 📁 `shared/` - переиспользуемые утилиты и UI: 
+- **UI компоненты:** всегда `PascalCase` → `Button.tsx`
+- **Стили:** `.module.css → Button.module.css`
+- **API:** всегда `camelCase` → `userApi.ts`
+- **Утилиты:** всегда `camelCase` → `debounce.ts`
+- **Пример:**
+  ```tsx
+    shared/
+    ├── ui/
+    │   ├── Button.tsx
+    │   └── Input.tsx
+    └── lib/
+        ├── fetcher.ts
+        └── debounce.ts
+  ```
 
+## Методология БЭМ для стилизации
+### 📁 `Блок (Block)` - Самостоятельный компонент с собственной логикой и стилями.
+- **Название блока:** всегда `PascalCase`
+- **Пример:**
+  ```tsx
+    .Header {
+      background-color: #080A23;
+    }
+  ```
+### 📁 `Элемент (Element)` - Составная часть блока, не существует без блока.
+- **Название 'элемента':** всегда `Block__element`
+- **Пример:**
+  ```tsx
+    .Header__logo {
+      width: 120px;
+    }
+    .Header__nav {
+      display: flex;
+    }
+  ```
+### 📁 `Модификатор (Modifier)` - Вариант блока или элемента (цвет, состояние, размер).
+- **Название 'элемента':** всегда `Block--modifier или Block__element--modifier`
+- **Пример:**
+  ```tsx
+    .Button--primary {
+      background-color: #344AEB;
+    }
+    .Button--disabled {
+      opacity: 0.5;
+    }
+    .Header__nav--mobile {
+      display: none;
+    }
+  ```

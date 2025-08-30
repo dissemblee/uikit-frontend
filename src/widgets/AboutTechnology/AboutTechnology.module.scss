@@ -1,0 +1,7 @@
+@use '../../shared/styles/mixins' as *;
+@use '../../shared/styles/variables' as *;
+
+.AboutTechnology {
+  @include flexCenter;
+  gap: 30px;
+}
