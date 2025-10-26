@@ -1,118 +1,87 @@
-# Архитектура проекта: FSD и Next.js App Router
+# Welcome to React Router!
 
-## Общие принципы
+A modern, production-ready template for building full-stack React applications using React Router.
 
-### Проект сочетает методологию Feature-Sliced Design (FSD) с возможностями маршрутизации Next.js App Router.
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
 
-## Структура папок и назначение
+## Features
 
-### 📁 `app/` - Точка входа приложения, содержащая маршруты в соответствии с Next.js App Router.
-- **Файлы:** всегда `page.tsx` или `layout.tsx`
-- **Компоненты:** `PascalCase + Route` → `LandingRoute()`
-- **Пример:**
-  ```tsx
-  export default function LandingRoute() {
-    return <LandingPage />;
-  }
-  ```
+- 🚀 Server-side rendering
+- ⚡️ Hot Module Replacement (HMR)
+- 📦 Asset bundling and optimization
+- 🔄 Data loading and mutations
+- 🔒 TypeScript by default
+- 🎉 TailwindCSS for styling
+- 📖 [React Router docs](https://reactrouter.com/)
 
-### 📁 `pages/` - Содержит реальную реализацию страницы
-- **Файлы:** всегда `PascalCase + Page.tsx` → `LandingPage.tsx`
-- **Компонент:** совпадает с именем файла
-- **Пример:**
-  ```tsx
-    pages/
-    ├── LandingPage/
-        ├── LandingPage.tsx → LandingPage.tsx
-        └── LandingPage.module.css
-  ```
+## Getting Started
 
-### 📁 `widgets/` - Содержит составные UI компоненты
-- **Файлы и компоненты:** всегда `PascalCase` → `Header.tsx`
-- **Стили:** `.module.css → Header.module.css`
-- **Пример:**
-  ```tsx
-    widgets/
-    ├── Header/
-        ├── Header.tsx
-        └── Header.module.css
-  ```
+### Installation
 
-### 📁 `features/` - Содержит блоки
-- **Файлы UI:** всегда `PascalCase` → `LoginForm.tsx`
-- **Стили:** `.module.css → LoginForm.module.css`
-- **Файлы state / model / API:** всегда `camelCase` → `authSlice.ts`
-- **Пример:**
-  ```tsx
-    features/
-    └── auth/
-        ├── ui/
-        │   └── LoginForm.tsx
-        |   └── LoginForm.module.css
-        └── model/
-            └── authSlice.ts
-  ```
+Install the dependencies:
 
-### 📁 `entities/` - доменные объекты
-- **Модели / типы:** всегда `PascalCase` → `User.ts`
-- **API:** всегда `camelCase` → `userApi.ts`
-- **Утилиты:** всегда `camelCase` → `userUtils.ts`
-- **Пример:**
-  ```tsx
-    entities/
-    └── user/
-        ├── model.ts
-        ├── api.ts
-        └── utils.ts
-  ```
+```bash
+npm install
+```
 
-### 📁 `shared/` - переиспользуемые утилиты и UI: 
-- **UI компоненты:** всегда `PascalCase` → `Button.tsx`
-- **Стили:** `.module.css → Button.module.css`
-- **API:** всегда `camelCase` → `userApi.ts`
-- **Утилиты:** всегда `camelCase` → `debounce.ts`
-- **Пример:**
-  ```tsx
-    shared/
-    ├── ui/
-    │   ├── Button.tsx
-    │   └── Input.tsx
-    └── lib/
-        ├── fetcher.ts
-        └── debounce.ts
-  ```
+### Development
 
-## Методология БЭМ для стилизации
-### 📁 `Блок (Block)` - Самостоятельный компонент с собственной логикой и стилями.
-- **Название блока:** всегда `PascalCase`
-- **Пример:**
-  ```tsx
-    .Header {
-      background-color: #080A23;
-    }
-  ```
-### 📁 `Элемент (Element)` - Составная часть блока, не существует без блока.
-- **Название 'элемента':** всегда `Block__element`
-- **Пример:**
-  ```tsx
-    .Header__logo {
-      width: 120px;
-    }
-    .Header__nav {
-      display: flex;
-    }
-  ```
-### 📁 `Модификатор (Modifier)` - Вариант блока или элемента (цвет, состояние, размер).
-- **Название 'элемента':** всегда `Block--modifier или Block__element--modifier`
-- **Пример:**
-  ```tsx
-    .Button--primary {
-      background-color: #344AEB;
-    }
-    .Button--disabled {
-      opacity: 0.5;
-    }
-    .Header__nav--mobile {
-      display: none;
-    }
-  ```
+Start the development server with HMR:
+
+```bash
+npm run dev
+```
+
+Your application will be available at `http://localhost:5173`.
+
+## Building for Production
+
+Create a production build:
+
+```bash
+npm run build
+```
+
+## Deployment
+
+### Docker Deployment
+
+To build and run using Docker:
+
+```bash
+docker build -t my-app .
+
+# Run the container
+docker run -p 3000:3000 my-app
+```
+
+The containerized application can be deployed to any platform that supports Docker, including:
+
+- AWS ECS
+- Google Cloud Run
+- Azure Container Apps
+- Digital Ocean App Platform
+- Fly.io
+- Railway
+
+### DIY Deployment
+
+If you're familiar with deploying Node applications, the built-in app server is production-ready.
+
+Make sure to deploy the output of `npm run build`
+
+```
+├── package.json
+├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
+├── build/
+│   ├── client/    # Static assets
+│   └── server/    # Server-side code
+```
+
+## Styling
+
+This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+
+---
+
+Built with ❤️ using React Router.
