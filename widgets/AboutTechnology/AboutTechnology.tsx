@@ -1,6 +1,6 @@
-import { CliBlock } from "@/features/CliBlock/CliBlock"
-import { ExplanationBlock } from "@/features/ExplanationBlock/ExplanationBlock"
+import { ExplanationBlock } from "@features/ExplanationBlock/ExplanationBlock"
 import style from "./AboutTechnology.module.scss"
+import { CliBlock } from "@features/CliBlock/CliBlock"
 
 export const AboutTechnology = () => {
   return (
