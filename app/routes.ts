@@ -5,4 +5,5 @@ export default [
   route("landing", "routes/landingRoute.tsx"),
   route("login", "routes/loginRoute.tsx"),
   route("registration", "routes/registrationRoute.tsx"),
+  route("create", "routes/CreateRepositoryRoute.tsx")
 ] satisfies RouteConfig;

@@ -1,5 +1,5 @@
 import type { Route } from "./+types/home";
-import { LandingPage } from "@pages/landing/LandingPage";
+import { CreateRepositoryPage } from "@pages/createRepository";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -8,6 +8,6 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function landingRoute() {
-  return <LandingPage />;
+export default function CreateRepositoryRoute() {
+  return <CreateRepositoryPage />;
 }
