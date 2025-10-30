@@ -1,11 +1,13 @@
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 import styles from "./Header.module.scss"
 import { Button } from "@shared/ui/Buttons/Button"
 
 export const Header = () => {
+  const navigate = useNavigate();
+
   return (
     <header className={styles.Header}>
-      <div className={styles.Header__logo}>
+      <Link to={"/"} className={styles.Header__logo}>
         <img
           src="/Union.svg"
           alt="Логотип"
@@ -13,11 +15,8 @@ export const Header = () => {
           height={48}
         />
         <span className={styles.Header__name}>UIKIT</span>
-      </div>
+      </Link>
       <nav className={styles.Header__nav}>
-        <Link to="/" className={styles.Header__link}>
-          Home
-        </Link>
         <Link to="/components" className={styles.Header__link}>
           Компоненты
         </Link>
@@ -26,13 +25,10 @@ export const Header = () => {
         </Link>
       </nav>
       <div className={styles.Header__Buttons}>
-        <button >
-
-        </button>
-        <Button variant="transparent">
+        <Button variant="transparent" onClick={() => navigate("/login")}>
           ВОЙТИ
         </Button>
-        <Button>
+        <Button onClick={() => navigate("/registration")}>
           ЗАРЕГИСТРИРОВАТЬСЯ
         </Button>
       </div>

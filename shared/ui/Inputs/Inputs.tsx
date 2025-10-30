@@ -7,11 +7,11 @@ type BaseInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 export const BaseInput = ({ label, ...props }: BaseInputProps) => {
 
   return (
-    <div className={styled.InputWrapper}>
-      <label className={styled.InputsLabel}>
+    <div className={styled.Input_wrapper}>
+      <label className={styled.Inputs__label}>
         {label}
       </label>
-      <input className={styled.BaseInput} {...props} title={label} />
+      <input className={styled.Inputs} {...props} title={label} />
     </div>
   );
 };

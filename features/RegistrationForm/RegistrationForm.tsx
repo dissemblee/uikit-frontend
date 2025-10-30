@@ -6,8 +6,11 @@ export const RegistrationForm = () => {
     <section className={styled.RegistrationForm}>
       <h1>Страница Регистрации</h1>
       <form>
-        <BaseInput label="Логин"/>
-        <BaseInput type="password" label="Пароль"/>
+        <BaseInput type="text" label="Логин" />
+        <BaseInput type="password" label="Пароль" />
+        <BaseInput type="password" label="Повторите пароль" />
+        <BaseInput type="text" label="Имя"/>
+        <BaseInput type="text" label="Фамилия"/>
       </form>
     </section>
   )
