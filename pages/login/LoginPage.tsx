@@ -1,10 +1,10 @@
-import { LoginForm } from "@features/LoginForm/LoginForm";
 import styled from "./LoginPage.module.scss"
+import { LoginSection } from "@widgets/LoginSection";
 
 export const LoginPage = () => {
   return (
     <main className={styled.LoginPage}>
-      <LoginForm />
+      <LoginSection />
     </main>
   );
 };

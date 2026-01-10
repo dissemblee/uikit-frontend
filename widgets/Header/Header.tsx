@@ -8,12 +8,12 @@ export const Header = () => {
   return (
     <header className={styles.Header}>
       <Link to={"/"} className={styles.Header__logo}>
-        <img
+        {/* <img
           src="/Union.svg"
           alt="Логотип"
           width={75}
           height={48}
-        />
+        /> */}
         <span className={styles.Header__name}>UIKIT</span>
       </Link>
       <nav className={styles.Header__nav}>
@@ -24,7 +24,7 @@ export const Header = () => {
           Документация
         </Link>
       </nav>
-      <div className={styles.Header__Buttons}>
+      <div className={styles.Header__nav}>
         <Button variant="transparent" onClick={() => navigate("/login")}>
           ВОЙТИ
         </Button>

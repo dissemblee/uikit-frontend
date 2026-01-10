@@ -12,6 +12,39 @@
   align-items: center;
 }
 
+@mixin glassEffect {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  filter: url("#liquid-glass");
+}
+
+@mixin glassCard {
+  position: relative;
+  border-radius: 35px;
+  overflow: hidden;
+  padding: $value-12 $value-8;
+  margin: $value-0 $value-5 $value-8;
+  transition: all 0.5s ease;
+  background: rgba(13, 28, 64, 0.038);
+  box-shadow: $glass-glow;
+  border: 1px solid $glass-border;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 0;
+    @include glassEffect;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+}
+
 @mixin flexColumn {
   display: flex;
   flex-direction: column;

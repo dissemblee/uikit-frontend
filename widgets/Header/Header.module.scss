@@ -3,10 +3,9 @@
 @use "sass:color";
 
 .Header {
-  background-color: $dark-bg-color;
   height: $value-30;
-  padding: $value-14;
   @include flexBetween;
+  @include glassCard;
 }
 
 .Header__logo {
@@ -30,11 +29,6 @@
 }
 
 .Header__nav {
-  display: flex;
-  gap: $value-8;
-}
-
-.Header__Buttons {
   display: flex;
   gap: $value-8;
 }

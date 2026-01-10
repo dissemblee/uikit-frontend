@@ -1,0 +1,6 @@
+@use '../../shared/styles/mixins' as *;
+
+.CreateRepositorySection {
+  width: 50%;
+  @include glassCard;
+}

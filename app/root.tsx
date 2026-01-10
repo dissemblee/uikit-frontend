@@ -5,11 +5,14 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useNavigation,
 } from "react-router";
 
 import type { Route } from "./+types/root";
 import "../shared/styles/globals.scss"
 import { Header } from "@widgets/Header";
+import { StarrySky } from "@shared/ui/StarrySky";
+import { GlassFilters } from "@shared/ui/GlassFilters";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -25,6 +28,9 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const navigation = useNavigation();
+  const isNavigating = Boolean(navigation.location);
+
   return (
     <html lang="en">
       <head>
@@ -35,6 +41,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <Header />
+        <StarrySky />
+        <GlassFilters />
+        {/* {isNavigating && <GlobalSpinner />} */}
         {children}
         <ScrollRestoration />
         <Scripts />

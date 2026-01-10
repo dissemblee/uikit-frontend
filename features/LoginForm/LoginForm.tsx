@@ -1,14 +1,15 @@
 import { BaseInput } from "@shared/ui/Inputs/Inputs"
 import styled from "./LoginForm.module.scss"
+import { Button } from "@shared/ui/Buttons"
 
 export const LoginForm = () => {
   return(
-    <section className={styled.LoginForm}>
-      <h1>Страница Входа</h1>
-      <form>
-        <BaseInput label="Логин"/>
-        <BaseInput type="password" label="Пароль"/>
-      </form>
-    </section>
+    <form className={styled.LoginForm}>
+      <BaseInput label="Логин"/>
+      <BaseInput type="password" label="Пароль"/>
+      
+      <br />
+      <Button>Войти</Button>
+    </form>
   )
 }
