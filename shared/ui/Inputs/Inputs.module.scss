@@ -1,18 +1,120 @@
-@use '../../styles/variables' as *;
-@use '../../styles/mixins' as *;
-
-.BaseInput {
-  display: block;
-  background-color: white;
-  width: 100%;
-  color: black;
-  border: 1px solid black;
-  border-radius: $rounded;
-  margin: $value-3 0;
-  padding: $value-2 $value-1;
+.Input {
+  margin-bottom: 1rem;
 }
 
-.InputsLabel {
+.Input__field {
+  width: 100%;
+  padding: 10px 10px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: white;
+  color: black;
+  font-size: medium;
+  border: 1px solid #a3a5a6;
+
+  &:focus {
+    outline: none;
+    border-color: #4361ee;
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+  }
+
+  &_text {
+    height: 44px;
+  }
+
+  &_textarea {
+    resize: vertical;
+  }
+
+  &_select {
+    height: 44px;
+    cursor: pointer;
+    padding-right: 40px;
+  }
+
+  &_error {
+    border-color: #e63946;
+    
+    &:focus {
+      border-color: #e63946;
+      box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.1);
+    }
+  }
+
+  &:disabled {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    cursor: not-allowed;
+  }
+}
+
+.Input__checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: #4361ee;
+  }
+}
+
+.Input__checkbox {
+  margin-bottom: 1rem;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 2px solid #e1e5e9;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+
+  &:checked {
+    background-color: #4361ee;
+    border-color: #4361ee;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 2px;
+      width: 4px;
+      height: 8px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+  }
+
+  &:disabled {
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+    cursor: not-allowed;
+
+    &:checked {
+      background-color: #adb5bd;
+      border-color: #adb5bd;
+    }
+  }
+}
+
+.Input__checkboxText {
+  font-weight: 500;
+  color: #333;
+}
+
+.Input__error {
   display: block;
-  margin-bottom: $value-1;
+  margin-top: 0.5rem;
+  font-size: 12px;
+  color: #e63946;
+  font-weight: 500;
 }

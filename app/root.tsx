@@ -9,6 +9,8 @@ import {
 
 import type { Route } from "./+types/root";
 import "../shared/styles/globals.scss"
+import { ReduxProviders } from "./provider/ReduxProvider";
+import { CookiesProvider} from "react-cookie"
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -33,7 +35,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <CookiesProvider>
+          <ReduxProviders>
+            {children}
+          </ReduxProviders>
+        </CookiesProvider>
         <ScrollRestoration />
         <Scripts />
       </body>

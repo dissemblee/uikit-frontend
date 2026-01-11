@@ -1,14 +1,12 @@
-import { Header } from "@widgets/Header";
-import style from "./LandingPage.module.scss"
+
 import { AboutTechnology } from "@widgets/AboutTechnology/AboutTechnology";
+import { LandingHeader } from "@widgets/LandingHeader";
 
 export default function LandingPage() {
   return (
     <>
-      <Header />
-      <main className={style.LandingPage}>
-        <AboutTechnology />
-      </main>
+      <LandingHeader />
+      <AboutTechnology />
     </>
   );
 }
