@@ -1,0 +1,10 @@
+@use "../../shared/styles/mixins" as *;
+
+.Welcome {
+
+}
+
+.Welcome__nav {
+  display: inherit;
+  gap: 10px;
+}

@@ -2,7 +2,6 @@ import { useAuth } from "@features/auth/hooks/use-auth";
 import { useForm } from "@shared/hooks/useForm"
 import { Button } from "@shared/ui/Button"
 import { Input } from "@shared/ui/Inputs/Inputs"
-
 export const RegistrationForm = () => {
   const { register, loading, error } = useAuth();
 

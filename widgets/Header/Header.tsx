@@ -1,24 +1,36 @@
-"use client"
-import { FaUser } from "react-icons/fa"
+import { Link, useNavigate } from "react-router"
 import styles from "./Header.module.scss"
+import { Button } from "@shared/ui/Button";
 
+export const Header = () => {
+  const navigate = useNavigate();
 
-interface NAV_ITEM {
-  href: string;
-  icon: string;
-  text: string;
-}
-
-interface NAV_ITEMS {
-  nav: NAV_ITEM[];
-}
-
-export const Header = ({ nav }: NAV_ITEMS) => {
   return (
     <header className={styles.Header}>
-      <div className={styles.Header__content}>
-        <h1>Панель</h1>
-        <FaUser />
+      <Link to={"/"} className={styles.Header__logo}>
+        {/* <img
+          src="/Union.svg"
+          alt="Логотип"
+          width={75}
+          height={48}
+        /> */}
+        <span className={styles.Header__name}>UIKIT</span>
+      </Link>
+      <nav className={styles.Header__nav}>
+        <Link to="/components" className={styles.Header__link}>
+          Компоненты
+        </Link>
+        <Link to="/docs" className={styles.Header__link}>
+          Документация
+        </Link>
+      </nav>
+      <div className={styles.Header__nav}>
+        <Button variant="secondary" onClick={() => navigate("/login")}>
+          ВОЙТИ
+        </Button>
+        <Button onClick={() => navigate("/registration")}>
+          ЗАРЕГИСТРИРОВАТЬСЯ
+        </Button>
       </div>
     </header>
   )

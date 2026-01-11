@@ -1,0 +1,6 @@
+@use '../../shared/styles/mixins' as *;
+
+.RegistrationSection {
+  width: 50%;
+  @include glassCard;
+}
