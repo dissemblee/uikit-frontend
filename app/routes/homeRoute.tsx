@@ -1,6 +1,5 @@
 import { Welcome } from "@pages/welcome";
 import type { Route } from "./+types/home";
-import { MainLayout } from "~/layouts/layouts";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -10,5 +9,5 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  return <MainLayout><Welcome /></MainLayout>;
+  return <Welcome />;
 }

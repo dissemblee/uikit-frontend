@@ -42,14 +42,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <Header nav={[]} />
+        <Header />
         <StarrySky />
         <GlassFilters />
         {/* {isNavigating && <GlobalSpinner />} */}
         <CookiesProvider>
-        <ReduxProviders>
-          {children}
-        </ReduxProviders>
+          <ReduxProviders>
+            {children}
+          </ReduxProviders>
         </CookiesProvider>
         <ScrollRestoration />
         <Scripts />

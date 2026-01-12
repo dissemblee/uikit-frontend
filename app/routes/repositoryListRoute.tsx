@@ -1,5 +1,4 @@
-import { RepositoryListPage } from "@pages/repository"
-import { MainLayout } from "~/layouts"
+import { RepositoryListPage } from "@pages/repository";
 import type { Route } from "./+types/home";
 
 export function meta({}: Route.MetaArgs) {
@@ -10,5 +9,5 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function RepositoryListRoute() {
-  return <MainLayout><RepositoryListPage /></MainLayout>
+  return <RepositoryListPage />
 }

@@ -1,5 +1,6 @@
 @use '../../shared/styles/variables' as *;
 @use '../../shared/styles/mixins' as *;
+@use "sass:color";
 
 .Header {
   height: $value-30;

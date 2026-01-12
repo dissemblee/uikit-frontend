@@ -1,5 +1,4 @@
-import { RepositoryCreatePage } from "@pages/repository"
-import { MainLayout } from "~/layouts"
+import { RepositoryCreatePage } from "@pages/repository";
 import type { Route } from "./+types/home";
 
 export function meta({}: Route.MetaArgs) {
@@ -10,5 +9,5 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function repositoryCreateRoute() {
-  return <MainLayout><RepositoryCreatePage /></MainLayout>
+  return <RepositoryCreatePage />
 }
