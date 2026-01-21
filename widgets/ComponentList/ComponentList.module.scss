@@ -1,0 +1,13 @@
+@use '../../shared/styles/mixins' as *;
+
+.ComponentList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  @include glassCard;
+}
+
+.ComponentList__Wrap {
+  display: grid;
+  grid-template-columns: auto auto auto 1fr;
+}

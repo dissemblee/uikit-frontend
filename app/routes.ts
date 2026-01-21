@@ -6,10 +6,11 @@ export default [
   route("login", "routes/loginRoute.tsx"),
   route("registration", "routes/registrationRoute.tsx"),
   ...prefix("repositories", [
-    route("/", "routes/RepositoryListRoute.tsx"),
+    route("/", "routes/repositoryListRoute.tsx"),
     route("create", "routes/repositoryCreateRoute.tsx"),
   ]),
   ...prefix("components", [
-    route("create", "routes/createRepositoryRoute.tsx")
+    route("create", "routes/createRepositoryRoute.tsx"),
+    route("/", "routes/componentListRoute.tsx"),
   ])
 ] satisfies RouteConfig;

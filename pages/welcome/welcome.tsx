@@ -10,6 +10,7 @@ export function Welcome() {
         <Link to="/components/create">Создать компонент</Link>
         <Link to="/repositories">Репозитории</Link>
         <Link to="/repositories/create">Создать Репозиторий</Link>
+        <Link to="/components">Компоненты</Link>
       </nav>
     </main>
   );

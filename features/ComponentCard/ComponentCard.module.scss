@@ -1,0 +1,21 @@
+@use '../../shared/styles/mixins' as *;
+@use '../../shared/styles/variables' as *;
+
+.ComponentCard {
+  @include cardInfoBase;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-5px);
+    background-color: transparent;
+  }
+
+  display: flex;
+  gap: 5px;
+}
