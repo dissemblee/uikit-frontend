@@ -13,7 +13,7 @@
 }
 
 @mixin glassEffect {
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(4px);
   filter: url("#liquid-glass");
 }
@@ -28,7 +28,7 @@
   background: rgba(13, 28, 64, 0.038);
   box-shadow: $glass-glow;
   border: 1px solid $glass-border;
-  color: white;
+  // color: white;
 
   &::before {
     content: "";
@@ -52,11 +52,12 @@
 }
 
 @mixin cardInfoBase {
-  background-color: $block-color;
+  display: flex;
   flex-direction: column;
-  border: 1px solid $glass-border;
-  padding: $value-12 $value-8;
-  margin: $value-0 $value-5 $value-8;
   transition: all 0.5s ease;
   border-radius: 35px;
+  border: 1px solid $glass-border;
+  box-shadow: $glass-glow;
+  padding: $value-12 $value-8;
+  margin: $value-0 $value-5 $value-8;
 }

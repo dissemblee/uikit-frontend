@@ -17,16 +17,17 @@ body {
   position: relative;
   // overflow: hidden;
   min-height: 100vh;
-  color: var(--foreground);
+  // color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding: 20px 0;
-  color: white;
+  color: $text-color;
 }
 
-.stars-container {
+.tetris-container {
+  overflow: 'hidden';
   position: fixed;
   top: 0;
   left: 0;
@@ -34,6 +35,14 @@ body {
   height: 100%;
   z-index: -1;
   pointer-events: none;
+}
+
+.tetris-wrapper {
+  transform: scale(4);
+  transform-origin: center;
+  width: 45%;
+  height: 40%;
+  margin: auto;
 }
 
 html, body {

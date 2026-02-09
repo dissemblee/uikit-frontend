@@ -7,7 +7,11 @@
   @include glassCard;
 }
 
+.RepositoryHead {
+  @include flexBetween;
+}
+
 .RepositoryList__Wrap {
   display: grid;
-  grid-template-columns: auto auto auto 1fr;
+  grid-template-columns: auto auto auto auto;
 }

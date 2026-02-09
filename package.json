@@ -9,6 +9,7 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
+    "@lottiefiles/dotlottie-react": "^0.17.14",
     "@react-router/node": "^7.9.2",
     "@react-router/serve": "^7.9.2",
     "@reduxjs/toolkit": "^2.11.1",

@@ -13,7 +13,7 @@ import "../shared/styles/globals.scss"
 import { ReduxProviders } from "./provider/ReduxProvider";
 import { CookiesProvider} from "react-cookie"
 import { Header } from "@widgets/Header";
-import { StarrySky } from "@shared/ui/StarrySky";
+import { TetrisBackground } from "@shared/ui/TetrisBackground";
 import { GlassFilters } from "@shared/ui/GlassFilters";
 
 export const links: Route.LinksFunction = () => [
@@ -43,7 +43,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <Header />
-        <StarrySky />
+        <TetrisBackground />
         <GlassFilters />
         {/* {isNavigating && <GlobalSpinner />} */}
         <CookiesProvider>

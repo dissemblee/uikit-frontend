@@ -9,8 +9,10 @@ export const RepositoryList = () => {
 
   return (
     <section className={styled.RepositoryList}>
-      <h1>Репозитории</h1>
-      <Link to={"/repositories/create"}><Button>Создать репозиторий</Button></Link>
+      <div className={styled.RepositoryHead}>
+        <h1>Репозитории</h1>
+        <Link to={"/repositories/create"}><Button>Создать репозиторий</Button></Link>
+      </div>
       <div className={styled.RepositoryList__Wrap}>
         {repositories ? ( 
           repositories.map((repo, key) => <RepositoryCard repo={repo} key={key} />)
