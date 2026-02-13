@@ -1,2 +1,2 @@
-export type { CreateRepositoryDto, RepositoryDto, UpdateRepositoryDto, RepositoryResponse } from "./repository.dto"
+export type { RepositoryCreateDto, RepositoryDto, RepositoryUpdateDto, RepositoryCursorResultDto } from "./repository.dto"
 export { repositoriesApi, useCreateRepositoryMutation, useDeleteRepositoryMutation, useGetAllRepositoriesQuery, useGetRepositoryByIdQuery, useUpdateRepositoryMutation} from "./repository.api"

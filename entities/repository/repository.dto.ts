@@ -1,33 +1,26 @@
-import type { MetaResponse } from "@shared/api";
+import type { CursorResultDto, EntityDto, ResultDto } from "@shared/types/api";
 
-export interface CreateRepositoryDto {
+export interface RepositoryDto extends EntityDto {
   name: string;
   description: string;
-  framework: string;
-  filePath: string;
   ownerId: string;
+  meta: Record<string, string>;
 }
 
-export interface UpdateRepositoryDto {
+export interface RepositoryCreateDto {
+  name: string;
+  description: string;
+  meta: Record<string, string>;
+}
+
+export interface RepositoryUpdateDto {
   name?: string;
   description?: string;
-  framework?: string;
-  filePath?: string;
+  meta: Record<string, string>;
 }
 
-export interface RepositoryDto {
-  id: string;
-  name: string;
-  description: string;
-  framework: string;
-  filePath: string;
-  createdAt: Date;
-  updatedAt: Date;
-  ownerId: string;
-}
+export interface RepositoryCursorResultDto extends CursorResultDto<RepositoryDto> {}
 
-export interface RepositoryResponse {
-  success: boolean;
-  meta: MetaResponse;
-  data: RepositoryDto[];
-}
+export interface RepositoryCreateResultDto extends ResultDto<RepositoryDto> {}
+
+export interface RepositoryResultDto extends ResultDto<RepositoryDto> {}

@@ -1,11 +1,17 @@
-export interface RegisterDto {
-  login: string
-  password: string
+import type { UserDto } from "@entities/user/user.dto";
+import type { ResultDto } from "@shared/types/api";
+
+export interface SignInDto {
+  username: string;
+  password: string;
 }
 
-export type LoginDto = {
-  login: string
-  password: string
+export interface SignUpDto {
+  username: string;
+  password: string;
+  email?: string;
 }
 
-export type RegisterResponseDto = {}
+export interface SignUpResultDto extends ResultDto<UserDto> {}
+
+

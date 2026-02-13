@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { customBaseQuery } from "@shared/api";
-import type { RepositoryDto, CreateRepositoryDto, UpdateRepositoryDto, RepositoryResponse } from "./repository.dto";
+import type { RepositoryDto, RepositoryCreateDto, RepositoryUpdateDto, RepositoryCursorResultDto, RepositoryCreateResultDto, RepositoryResultDto } from "./repository.dto";
 
 const ENDPOINT = "repository";
 
@@ -9,22 +9,22 @@ export const repositoriesApi = createApi({
   baseQuery: customBaseQuery,
   tagTypes: ["Repositories"],
   endpoints: (builder) => ({
-    getAllRepositories: builder.query<RepositoryResponse, { page?: number; perPage?: number }>({
+    getAllRepositories: builder.query<RepositoryCursorResultDto, { page?: number; perPage?: number }>({
       query: ({ page = 1, perPage = 10 }) => ({
         url: ENDPOINT,
         method: "GET",
         params: { page, perPage },
       }),
       providesTags: (result) =>
-        result?.data
+        result?.result?.data
           ? [
-              ...result.data.map(({ id }) => ({ type: "Repositories" as const, id })),
+              ...result.result.data.map(({ id }) => ({ type: "Repositories" as const, id })),
               { type: "Repositories" as const, id: "LIST" },
             ]
           : [{ type: "Repositories" as const, id: "LIST" }],
     }),
 
-    getRepositoryById: builder.query<RepositoryDto, string>({
+    getRepositoryById: builder.query<RepositoryResultDto, string>({
       query: (id) => ({
         url: `${ENDPOINT}/${id}`,
         method: "GET",
@@ -32,7 +32,7 @@ export const repositoriesApi = createApi({
       providesTags: (result, error, id) => [{ type: "Repositories", id }],
     }),
 
-    createRepository: builder.mutation<RepositoryDto, CreateRepositoryDto>({
+    createRepository: builder.mutation<RepositoryCreateResultDto, RepositoryCreateDto>({
       query: (body) => ({
         url: ENDPOINT,
         method: "POST",
@@ -41,7 +41,7 @@ export const repositoriesApi = createApi({
       invalidatesTags: [{ type: "Repositories", id: "LIST" }],
     }),
 
-    updateRepository: builder.mutation<RepositoryDto, { id: string; data: UpdateRepositoryDto }>({
+    updateRepository: builder.mutation<RepositoryDto, { id: string; data: RepositoryUpdateDto }>({
       query: ({ id, data }) => ({
         url: `${ENDPOINT}/${id}`,
         method: "PATCH",
