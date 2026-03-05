@@ -16,7 +16,7 @@ export interface RepositoryCreateDto {
 export interface RepositoryUpdateDto {
   name?: string;
   description?: string;
-  meta: Record<string, string>;
+  meta?: Record<string, string>;
 }
 
 export interface RepositoryCursorResultDto extends CursorResultDto<RepositoryDto> {}

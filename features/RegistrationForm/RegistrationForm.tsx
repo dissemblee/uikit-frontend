@@ -2,26 +2,31 @@ import { useAuth } from "@features/auth/hooks/use-auth";
 import { useForm } from "@shared/hooks/useForm"
 import { Button } from "@shared/ui/Button"
 import { Input } from "@shared/ui/Inputs/Inputs"
+import { useNavigate } from "react-router";
 export const RegistrationForm = () => {
   const { register, loading, error } = useAuth();
+  const navigate = useNavigate();
 
   const form = useForm({
     initialValues: {
-      login: "",
+      username: "",
       password: "",
+      email: ""
     },
 
     validate(values) {
       const errors: any = {}
 
-      if (!values.login) errors.login = "Введите логин"
+      if (!values.username) errors.username = "Введите логин"
       if (!values.password) errors.password = "Введите пароль"
+      if (!values.email) errors.email = "Введите почту"
 
       return errors
     },
 
     async onSubmit(values) {
       register(values)
+      navigate("/login")
     }
   })
 
@@ -29,7 +34,13 @@ export const RegistrationForm = () => {
     <form onSubmit={form.handleSubmit}>
       <Input
         label="Логин"
-        {...form.field("login")}
+        {...form.field("username")}
+      />
+
+      <Input
+        label="Почта"
+        type="email"
+        {...form.field("email")}
       />
 
       <Input

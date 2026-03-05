@@ -13,5 +13,3 @@ export interface SignUpDto {
 }
 
 export interface SignUpResultDto extends ResultDto<UserDto> {}
-
-

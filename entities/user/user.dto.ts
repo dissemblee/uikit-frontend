@@ -14,6 +14,6 @@ export interface UserChangePasswordDto {
   newPassword: string;
 }
 
-export interface UserCursorResultDto extends CursorResultDto<UserDto[]> {}
+export interface UserCursorResultDto extends CursorResultDto<UserDto> {}
 
 export interface UserResultDto extends ResultDto<UserDto> {}

@@ -1,44 +1,45 @@
-import { useCallback } from 'react';
-import type { LoginDto, RegisterDto } from '@entities/auth';
-import { fetchLogin, fetchLogout, fetchRegistration } from '@entities/auth/auth.slice';
-import { useAppDispatch, useAppSelector } from '@shared/hooks/redux';
+import { useCallback } from "react";
+import { useLoginMutation, useLogoutMutation } from "@entities/auth";
+import { useRegisterMutation } from "@entities/auth";
+import { useGetUserByIdQuery } from "@entities/user";
 
 export const useAuth = () => {
-  const dispatch = useAppDispatch();
-  const { user, isAuthenticated, loading, error } = useAppSelector(
-    (state) => state.auth
+  const [registerMutation, registerState] = useRegisterMutation();
+  const [loginMutation, loginState] = useLoginMutation();
+  const [logoutMutation, logoutState] = useLogoutMutation();
+
+  const { data: user } = useGetUserByIdQuery("me", {
+    skip: !loginState.isSuccess,
+  });
+
+  const register = useCallback(
+    async (data: Parameters<typeof registerMutation>[0]) => {
+      const result = await registerMutation(data).unwrap();
+      return result;
+    },
+    [registerMutation]
   );
 
-  const register = useCallback(async (data: RegisterDto) => {
-    try {
-      const result = await dispatch(fetchRegistration(data)).unwrap();
+  const login = useCallback(
+    async (data: Parameters<typeof loginMutation>[0]) => {
+      const result = await loginMutation(data).unwrap();
       return result;
-    } catch (error) {
-      throw error;
-    }
-  }, [dispatch]);
+    },
+    [loginMutation]
+  );
 
-  const login = useCallback(async (data: LoginDto) => {
-    try {
-      const result = await dispatch(fetchLogin(data)).unwrap();
-      return result;
-    } catch (error) {
-      throw error;
-    }
-  }, [dispatch]);
-
-  const signOut = useCallback(() => {
-    dispatch(fetchLogout());
-  }, [dispatch]);
+  const logout = useCallback(async () => {
+    await logoutMutation().unwrap();
+  }, [logoutMutation]);
 
   return {
     user,
-    isAuthenticated,
-    loading,
-    error,
-    
+    isAuthenticated: !!user,
+    loading: registerState.isLoading || loginState.isLoading || logoutState.isLoading,
+    error: registerState.error || loginState.error || logoutState.error,
+
     register,
     login,
-    logout: signOut,
+    logout,
   };
 };

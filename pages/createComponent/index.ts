@@ -1,0 +1,1 @@
+export { CreateComponentPage } from "./CreateComponentPage"

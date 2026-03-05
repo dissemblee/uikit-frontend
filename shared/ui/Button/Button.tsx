@@ -8,6 +8,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>{
   className?: string;
   nonBlock?: boolean;
   loading?: boolean;
+  loadingText?: string;
 }
 
 export const Button = ({
@@ -16,6 +17,7 @@ export const Button = ({
   variant = 'primary',
   className = '',
   nonBlock = false,
+  loadingText = "Загрузка...",
   loading,
   ...props
 }: ButtonProps) => {
@@ -24,9 +26,10 @@ export const Button = ({
       className={`${styles.Button} ${styles[`Button--${variant}`]} ${className}`}
       style={nonBlock ? undefined : { width: "100%" }}
       onClick={onClick}
+      disabled={loading || props.disabled}
       {...props}
     >
-      {loading ? "Загрузка..." : children}
+      {loading ? loadingText : children}
     </button>
   );
 };

@@ -1,17 +1,33 @@
 @use '../../shared/styles/mixins' as *;
+@use '../../shared/styles/variables' as *;
 
 .RepositoryList {
+  @include glassCard;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  @include glassCard;
+  padding: 20px;
+  width: 100%;
 }
 
 .RepositoryHead {
-  @include flexBetween;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  z-index: 2;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 450;
+    color: #113853;
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.5);
+  }
 }
 
 .RepositoryList__Wrap {
-  display: grid;
-  grid-template-columns: auto auto auto auto;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }

@@ -4,7 +4,7 @@
 
 .ExplanationBlock__content {
   @include flexCenter;
-  @include cardInfoBase;
+  @include glassCard;
   padding: $value-9 $value-28;
 
   h2 {

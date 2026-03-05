@@ -22,7 +22,10 @@ export const LoginForm = () => {
     },
 
     async onSubmit(values) {
-      await login(values);
+      await login({
+        username: values.login,
+        password: values.password
+      });
     },
   });
 

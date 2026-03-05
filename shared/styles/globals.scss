@@ -18,7 +18,7 @@ body {
   // overflow: hidden;
   min-height: 100vh;
   // color: var(--foreground);
-  background: var(--background);
+  // background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -65,4 +65,10 @@ main {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }

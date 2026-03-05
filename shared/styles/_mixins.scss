@@ -13,9 +13,42 @@
 }
 
 @mixin glassEffect {
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(4px);
   filter: url("#liquid-glass");
+}
+
+@mixin glassCardHeader {
+  position: relative;
+  border-radius: 35px;
+  overflow: hidden;
+  padding: $value-12 $value-8;
+  margin: $value-0 $value-5 $value-8;
+  transition: all 0.5s ease;
+  background: rgba(13, 28, 64, 0.038);
+  box-shadow: $glass-glow;
+  border: 1px solid $glass-border;
+  // color: white;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    z-index: 0;
+    @include glassEffect;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+
+    transition: all 0.6s ease;
+
+  &:hover {
+    backdrop-filter: blur(15px);
+  }
 }
 
 @mixin glassCard {
@@ -43,6 +76,12 @@
     position: relative;
     z-index: 1;
   }
+  transition: all 0.6s ease;
+
+  &:hover {
+    transform: scale(1.01);
+    backdrop-filter: blur(15px);
+  }
 }
 
 @mixin flexColumn {
@@ -53,11 +92,10 @@
 
 @mixin cardInfoBase {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   transition: all 0.5s ease;
   border-radius: 35px;
   border: 1px solid $glass-border;
   box-shadow: $glass-glow;
   padding: $value-12 $value-8;
-  margin: $value-0 $value-5 $value-8;
 }

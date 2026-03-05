@@ -1,4 +1,4 @@
-import type { EntityDto, CursorDto, CursorResultDto, ResultDto } from "@shared/types/api";
+import type { EntityDto, CursorResultDto, ResultDto } from "@shared/types/api";
 
 export interface ComponentDto extends EntityDto {
   name: string;

@@ -1,42 +1,49 @@
-import { $api } from '@shared/api'
-import type { LoginDto, RegisterDto, RegisterResponseDto } from './auth.dto'
+import { baseApi } from "@shared/api";
+import type { SignInDto, SignUpDto, SignUpResultDto } from "./auth.dto";
 
-/**
- * Register a new user.
- * 
- * @param {RegisterDto} data - The user data to be registered.
- * @returns {Promise<RegisterResponseDto>} - A promise of the registered user.
- */
-export const register = (data: RegisterDto) => {
-  return $api<RegisterResponseDto, RegisterDto>({
-    endPoint: "register",
-    method: "POST",
-    data,
-  })
-}
+const ENDPOINT = "auth";
 
-/**
- * Login to the application.
- * 
- * @param {LoginDto} data - The user data to login with.
- * @returns {Promise<void>} - A promise that resolves when the user is logged in.
- */
-export const login = (data: LoginDto) => {
-  return $api<void, LoginDto>({
-    endPoint: "login",
-    method: "POST",
-    data,
-  })
-}
+export const authApi = baseApi.injectEndpoints({
+  endpoints: (builder) => ({
+    register: builder.mutation<SignUpResultDto, SignUpDto>({
+      query: (data) => ({
+        url: `${ENDPOINT}/sign-up`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: [{ type: "Users", id: "LIST" }],
+    }),
 
-/**
- * Logs the user out of the application.
- * 
- * @returns {Promise<void>} - A promise that resolves when the user is logged out.
- */
-export const logout = () => {
-  return $api<void>({
-    endPoint: "logout",
-    method: "POST",
-  })
-}
+    login: builder.mutation<void, SignInDto>({
+      query: (data) => ({
+        url: `${ENDPOINT}/sign-in`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: [{ type: "Users", id: "ME" }],
+    }),
+
+    logout: builder.mutation<void, void>({
+      query: () => ({
+        url: "logout",
+        method: "POST",
+      }),
+      invalidatesTags: [{ type: "Users", id: "ME" }],
+    }),
+
+    refresh: builder.mutation<void, void>({
+      query: () => ({
+        url: `${ENDPOINT}/refresh`,
+        method: "POST",
+      }),
+      invalidatesTags: [{ type: "Users", id: "ME" }],
+    }),
+  }),
+  overrideExisting: false,
+});
+
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useLogoutMutation,
+} = authApi;

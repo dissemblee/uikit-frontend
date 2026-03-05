@@ -1,5 +1,6 @@
 import axios, { AxiosError, type AxiosResponse } from "axios";
-import type { BaseQueryFn } from "@reduxjs/toolkit/query/react";
+import { createApi, type BaseQueryFn } from "@reduxjs/toolkit/query/react";
+import { mockBaseQuery } from "./mockServer/repositoryMockBaseQuery";
 
 export interface MetaResponse {
   current_page: number
@@ -27,7 +28,7 @@ interface ApiArgsAxios<TData = any> {
  * Axios instance с правильными заголовками и withCredentials
  */
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: 'http://localhost:81/api/',
   withCredentials: true,
   headers: {
     "Accept": "application/json",
@@ -97,3 +98,10 @@ export const customBaseQuery: BaseQueryFn<
     };
   }
 };
+
+export const baseApi = createApi({
+  reducerPath: "baseApi",
+  baseQuery: customBaseQuery,
+  tagTypes: ["Users", "Repositories", "Components", "Builds"],
+  endpoints: () => ({}),
+});

@@ -10,7 +10,8 @@ export default [
     route("create", "routes/repositoryCreateRoute.tsx"),
   ]),
   ...prefix("components", [
-    route("create", "routes/createRepositoryRoute.tsx"),
+    route("create", "routes/componentCreateRoute.tsx"),
     route("/", "routes/componentListRoute.tsx"),
-  ])
+  ]),
+  route("profile/:id", "routes/profileRoute.tsx")
 ] satisfies RouteConfig;

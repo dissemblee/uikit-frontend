@@ -1,14 +1,15 @@
-import type { InputHTMLAttributes, TextareaHTMLAttributes, SelectHTMLAttributes } from "react"
+import type { InputHTMLAttributes, TextareaHTMLAttributes, SelectHTMLAttributes, ReactElement } from "react"
 import styles from './Inputs.module.scss'
 
 interface BaseInputProps {
   label: string
   error?: string
+  icon?: ReactElement<any, any>
 }
 
 interface InputProps extends BaseInputProps, InputHTMLAttributes<HTMLInputElement> {}
 
-export const Input = ({ label, error, className, ...props }: InputProps) => {
+export const Input = ({ label, error, className, icon, ...props }: InputProps) => {
   const fieldClasses = [
     styles.Input__field,
     styles.Input__field_text,
@@ -19,12 +20,14 @@ export const Input = ({ label, error, className, ...props }: InputProps) => {
   return (
     <div className={styles.Input}>
       <label htmlFor={props.id} className={styles.Input__label}>
-        {label}
+        {icon ? icon : null} {label}
       </label>
-      <input 
-        {...props} 
-        className={fieldClasses}
-      />
+      <div style={{display: 'flex'}}>
+        <input 
+          {...props} 
+          className={fieldClasses}
+        />
+      </div>
       {error && <div className={styles.Input__error}>{error}</div>}
     </div>
   )
@@ -32,7 +35,7 @@ export const Input = ({ label, error, className, ...props }: InputProps) => {
 
 interface TextareaProps extends BaseInputProps, TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
-export const Textarea = ({ label, error, className, ...props }: TextareaProps) => {
+export const Textarea = ({ label, error, className, icon, ...props }: TextareaProps) => {
   const fieldClasses = [
     styles.Input__field,
     styles.Input__field_textarea,
@@ -43,7 +46,7 @@ export const Textarea = ({ label, error, className, ...props }: TextareaProps) =
   return (
     <div className={styles.Input}>
       <label htmlFor={props.id} className={styles.Input__label}>
-        {label}
+        {icon ? icon : null} {label} {label}
       </label>
       <textarea 
         {...props} 

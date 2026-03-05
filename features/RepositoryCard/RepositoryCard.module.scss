@@ -3,18 +3,53 @@
 
 .RepositoryCard {
   @include cardInfoBase;
-  backdrop-filter: blur(100px) !important;
-
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    background-color 0.2s ease;
-
+  // backdrop-filter: blur(200px);
+  padding: 16px 20px;
   cursor: pointer;
-
+  display: flex;
+  align-items: center;
+  
   &:hover {
-    transform: translateY(-5px);
-    // background-color: transparent;
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 15px 30px -10px #1d5b8c;
   }
-  gap: 5px;
+
+  > div {
+    flex: 1;
+  }
+
+  .RepoDetails {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 60px;
+    overflow-y: auto;
+    
+    scrollbar-width: thin;
+    scrollbar-color: rgba(9, 76, 115, 0.5) rgba(255, 255, 255, 0.1);
+  }
+
+  .RepoIcon {
+    font-size: 1.5rem;
+    filter: drop-shadow(0 2px 4px rgba(255,255,255,0.5));
+  }
+
+  .RepoBadge {
+    display: inline-block;
+    padding: 5px 16px;
+    border-radius: 40px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: lowercase;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    color: #094c73;
+
+    &.private {
+      background: rgba(255, 230, 200, 0.4);
+      color: #7b4a1e;
+    }
+  }
 }

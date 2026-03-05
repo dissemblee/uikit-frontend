@@ -7,7 +7,6 @@ export function Welcome() {
       <nav className={styled.Welcome__nav}>
         <Link to="/login">Login</Link>
         <Link to="/registration">Register</Link>
-        <Link to="/components/create">Создать компонент</Link>
         <Link to="/repositories">Репозитории</Link>
         <Link to="/repositories/create">Создать Репозиторий</Link>
         <Link to="/components">Компоненты</Link>

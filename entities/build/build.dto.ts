@@ -1,16 +1,22 @@
 import type { ComponentDto } from "@entities/component/component.dto";
-import type { CursorResultDto, ResultDto } from "@shared/types/api";
+import type { CursorResultDto, EntityDto, ResultDto } from "@shared/types/api";
+
+export enum BuildStatus {
+  PENDING = "Ожидание",
+  IN_PROGRESS = "В процессе",
+  COMPLETED = "Завершено",
+  FAILED = "Ошибка",
+}
 
 export interface BuildUpdateEventDto {
-  status: "pending" | "in_progress" | "completed" | "failed";
+  status: BuildStatus;
   component: ComponentDto;
   completedAt?: string;
   logsChunk: string[];
 }
 
-export interface BuildDto {
-  id: string;
-  status: "pending" | "in_progress" | "completed" | "failed";
+export interface BuildDto extends EntityDto {
+  status: BuildStatus;
   component: ComponentDto;
   startedAt: string;
   completedAt?: string;
