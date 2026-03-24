@@ -1,0 +1,86 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+
+.CardSkeleton {
+  @include flexCenter;
+  padding: $value-3_5 $value-4;
+  border-radius: $value-4;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  animation: skeletonPulse 1.6s ease-in-out infinite both;
+}
+
+.CardSkeleton__left {
+  @include flexCenter;
+  gap: $value-3;
+  flex: 0 0 $value-56;
+}
+
+.CardSkeleton__info {
+  @include flexColumn;
+  gap: $value-1_5;
+  flex: 1;
+}
+
+.CardSkeleton__meta {
+  display: flex;
+  gap: $value-1_5;
+  flex: 1;
+}
+
+.CardSkeleton__right {
+  @include flexColumn;
+  align-items: flex-end;
+  gap: $value-1_5;
+  flex-shrink: 0;
+}
+
+.CardSkeleton__icon {
+  width: $value-8;
+  height: $value-8;
+  border-radius:
+  $value-2;
+}
+
+.CardSkeleton__name {
+  width: $value-30;
+  height: $value-3_5;
+  border-radius: $rounded-md;
+}
+
+.CardSkeleton__desc {
+  width: $value-20;
+  height: $value-3;
+  border-radius: $value-1_5;
+}
+
+.CardSkeleton__tag {
+  width: $value-16;
+  height:$value-6;
+  border-radius: $value-2;
+}
+
+.CardSkeleton__tag_short {
+  width: $value-12;
+}
+
+.CardSkeleton__date {
+  width: $value-16;
+  height: $value-3;
+  border-radius: $value-1_5;
+}
+
+.CardSkeleton__badge {
+  width: $value-14;
+  height: $value-5;
+  border-radius: $value-5;
+}
+
+.shimmer {
+  @include SkeletonEffect;
+}
+
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}

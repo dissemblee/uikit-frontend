@@ -1,10 +1,13 @@
-import { useAuth } from "@features/auth/hooks/use-auth";
 import { useForm } from "@shared/hooks/useForm";
 import { Button } from "@shared/ui/Button";
+import { FormError } from "@shared/ui/FormError";
 import { Input } from "@shared/ui/Inputs/Inputs";
+import { useNavigate } from "react-router";
+import { useAuthContext } from "~/provider/AuthProvider";
 
 export const LoginForm = () => {
-  const { login, loading, error } = useAuth();
+  const { login, loading } = useAuthContext()
+  const navigate = useNavigate()
 
   const form = useForm({
     initialValues: {
@@ -26,6 +29,7 @@ export const LoginForm = () => {
         username: values.login,
         password: values.password
       });
+      navigate("/repositories")
     },
   });
 
@@ -34,16 +38,19 @@ export const LoginForm = () => {
       <Input
         label="Логин"
         {...form.field("login")}
+        placeholder="dissemble1"
       />
 
       <Input
         label="Пароль"
         type="password"
         {...form.field("password")}
+        placeholder="qwerty1234"
       />
+      <FormError message={form.submitError} />
       
-      <Button type="submit" disabled={form.isSubmitting} loading={loading}>
-        Войти
+      <Button type="submit" disabled={form.isSubmitting} loading={loading} loadingText="Пытаемся войти">
+        🚀 Войти
       </Button>
     </form>
   );

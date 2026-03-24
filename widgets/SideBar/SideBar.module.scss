@@ -8,7 +8,7 @@
     width: 250px;
     background-color: #2c3e50;
     color: white;
-    padding: 20px 0;
+    padding: $value-5 0;
     transition: all 0.3s;
   }
 
@@ -34,9 +34,9 @@
 .Sidebar {
   &__Logo {
     text-align: center;
-    padding: 20px 10px;
+    padding: $value-5 $value-2_5;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    margin-bottom: 20px;
+    margin-bottom: $value-5;
 
     h1 {
       font-size: 1.5rem;
@@ -45,7 +45,7 @@
   }
 
   &__Nav {
-    padding: 0 10px;
+    padding: 0 $value-2_5;
   }
 }
 
@@ -63,11 +63,11 @@
   &__Link {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 12px 15px;
+    gap: $value-2_5;
+    padding: $value-3 15px;
     color: white;
     text-decoration: none;
-    border-radius: 6px;
+    border-radius: $rounded-md;
     transition: all 0.3s;
 
     &:hover {
@@ -76,7 +76,7 @@
 
     &.active {
       background-color: #3498db;
-      border-left: 4px solid white;
+      border-left: $value-1 solid white;
     }
   }
 
@@ -102,7 +102,7 @@
   .Nav__Links {
     display: flex;
     overflow-x: auto;
-    gap: 10px;
+    gap: $value-2_5;
   }
 
   .Nav__Item {
@@ -113,12 +113,12 @@
   .Nav__Link {
     flex-direction: column;
     text-align: center;
-    padding: 10px;
-    min-width: 80px;
+    padding: $value-2_5;
+    min-width: $value-20;
 
     &.active {
       border-left: none;
-      border-bottom: 4px solid white;
+      border-bottom: $value-1 solid white;
     }
   }
 

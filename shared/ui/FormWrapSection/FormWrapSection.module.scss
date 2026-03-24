@@ -1,0 +1,24 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+
+.FormWrapSection {
+  width: 50%;
+  @include glassCard;
+  @include flexColumn;
+  gap: $value-2_5;
+  
+  @media (max-width: 1024px) { width: 70%; }
+  @media (max-width: 768px)  { width: 90%; padding: $value-4; }
+  @media (max-width: 480px)  { width: 95%; }
+}
+
+.FormWrapSection__Header {
+  @include flexBetween;
+  @include divider;
+  color: $title-color;
+
+  @media (max-width: 480px) {
+    flex-wrap: wrap;
+    gap: $value-3;
+  }
+}

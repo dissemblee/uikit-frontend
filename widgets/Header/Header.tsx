@@ -1,78 +1,46 @@
 import { Link, useNavigate } from "react-router"
 import styles from "./Header.module.scss"
-import { Button } from "@shared/ui/Button";
-import { FaUser } from "react-icons/fa"
 import { useGetAllUsersQuery, useGetUserByIdQuery } from "@entities/user";
 import { useEffect, useState } from "react";
 import { UserIcon } from "@features/UserIcon";
+import { Button } from "@shared/ui/Button";
 
 export const Header = () => {
   const navigate = useNavigate()
   const [randomUserId, setRandomUserId] = useState<string | null>(null);
-  
-  const { 
-    data: usersData, 
+
+  const {
+    data: usersData,
     isLoading: usersLoading,
-    isSuccess: usersSuccess 
-  } = useGetAllUsersQuery({page: 1, perPage: 10})
-  
-  console.log("usersData", usersData)
+    isSuccess: usersSuccess
+  } = useGetAllUsersQuery({ page: 1, perPage: 10 })
 
   useEffect(() => {
     if (usersSuccess && usersData?.result && usersData.result.length > 0) {
       const data = usersData.result;
       const randomIndex = Math.floor(Math.random() * data.length);
       setRandomUserId(data[randomIndex].id);
-      console.log("Выбран случайный ID:", data[randomIndex].id);
     }
   }, [usersData, usersSuccess]);
 
-  const { 
-    data: currentUserData, 
+  const {
+    data: currentUserData,
     isLoading: currentUserLoading,
-    isSuccess: userSuccess 
+    isSuccess: userSuccess
   } = useGetUserByIdQuery(randomUserId || "", {
-    skip: !randomUserId 
+    skip: !randomUserId
   });
-  
-  console.log("currentUserData", currentUserData)
-  
-  const renderRightContent = () => {
-    if (usersLoading) {
-      return (
-        <>
-          <Button variant="secondary" onClick={() => navigate("/login")}>
-            ВОЙТИ
-          </Button>
-          <Button variant="primary" onClick={() => navigate("/registration")}>
-            РЕГИСТРАЦИЯ
-          </Button>
-        </>
-      );
-    }
 
-    if (!randomUserId) {
-      return (
-        <>
-          <Button variant="secondary" onClick={() => navigate("/login")}>
-            ВОЙТИ
-          </Button>
-          <Button variant="primary" onClick={() => navigate("/registration")}>
-            РЕГИСТРАЦИЯ
-          </Button>
-        </>
-      );
-    }
-
-    if (currentUserLoading) {
-      return <div>Загрузка...</div>;
+  const renderRight = () => {
+    if (usersLoading || currentUserLoading) {
+      return <div className={styles.Header__userSkeleton} />;
     }
 
     if (userSuccess && currentUserData?.result) {
-      const user = Array.isArray(currentUserData.result) 
-        ? currentUserData.result[0] 
+      const user = Array.isArray(currentUserData.result)
+        ? currentUserData.result[0]
         : currentUserData.result;
-      
+
       return (
         <Link to={`profile/${user.id}`}>
           <UserIcon user={currentUserData.result} />
@@ -83,10 +51,10 @@ export const Header = () => {
     return (
       <>
         <Button variant="secondary" onClick={() => navigate("/login")}>
-          ВОЙТИ
+          Войти
         </Button>
-        <Button variant="primary" onClick={() => navigate("/registration")}>
-          РЕГИСТРАЦИЯ
+        <Button onClick={() => navigate("/registration")}>
+          Регистрация
         </Button>
       </>
     );
@@ -94,19 +62,21 @@ export const Header = () => {
 
   return (
     <header className={styles.Header}>
-      <Link to={"/"} className={styles.Header__logo}>
-        <span className={styles.Header__name}>UIKIT</span>
+      <Link to="/">
+        <b className={styles.Header__name}>UIKIT</b>
       </Link>
-      <nav className={styles.Header__nav}>
+
+      <nav>
         <Link to="/components" className={styles.Header__link}>
-          Компоненты
+          <b>Компоненты</b>
         </Link>
         <Link to="/docs" className={styles.Header__link}>
-          Документация
+          <b>Документация</b>
         </Link>
       </nav>
-      <div className={styles.Header__nav}>
-        {renderRightContent()}
+
+      <div className={styles.Header__actions}>
+        {renderRight()}
       </div>
     </header>
   )

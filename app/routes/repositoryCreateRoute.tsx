@@ -1,5 +1,5 @@
-import type { Route } from "./+types/home";
-import { CreateRepositoryPage } from "@pages/createRepository";
+import { RepositoryCreatePage } from "@pages/repository";
+import type { Route } from "../+types/root";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -9,5 +9,5 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function repositoryCreateRoute() {
-  return <CreateRepositoryPage />
+  return <RepositoryCreatePage />
 }

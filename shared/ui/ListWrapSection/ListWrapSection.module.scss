@@ -1,0 +1,55 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+
+.ListWrapSection {
+  @include glassCard;
+  display: flex;
+  flex-direction: column;
+  gap: $value-4;
+  padding: $value-6;
+  width: 100%;
+}
+
+.ListWrapSection__Header {
+  @include flexBetween;
+  @include divider;
+  flex-wrap: wrap;
+}
+
+.ListWrapSection__Title {
+  font-size: $value-6;
+  color: $title-color;
+  letter-spacing: -0.02em;
+}
+
+.ListWrapSection__Action {
+  flex-shrink: 0;
+}
+
+.ListWrapSection__Body {
+  @include flexColumn;
+  gap: $value-1;
+}
+
+.ListWrapSection__State {
+  @include flexCenter;
+  @include flexColumn;
+  gap: $value-2;
+  padding: $value-12 $value-5;
+  color: $subtitle-color;
+  animation: fadeUp 0.3s ease both;
+
+  span {
+    font-size: $value-10;
+    filter: grayscale(0.2);
+  }
+
+  p {
+    font-size: $value-5;
+  }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}

@@ -1,7 +1,6 @@
 import { baseApi } from "@shared/api";
 
 import type {
-  RepositoryDto,
   RepositoryCreateDto,
   RepositoryUpdateDto,
   RepositoryCursorResultDto,

@@ -1,10 +1,12 @@
-import { useAuth } from "@features/auth/hooks/use-auth";
 import { useForm } from "@shared/hooks/useForm"
 import { Button } from "@shared/ui/Button"
+import { FormError } from "@shared/ui/FormError";
 import { Input } from "@shared/ui/Inputs/Inputs"
 import { useNavigate } from "react-router";
+import { useAuthContext } from "~/provider/AuthProvider";
+
 export const RegistrationForm = () => {
-  const { register, loading, error } = useAuth();
+  const { register, loading } = useAuthContext()
   const navigate = useNavigate();
 
   const form = useForm({
@@ -35,22 +37,26 @@ export const RegistrationForm = () => {
       <Input
         label="Логин"
         {...form.field("username")}
+        placeholder="dissemble1"
       />
 
       <Input
         label="Почта"
         type="email"
         {...form.field("email")}
+        placeholder="example@mail.com"
       />
 
       <Input
         label="Пароль"
         type="password"
         {...form.field("password")}
+        placeholder="qwerty1234"
       />
+      <FormError message={form.submitError} />
 
-      <Button type="submit" disabled={form.isSubmitting} loading={loading}>
-        Зарегистрироваться
+      <Button type="submit" disabled={form.isSubmitting} loading={loading} loadingText="Создаем аккаунт">
+        🚀 Зарегистрироваться
       </Button>
     </form>
   )

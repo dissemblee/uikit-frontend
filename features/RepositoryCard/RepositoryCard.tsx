@@ -1,44 +1,26 @@
 import type { RepositoryDto } from "@entities/repository";
-import moment from "moment";
+import { FiBox, FiLock, FiUnlock } from "react-icons/fi";
 import styles from "./RepositoryCard.module.scss";
-import { Link, useNavigate } from "react-router";
+import { BaseCard } from "@shared/ui/BaseCard";
 
-export const RepositoryCard = ({ repo }: { repo: RepositoryDto }) => {
-  const navigate = useNavigate();
-
+export const RepositoryCard = ({ repo, index = 0 }: { repo: RepositoryDto; index?: number }) => {
   const isPublic = true;
-  const statusBadge = isPublic ? "public" : "private";
 
   return (
-    <article
-      className={styles.RepositoryCard}
-      onClick={() => navigate(`/repository/${repo.id}`)}
-    >
-      <span className={styles.RepoIcon}>📦</span>
-      <Link
-        to={`/repositories/${repo.id}`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {repo.name}
-      </Link>
-
-      <div className={styles.RepoDetails}>{repo.description}</div>
-
-      <div className={styles.RepoDetails}>
-        {Object.entries(repo.meta).map(([key, value]) => (
-          <div key={key}>
-            <strong>{key}:</strong> {value}
-          </div>
-        ))}
-      </div>
-
-      <div>
-        {moment(repo.updatedAt).format("DD.MM.YYYY")}
-      </div>
-
-      <span className={`${styles.RepoBadge} ${styles[statusBadge]}`}>
-        {statusBadge}
-      </span>
-    </article>
+    <BaseCard
+      to={`/repository/${repo.id}`}
+      index={index}
+      icon={<FiBox />}
+      name={repo.name}
+      sub={repo.description}
+      meta={repo.meta}
+      date={repo.updatedAt}
+      right={
+        <span className={`${styles.RepositoryCard__Badge} ${styles[isPublic ? 'RepositoryCard__Badge--public' : 'RepositoryCard__Badge--private']}`}>
+          {isPublic ? <FiUnlock /> : <FiLock />}
+          {isPublic ? 'public' : 'private'}
+        </span>
+      }
+    />
   );
 };

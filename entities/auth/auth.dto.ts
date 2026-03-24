@@ -13,3 +13,10 @@ export interface SignUpDto {
 }
 
 export interface SignUpResultDto extends ResultDto<UserDto> {}
+
+export interface SignInResultDto {
+  success: boolean;
+  result: {
+    token: string;
+  };
+}

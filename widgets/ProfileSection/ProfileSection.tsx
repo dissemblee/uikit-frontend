@@ -4,78 +4,93 @@ import styled from "./ProfileSection.module.scss";
 import { useGetUserByIdQuery } from "@entities/user";
 import { Button } from "@shared/ui/Button";
 import { FaUser } from "react-icons/fa";
+import { FiEdit2, FiLock, FiX } from "react-icons/fi";
 import { EditProfile } from "@features/EditProfile";
 import { ChangePassword } from "@features/ChangePassword";
+import { UserIcon } from "@features/UserIcon";
 
 type ProfileMode = "view" | "edit" | "password";
 
 export const ProfileSection = () => {
   const { id } = useParams();
-  const { data, isLoading, isError } = useGetUserByIdQuery(Number(id));
-  
+  const { data, isLoading } = useGetUserByIdQuery(Number(id));
   const [mode, setMode] = useState<ProfileMode>("view");
+
+  const user = data?.result;
 
   if (isLoading) return (
     <section className={styled.ProfileSection}>
-      <div className={styled.loader}>Загрузка профиля...</div>
+      <div className={styled.ProfileSection__Card}>
+        <div className={styled.ProfileSection__SkeletonWrap}>
+          <div className={styled.ProfileSection__SkeletonAvatar} />
+          <div className={styled.ProfileSection__SkeletonLine} />
+          <div className={styled.ProfileSection__SkeletonLine} />
+        </div>
+      </div>
     </section>
   );
 
   return (
     <section className={styled.ProfileSection}>
-      <div className={styled.profileCard}>
-        <div className={styled.profileHeader}>
-          <div className={styled.avatar}>
-            <FaUser />
+      <div className={styled.ProfileSection__Card}>
+
+        <div className={styled.ProfileSection__Header}>
+          <UserIcon />
+          <div>
+            <h2 className={styled.ProfileSection__Name}>
+              {user?.username ?? "Давид"}
+            </h2>
+            <span className={styled.ProfileSection__Email}>
+              {user?.email ?? "example@mail.ru"}
+            </span>
           </div>
-          <h2>Профиль пользователя</h2>
         </div>
 
         {mode === "view" && (
           <>
-            <div className={styled.profileInfo}>
-              <div className={styled.infoRow}>
-                <span className={styled.label}>Имя:</span>
-                <span className={styled.value}>{data?.result?.username || "sde23f"}</span>
+            <div className={styled.ProfileSection__Info}>
+              <div className={styled.ProfileSection__InfoRow}>
+                <span className={styled.ProfileSection__InfoLabel}>Имя</span>
+                <span className={styled.ProfileSection__InfoValue}>{user?.username ?? "Давид"}</span>
               </div>
-              <div className={styled.infoRow}>
-                <span className={styled.label}>Email:</span>
-                <span className={styled.value}>{data?.result?.email || "gf3@example.com"}</span>
+              <div className={styled.ProfileSection__InfoRow}>
+                <span className={styled.ProfileSection__InfoLabel}>Email</span>
+                <span className={styled.ProfileSection__InfoValue}>{user?.email ?? "example@mail.ru"}</span>
               </div>
             </div>
 
-            <div className={styled.profileActions}>
-              <Button 
-                variant="primary" 
-                onClick={() => setMode("edit")}
-              >
-                ✏️ Изменить профиль
+            <div className={styled.ProfileSection__Action}>
+              <Button variant="primary" onClick={() => setMode("edit")}>
+                <FiEdit2 /> Изменить профиль
               </Button>
-              <Button 
-                variant="secondary" 
-                onClick={() => setMode("password")}
-              >
-                🔒 Сменить пароль
+              <Button variant="secondary" onClick={() => setMode("password")}>
+                <FiLock /> Сменить пароль
               </Button>
             </div>
           </>
         )}
 
         {mode === "edit" && (
-          <div className={styled.editForm}>
-            <h3>Редактирование профиля</h3>
-            <EditProfile id={Number(id)}/>
-            <br />
-            <Button variant="secondary" onClick={() => setMode("view")}>Отмена</Button>
+          <div className={styled.ProfileSection__EditForm}>
+            <div className={styled.ProfileSection__EditHeader}>
+              <h3>Изменение профиля</h3>
+              <Button variant="cancel" nonBlock onClick={() => setMode("view")}>
+                <FiX /> Отмена
+              </Button>
+            </div>
+            <EditProfile id={Number(id)} />
           </div>
         )}
 
         {mode === "password" && (
-          <div className={styled.editForm}>
-            <h3>Смена пароля</h3>
+          <div className={styled.ProfileSection__EditForm}>
+            <div className={styled.ProfileSection__EditHeader}>
+              <h3>Смена пароля</h3>
+              <Button variant="cancel" nonBlock onClick={() => setMode("view")}>
+                <FiX /> Отмена
+              </Button>
+            </div>
             <ChangePassword />
-            <br />
-            <Button variant="secondary" onClick={() => setMode("view")}>Отмена</Button>
           </div>
         )}
       </div>

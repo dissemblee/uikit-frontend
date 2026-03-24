@@ -1,5 +1,5 @@
 import { RegistrationPage } from "@pages/registration";
-import type { Route } from "./+types/home";
+import type { Route } from "../+types/root";
 
 export function meta({}: Route.MetaArgs) {
   return [

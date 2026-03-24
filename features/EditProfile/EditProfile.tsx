@@ -1,10 +1,11 @@
 import { useUpdateUserMutation } from "@entities/user";
 import { useForm } from "@shared/hooks/useForm";
 import { Button } from "@shared/ui/Button";
+import { FormError } from "@shared/ui/FormError";
 import { Input } from "@shared/ui/Inputs";
 
-export const EditProfile = (id: number) => {
-  const [ updateUser, {isError, isLoading} ] = useUpdateUserMutation()
+export const EditProfile = ({ id }: { id: number }) => {
+  const [ updateUser, {isLoading} ] = useUpdateUserMutation()
 
   const form = useForm({
     initialValues: {
@@ -20,12 +21,16 @@ export const EditProfile = (id: number) => {
     },
 
     async onSubmit(values) {
-      await updateUser({
+      const result = await updateUser({
         id: id,
         data: {
           email: values.email
         }
       });
+
+      if ('error' in result) {
+        throw result.error
+      }
     },
   });
 
@@ -38,7 +43,9 @@ export const EditProfile = (id: number) => {
         {...form.field("email")}
       />
 
-      <Button type="submit" disabled={form.isSubmitting} loading={isLoading}>
+      <FormError message={form.submitError} />
+
+      <Button type="submit" disabled={form.isSubmitting} loading={isLoading} loadingText="Меняем почту...">
         Сменить почту
       </Button>
     </form>

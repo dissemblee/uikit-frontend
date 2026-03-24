@@ -1,5 +1,6 @@
 import axios, { AxiosError, type AxiosResponse } from "axios";
 import { createApi, type BaseQueryFn } from "@reduxjs/toolkit/query/react";
+import { tokenStore } from "./tokenStore";
 import { mockBaseQuery } from "./mockServer/repositoryMockBaseQuery";
 
 export interface MetaResponse {
@@ -13,6 +14,7 @@ interface ApiArgs {
   url: string;
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   data?: any;
+  body?: unknown;
   params?: Record<string, any>;
 }
 
@@ -28,12 +30,12 @@ interface ApiArgsAxios<TData = any> {
  * Axios instance с правильными заголовками и withCredentials
  */
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:81/api/',
+  baseURL: "http://localhost:81/api/",
   withCredentials: true,
   headers: {
-    "Accept": "application/json",
+    Accept: "application/json",
   },
-});
+})
 
 /**
  * Makes a request to the backend API.
@@ -74,8 +76,10 @@ export const customBaseQuery: BaseQueryFn<
   ApiArgs,
   unknown,
   { status?: number; data?: any }
-> = async ({ url, method = "GET", body, params }: any) => {
+> = async ({ url, method = "GET", body, params }) => {
   try {
+    const token = tokenStore.get();
+
     const response = await axiosInstance.request({
       url,
       method,
@@ -83,8 +87,8 @@ export const customBaseQuery: BaseQueryFn<
       params,
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Barer"
-      }
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
     });
 
     return { data: response.data };
@@ -101,7 +105,7 @@ export const customBaseQuery: BaseQueryFn<
 
 export const baseApi = createApi({
   reducerPath: "baseApi",
-  baseQuery: customBaseQuery,
+  baseQuery: mockBaseQuery,
   tagTypes: ["Users", "Repositories", "Components", "Builds"],
   endpoints: () => ({}),
 });

@@ -1,34 +1,50 @@
 @use '../../shared/styles/variables' as *;
 @use '../../shared/styles/mixins' as *;
-@use "sass:color";
 
 .Header {
-  height: $value-30;
-  @include flexBetween;
   @include glassCard;
-}
-
-.Header__logo {
-  @include flexCenter;
-  gap: $value-8;
+  @include flexBetween;
+  padding: 0 $value-8;
+  height: 90px;
+  position: sticky;
+  top: $value-2;
+  z-index: 100;
 }
 
 .Header__name {
-  font-size: $value-12;
-  font-weight: bold;
-  letter-spacing: $value-1;
+  font-size: 2rem;
+  color: $title-color;
+  letter-spacing: 0.2em;
 }
 
 .Header__link {
-  transition: color 0.5s;
-  font-weight: 700;
-  font-size: $value-4;
+  padding: $value-2_5 $value-5;
+  border-radius: $rounded-2xl;
+  font-size: $value-5;
+  color: rgba(10, 30, 70, 0.60);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+
   &:hover {
-    color: color.scale($secondary-color, $lightness: 20%);
+    color: $title-color;
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  &.active {
+    color: $title-color;
+    background: rgba(255, 255, 255, 0.30);
+    border: 1px solid rgba(255, 255, 255, 0.45);
   }
 }
 
-.Header__nav {
-  display: flex;
-  gap: $value-8;
+.Header__actions {
+  @include flexCenter;
+  gap: $value-2;
+}
+
+.Header__userSkeleton {
+  width: $value-16;
+  height: $value-16;
+  border-radius: 50%;
+  @include SkeletonEffect;
 }

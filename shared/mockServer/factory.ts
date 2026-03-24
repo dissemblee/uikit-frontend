@@ -1,10 +1,14 @@
-import type { EntitySchema } from "./schema";
+import type { EntitySchema, FieldType } from "./schema";
 
 function randomString() {
   return Math.random().toString(36).slice(8, 15);
 }
 
-function generateValue(type: string) {
+function generateValue(type: FieldType) {
+  if (typeof type === "object" && "enum" in type) {
+    return type.enum[Math.floor(Math.random() * type.enum.length)];
+  }
+
   switch (type) {
     case "string":
       return randomString();
@@ -18,11 +22,13 @@ function generateValue(type: string) {
     case "date":
       const start = new Date(2020, 0, 1);
       const end = new Date();
-      const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-      return randomDate.toISOString();
+      return new Date(
+        start.getTime() + Math.random() * (end.getTime() - start.getTime())
+      ).toISOString();
 
     case "record":
       return generateRecord();
+
     default:
       return null;
   }
@@ -42,12 +48,9 @@ export function generateEntity(schema: EntitySchema) {
 
 function generateRecord() {
   const size = Math.floor(Math.random() * 3) + 1;
-
   const obj: Record<string, string> = {};
-
   for (let i = 0; i < size; i++) {
     obj[randomString()] = randomString();
   }
-
   return obj;
 }

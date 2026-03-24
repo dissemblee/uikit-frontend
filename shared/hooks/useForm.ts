@@ -15,13 +15,14 @@ export const useForm = <T extends Record<string, any>>(options: UseFormOptions<T
   const [errors, setErrors] = useState<Partial<Record<keyof T, string>>>({})
   const [touched, setTouched] = useState<Partial<Record<keyof T, boolean>>>({})
   const [isSubmitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   useEffect(() => {
     setValues(initialValues)
     setErrors({})
     setTouched({})
+    setSubmitError(null)
   }, [JSON.stringify(initialValues)])
-
 
   const validateAll = useCallback(
     (vals: T) => {
@@ -53,11 +54,13 @@ export const useForm = <T extends Record<string, any>>(options: UseFormOptions<T
 
       setValues((prev) => ({ ...prev, [field]: nextValue }))
 
+      if (submitError) setSubmitError(null)
+
       if (touched[field]) {
         validateField(field, nextValue)
       }
     },
-    [touched, validateField]
+    [touched, validateField, submitError]
   )
 
   const handleBlur = useCallback(
@@ -72,6 +75,7 @@ export const useForm = <T extends Record<string, any>>(options: UseFormOptions<T
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault()
+      setSubmitError(null)
 
       const validationErrors = validateAll(values)
       const hasErrors = Object.values(validationErrors).some(Boolean)
@@ -80,6 +84,13 @@ export const useForm = <T extends Record<string, any>>(options: UseFormOptions<T
       setSubmitting(true)
       try {
         await onSubmit(values)
+      } catch (err: any) {
+        const message =
+          err?.data?.error?.message ||
+          err?.error?.data?.error?.message ||
+          err?.message ||
+          "Что-то пошло не так. Попробуйте ещё раз."
+        setSubmitError(message)
       } finally {
         setSubmitting(false)
       }
@@ -103,6 +114,8 @@ export const useForm = <T extends Record<string, any>>(options: UseFormOptions<T
     errors,
     touched,
     isSubmitting,
+    submitError,
+    setSubmitError,
     handleChange,
     handleBlur,
     handleSubmit,

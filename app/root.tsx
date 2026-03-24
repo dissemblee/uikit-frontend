@@ -5,19 +5,19 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useNavigation,
 } from "react-router";
 
 import type { Route } from "./+types/root";
 import "../shared/styles/globals.scss"
 import { ReduxProviders } from "./provider/ReduxProvider";
-import { CookiesProvider} from "react-cookie"
+import { CookiesProvider } from "react-cookie"
 import { Header } from "@widgets/Header";
 import { Background } from "@shared/ui/TetrisBackground";
 import { GlassFilters } from "@shared/ui/GlassFilters";
 import "../shared/mockServer/entites";
 import { initDb } from "@shared/mockServer/mockDb";
 import { useEffect } from "react";
+import { AuthProvider } from "./provider/AuthProvider";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -33,11 +33,10 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const navigation = useNavigation();
-  const isNavigating = Boolean(navigation.location);
   useEffect(() => {
-      initDb();
-    }, []);
+    initDb();
+  }, []);
+
   return (
     <html lang="en">
       <head>
@@ -47,13 +46,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {/* {isNavigating && <GlobalSpinner />} */}
         <CookiesProvider>
           <ReduxProviders>
-            <Header />
-            <Background />
-            <GlassFilters />
-            {children}
+            <AuthProvider>
+              <Header />
+              <Background />
+              <GlassFilters />
+              {children}
+            </AuthProvider>
           </ReduxProviders>
         </CookiesProvider>
         <ScrollRestoration />

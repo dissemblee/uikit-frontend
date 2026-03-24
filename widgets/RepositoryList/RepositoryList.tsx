@@ -1,38 +1,34 @@
 import { RepositoryCard } from "@features/RepositoryCard";
-import { Button } from "@shared/ui/Button";
-import styled from "./RepositoryList.module.scss";
 import { Link } from "react-router";
 import { useGetAllRepositoriesQuery } from "@entities/repository";
+import { ListWrapSection } from "@shared/ui/ListWrapSection";
+import { ButtonCreate } from "@shared/ui/ButtonCreate";
 
 export const RepositoryList = () => {
-  const { data, isLoading, isError } = useGetAllRepositoriesQuery({page: 1, perPage: 10});
+  const { data, isLoading, isError } = useGetAllRepositoriesQuery({ page: 1, perPage: 10 });
 
   const repositories =
     Array.isArray(data?.result)
       ? data.result
       : data?.result?.itemsLeft ?? [];
 
-  if (isError) return <div>Ошибка загрузки</div>;
-
-  if (isError) return <div>Загрузка</div>;
-
   return (
-    <section className={styled.RepositoryList}>
-      <div className={styled.RepositoryHead}>
-        <h1>Репозитории</h1>
+    <ListWrapSection
+      title="Репозитории"
+      action={
         <Link to="/repositories/create">
-          <Button>Создать репозиторий</Button>
+          <ButtonCreate />
         </Link>
-      </div>
-
-      <div className={styled.RepositoryList__Wrap}>
-        {repositories.map(repo => (
-          <RepositoryCard repo={repo} key={repo.id} />
-        ))}
-        {!repositories?.length && !isLoading && (
-          <div>Видимо репозиториев еще нет...</div>
-        )}
-      </div>
-    </section>
-  );
-};
+      }
+      isLoading={isLoading}
+      isError={isError}
+      isEmpty={repositories.length === 0}
+      emptyMessage="Репозиториев пока нет"
+      errorMessage="Не удалось загрузить репозитории"
+    >
+      {repositories.map((repo, i) => (
+        <RepositoryCard repo={repo} key={repo.id} index={i} />
+      ))}
+    </ListWrapSection>
+  )
+}

@@ -1,8 +1,8 @@
-import { Button } from "@shared/ui/Button";
 import { Link } from "react-router";
-import styled from "./ComponentList.module.scss";
 import { ComponentCard } from "@features/ComponentCard";
 import { useGetAllComponentsQuery } from "@entities/component";
+import { ListWrapSection } from "@shared/ui/ListWrapSection";
+import { ButtonCreate } from "@shared/ui/ButtonCreate";
 
 export const ComponentList = () => {
   const { data, isLoading, isError } = useGetAllComponentsQuery({ perPage: 1, page: 10});
@@ -12,27 +12,23 @@ export const ComponentList = () => {
       ? data.result
       : data?.result?.itemsLeft ?? [];
 
-  if (isError) return <div>Ошибка загрузки</div>;
-
-  if (isError) return <div>Загрузка</div>;
-
   return (
-    <section className={styled.ComponentList}>
-      <div className={styled.ComponentHead}>
-        <h1>Компоненты</h1>
+    <ListWrapSection
+      title="Компоненты"
+      action={
         <Link to="/components/create">
-          <Button>Новый компонент</Button>
+          <ButtonCreate />
         </Link>
-      </div>
-
-      <div className={styled.ComponentList__Wrap}>
-        {components.map(comp => (
-          <ComponentCard component={comp} key={comp.id} />
-        ))}
-        {!components?.length && !isLoading && (
-          <div>Видимо репозиториев еще нет...</div>
-        )}
-      </div>
-    </section>
+      }
+      isLoading={isLoading}
+      isError={isError}
+      isEmpty={components.length === 0}
+      emptyMessage="Компонентов пока нет"
+      errorMessage="Не удалось загрузить компоненты"
+    >
+      {components.map(comp => (
+        <ComponentCard component={comp} key={comp.id} />
+      ))}
+    </ListWrapSection>
   )
 }

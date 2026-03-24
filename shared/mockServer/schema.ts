@@ -3,7 +3,8 @@ export type FieldType =
   | "number"
   | "boolean"
   | "date"
-  | "record";
+  | "record"
+  | { enum: string[] };
 
 export type EntitySchema = {
   name: string;

@@ -1,16 +1,19 @@
 import { LoginForm } from "@features/LoginForm/LoginForm"
-import styled from "./LoginSection.module.scss"
-import { useNavigate } from "react-router"
+import { FormWrapSection } from "@shared/ui/FormWrapSection";
 
 export const LoginSection = () => {
-  const navigate = useNavigate();
+  const tips = [
+    "Вспомните свой надежный пароль" ,
+    "Введите ваш обычный логин",
+  ];
+
   return (
-    <section className={styled.LoginSection}>
-      <div onClick={() => navigate(-1)} className={styled.GoBack}>
-        Назад
-      </div>
-      <h1>Вход</h1>
+    <FormWrapSection
+      title={"Место входа"}
+      tipsTitle={"Советы по входу"}
+      tips={tips}
+    >
       <LoginForm />
-    </section>
+    </FormWrapSection>
   )
 }

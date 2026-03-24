@@ -1,6 +1,7 @@
 import { useChangePasswordMutation } from "@entities/user"
 import { useForm } from "@shared/hooks/useForm";
 import { Button } from "@shared/ui/Button";
+import { FormError } from "@shared/ui/FormError";
 import { Input } from "@shared/ui/Inputs";
 
 export const ChangePassword = () => {
@@ -22,10 +23,14 @@ export const ChangePassword = () => {
     },
 
     async onSubmit(values) {
-      await changePassword({
+      const result = await changePassword({
         currentPassword: values.currentPassword,
         newPassword: values.newPassword
       });
+
+      if ('error' in result) {
+        throw result.error
+      }
     },
   });
 
@@ -44,7 +49,9 @@ export const ChangePassword = () => {
         placeholder="qwerty1234"
         {...form.field("newPassword")}
       />
-      
+
+      <FormError message={form.submitError} />
+
       <Button type="submit" disabled={form.isSubmitting} loading={isLoading}>
         Сменить пароль
       </Button>

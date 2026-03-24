@@ -15,12 +15,12 @@ export const Background = () => (
     <div className={styles.ClientLayout__bubble6}></div>
     <div className={styles.ClientLayout__bubble7}></div>
     
-    <div className={styles.ClientLayout__prism1}></div>
+    {/* <div className={styles.ClientLayout__prism1}></div>
     <div className={styles.ClientLayout__prism2}></div>
     <div className={styles.ClientLayout__prism3}></div>
     
     <div className={styles.ClientLayout__prism4}></div>
-    <div className={styles.ClientLayout__prism5}></div>
+    <div className={styles.ClientLayout__prism5}></div> */}
     
     <div className={styles.ClientLayout__particle1}></div>
     <div className={styles.ClientLayout__particle2}></div>

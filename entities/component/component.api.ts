@@ -1,6 +1,8 @@
 import { baseApi } from "@shared/api";
 
 import type {
+  ComponentCreateDto,
+  ComponentCreateResultDto,
   ComponentCursorResultDto,
   ComponentResultDto,
 } from "./component.dto";
@@ -46,10 +48,39 @@ export const componentsApi = baseApi.injectEndpoints({
         { type: "Components", id },
       ],
     }),
+    createComponent: builder.mutation<ComponentCreateResultDto, ComponentCreateDto>({
+      query: (componentData) => {
+        const formData = new FormData();
+        
+        formData.append("name", componentData.name);
+        formData.append("description", componentData.description);
+        formData.append("meta", JSON.stringify(componentData.meta));
+        
+        formData.append("archive", componentData.archive);
+
+        return {
+          url: ENDPOINT,
+          method: "POST",
+          body: formData,
+          formData: true,
+        };
+      },
+      
+      invalidatesTags: [{ type: "Components", id: "LIST" }],
+      
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (error) {
+          console.error("Failed to create component:", error);
+        }
+      },
+    }),
   }),
 });
 
 export const {
   useGetAllComponentsQuery,
+  useCreateComponentMutation,
   useGetComponentByIdQuery,
 } = componentsApi;

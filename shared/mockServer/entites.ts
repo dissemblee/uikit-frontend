@@ -36,3 +36,15 @@ defineEntity({
     email: "string",
   },
 });
+
+/* Build */
+defineEntity({
+  name: "build",
+  seedCount: 20,
+  fields: {
+    status: { enum: ["Ожидание", "В процессе", "Завершено", "Ошибка"] },
+    startedAt: "date",
+    completedAt: "date",
+    component: "record",
+  },
+});

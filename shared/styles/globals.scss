@@ -3,27 +3,16 @@
 
 :root {
   --background: $dark-bg-color;
-  --foreground: $dark-bg-color;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: $dark-bg-color;
-    --foreground: $dark-bg-color;
-  }
 }
 
 body {
   position: relative;
-  // overflow: hidden;
   min-height: 100vh;
-  // color: var(--foreground);
-  // background: var(--background);
+  background: #FBD394;
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding: 20px 0;
-  color: $text-color;
+  padding: $value-5 0;
 }
 
 .tetris-container {

@@ -1,9 +1,9 @@
-import { CreateRepositoryForm } from "@features/CreateRepositoryForm"
+import { CreateComponentSection } from "@widgets/CreateComponentSection"
 
 export const ComponentCreatePage = () => {
   return (
     <main>
-      <CreateRepositoryForm />
+      <CreateComponentSection />
     </main>
   )
 }

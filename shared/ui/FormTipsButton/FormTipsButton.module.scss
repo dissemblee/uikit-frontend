@@ -1,0 +1,29 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+
+.FormTipsButton {
+  @include flexCenter;
+  @include glassSurface;
+  padding: $value-1_5;
+  border-radius: $rounded-full;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: $value-5;
+  color: $subtitle-color;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.70);
+    color: $title-color;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.55),
+      0 0 0 1.5px rgba(255, 255, 255, 0.75),
+      0 0 $value-4 $value-1 rgba(90, 150, 255, 0.20),
+      0 $value-1 $value-3 rgba(0, 30, 80, 0.08);
+    transform: rotate(15deg);
+  }
+
+  &:active {
+    transform: rotate(15deg) scale(0.94);
+  }
+}

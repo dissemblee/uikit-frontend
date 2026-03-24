@@ -1,42 +1,20 @@
-import { useNavigate } from "react-router";
-import styled from "./CreateRepositorySection.module.scss"
 import { CreateRepositoryForm } from "@features/CreateRepositoryForm";
-import { FiArrowLeft, FiGithub, FiInfo, FiStar } from "react-icons/fi";
-import { useState } from "react";
+import { FormWrapSection } from "@shared/ui/FormWrapSection";
 
 export const CreateRepositorySection = () => {
-  const navigate = useNavigate();
-  const [showTips, setShowTips] = useState(false);
+  const tips = [
+    "Используйте короткое и понятное название" ,
+    "Добавьте подробное описание проекта",
+    "Выберите подходящий фреймворк"
+  ];
 
   return (
-    <section className={styled.CreateRepositorySection}>
-      <div className={styled.header}>
-        <button onClick={() => navigate(-1)} className={styled.goBack}>
-          <FiArrowLeft /> Назад
-        </button>
-        
-        <h1>Создание нового репозитория</h1>
-        
-        <button 
-          className={styled.infoButton}
-          onClick={() => setShowTips(!showTips)}
-        >
-          <FiInfo />
-        </button>
-      </div>
-
-      {showTips && (
-        <div className={styled.tipsPanel}>
-          <h3>✨ Советы по созданию репозитория</h3>
-          <ul>
-            <li>Используйте короткое и понятное название</li>
-            <li>Добавьте подробное описание проекта</li>
-            <li>Выберите подходящий фреймворк</li>
-          </ul>
-        </div>
-      )}
-
+    <FormWrapSection
+      title={"Создайте новый репозиторий"}
+      tipsTitle={"Советы по созданию репозитория"}
+      tips={tips}
+    >
       <CreateRepositoryForm />
-    </section>
+    </FormWrapSection>
   )
 }

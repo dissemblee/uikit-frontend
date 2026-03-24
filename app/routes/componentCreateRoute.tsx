@@ -1,5 +1,5 @@
-import { CreateComponentPage } from "@pages/createComponent";
-import type { Route } from "./+types/home";
+import { ComponentCreatePage } from "@pages/components";
+import type { Route } from "../+types/root";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -9,5 +9,5 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function componentCreateRoute() {
-  return <CreateComponentPage />
+  return <ComponentCreatePage />
 }

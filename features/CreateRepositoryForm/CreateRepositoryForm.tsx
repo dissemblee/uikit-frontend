@@ -3,8 +3,8 @@ import { useForm } from "@shared/hooks/useForm"
 import { Button } from "@shared/ui/Button"
 import { Input, Select, Textarea } from "@shared/ui/Inputs"
 import type { RepositoryCreateDto } from "@entities/repository"
-import styled from "./CreateRepositoryForm.module.scss"
-import { FiCode, FiFileText } from "react-icons/fi"
+import { FiCode, FiFileText, FiPackage } from "react-icons/fi"
+import { FormError } from "@shared/ui/FormError"
 
 export const CreateRepositoryForm = () => {
   const [create, { isLoading }] = useCreateRepositoryMutation()
@@ -22,7 +22,7 @@ export const CreateRepositoryForm = () => {
       if (!values.name) errors.name = "Введите имя"
       if (!values.description) errors.description = "Введите описание"
       if (!values.framework) errors.framework = "Укажите фреймворк"
-
+      if (values.description.length >= 300) errors.description = "Слишком длинное описание, максимум 300 символов"
       return errors
     },
 
@@ -35,7 +35,11 @@ export const CreateRepositoryForm = () => {
         }
       }
       
-      await create(dto)
+      const result = await create(dto)
+
+      if ('error' in result) {
+        throw result.error
+      }
     }
   })
 
@@ -50,29 +54,29 @@ export const CreateRepositoryForm = () => {
   return(
     <form onSubmit={form.handleSubmit}>
       <Input
-        label="Логин"
+        label="Имя компонента"
         {...form.field("name")}
-         icon={<FiCode />}
+        icon={<FiCode />}
+        placeholder="Репозиторий кнопок"
       />
-
-      <Textarea
-        label="Описание"
-        {...form.field("description")}
-        icon={<FiFileText />}
-      />
-
       <Select
         label="Фреймворк"
         options={frameworkOptions}
         {...form.field("framework")}
+        icon={<FiPackage />}
       />
+      <Textarea
+        label="Описание"
+        {...form.field("description")}
+        icon={<FiFileText />}
+        placeholder="Это самый полный репозиторий кнопок для React"
+      />
+
+      <FormError message={form.submitError} />
       
-      <Button type="submit" disabled={form.isSubmitting} loading={isLoading} loadingText="Создание">
+      <Button type="submit" disabled={form.isSubmitting} loading={isLoading} loadingText="Создаем директории...">
         🚀 Создать
       </Button>
-      <div className={styled.formStats}>
-        <span>✨ {Object.values(form.values).filter(Boolean).length}/3 заполнено</span>
-      </div>
     </form>
   )
 }

@@ -1,5 +1,5 @@
 import { baseApi } from "@shared/api";
-import type { SignInDto, SignUpDto, SignUpResultDto } from "./auth.dto";
+import type { SignInDto, SignInResultDto, SignUpDto, SignUpResultDto } from "./auth.dto";
 
 const ENDPOINT = "auth";
 
@@ -14,29 +14,26 @@ export const authApi = baseApi.injectEndpoints({
       invalidatesTags: [{ type: "Users", id: "LIST" }],
     }),
 
-    login: builder.mutation<void, SignInDto>({
+    login: builder.mutation<SignInResultDto, SignInDto>({
       query: (data) => ({
         url: `${ENDPOINT}/sign-in`,
         method: "POST",
         body: data,
       }),
-      invalidatesTags: [{ type: "Users", id: "ME" }],
     }),
 
     logout: builder.mutation<void, void>({
       query: () => ({
-        url: "logout",
+        url: `${ENDPOINT}/sign-out`,
         method: "POST",
       }),
-      invalidatesTags: [{ type: "Users", id: "ME" }],
     }),
 
-    refresh: builder.mutation<void, void>({
+    refresh: builder.mutation<SignInResultDto, void>({
       query: () => ({
         url: `${ENDPOINT}/refresh`,
         method: "POST",
       }),
-      invalidatesTags: [{ type: "Users", id: "ME" }],
     }),
   }),
   overrideExisting: false,
@@ -46,4 +43,5 @@ export const {
   useRegisterMutation,
   useLoginMutation,
   useLogoutMutation,
+  useRefreshMutation,
 } = authApi;

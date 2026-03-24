@@ -1,4 +1,5 @@
 @use "../../shared/styles/mixins" as *;
+@use "../../shared/styles/variables" as *;
 
 .Welcome {
 
@@ -6,5 +7,5 @@
 
 .Welcome__nav {
   display: inherit;
-  gap: 10px;
+  gap: $value-2_5;
 }

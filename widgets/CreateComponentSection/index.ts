@@ -1,1 +1,1 @@
-export { CreateComponentSection } from "./CreateRepositorySection"
+export { CreateComponentSection } from "./CreateComponentSection"

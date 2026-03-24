@@ -1,0 +1,125 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+
+.BaseCard {
+  @include flexCenter;
+  @include glassSurface;
+  gap: $value-4;
+  padding: $value-2_5 $value-3_5;
+  border-radius: $value-3_5;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: cardIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) both;
+
+  &:hover {
+    @include glassSurfaceHover;
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.995);
+  }
+}
+
+.BaseCard__Left {
+  display: flex;
+  align-items: center;
+  gap: $value-2_5;
+  flex: 0 0 200px;
+}
+
+.BaseCard__Icon {
+  @include flexCenter;
+  @include glassSurface;
+  width: $value-8;
+  height: $value-8;
+  border-radius: $rounded-lg;
+  font-size: $value-4;
+  transition: all 0.25s ease;
+  color: $title-color;
+
+  .BaseCard:hover & {
+    @include glassSurfaceHover;
+  }
+}
+
+.BaseCard__Info {
+  @include flexColumn;
+}
+
+.BaseCard__Name {
+  font-size: $value-4;
+  font-weight: 700;
+  color: $title-color;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.BaseCard__Sub {
+  font-size: $value-3_5;
+  color: $subtitle-color;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.BaseCard__Meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: 1;
+  align-items: center;
+}
+
+.BaseCard__Tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: $rounded-lg;
+  overflow: hidden;
+  font-size: $value-3;
+  @include glassSurface;
+}
+
+.BaseCard__TagKey {
+  padding: 3px 7px;
+  background: rgba(80, 120, 200, 0.12);
+  color: $title-color;
+  border-right: 1px solid rgba(255, 255, 255, 0.30);
+}
+
+.BaseCard__TagValue {
+  padding: 3px 7px;
+  background: rgba(255, 255, 255, 0.15);
+  color: $title-color;
+}
+
+.BaseCard__Right {
+  @include flexColumn;
+  align-items: flex-end;
+  gap: $value-1_5;
+  flex-shrink: 0;
+}
+
+.BaseCard__Date {
+  display: inline-flex;
+  align-items: center;
+  gap: $value-1_5;
+  font-size: $value-3;
+  color: $subtitle-color;
+
+  svg {
+    font-size: $value-3;
+    opacity: 0.8;
+  }
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY($value-2);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

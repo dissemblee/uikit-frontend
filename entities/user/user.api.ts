@@ -37,7 +37,7 @@ export const usersApi = baseApi.injectEndpoints({
       },
     }),
 
-    getUserById: builder.query<UserResultDto, string>({
+    getUserById: builder.query<UserResultDto, number>({
       query: (id) => ({
         url: `${ENDPOINT}/${id}`,
         method: "GET",
