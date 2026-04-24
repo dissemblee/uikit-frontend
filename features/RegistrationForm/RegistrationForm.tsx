@@ -1,4 +1,5 @@
 import { useForm } from "@shared/hooks/useForm"
+import { AccountCheck } from "@shared/ui/AccountCheck";
 import { Button } from "@shared/ui/Button"
 import { FormError } from "@shared/ui/FormError";
 import { Input } from "@shared/ui/Inputs/Inputs"
@@ -53,10 +54,13 @@ export const RegistrationForm = () => {
         {...form.field("password")}
         placeholder="qwerty1234"
       />
+
       <FormError message={form.submitError} />
 
-      <Button type="submit" disabled={form.isSubmitting} loading={loading} loadingText="Создаем аккаунт">
-        🚀 Зарегистрироваться
+      <AccountCheck isAccount />
+
+      <Button type="submit" disabled={form.isSubmitting} loading={loading} loadingText="Создаем аккаунт" nonBlock>
+        Зарегистрироваться
       </Button>
     </form>
   )

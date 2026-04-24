@@ -18,6 +18,7 @@ export const usersApi = baseApi.injectEndpoints({
         url: ENDPOINT,
         method: "GET",
         params: { page, perPage },
+        service: "user"
       }),
 
       providesTags: (result) => {
@@ -37,10 +38,11 @@ export const usersApi = baseApi.injectEndpoints({
       },
     }),
 
-    getUserById: builder.query<UserResultDto, number>({
+    getUserById: builder.query<UserResultDto, string>({
       query: (id) => ({
         url: `${ENDPOINT}/${id}`,
         method: "GET",
+        service: "user"
       }),
 
       providesTags: (_result, _error, id) => [
@@ -50,16 +52,16 @@ export const usersApi = baseApi.injectEndpoints({
 
     updateUser: builder.mutation<
       UserResultDto,
-      { id: number; data: UserUpdateDto }
+      { data: UserUpdateDto }
     >({
-      query: ({ id, data }) => ({
-        url: `${ENDPOINT}/${id}`,
+      query: ({ data }) => ({
+        url: `${ENDPOINT}`,
         method: "PATCH",
         body: data,
       }),
 
-      invalidatesTags: (_result, _error, { id }) => [
-        { type: "Users", id },
+      invalidatesTags: (_result, _error,) => [
+        { type: "Users", },
         { type: "Users", id: "LIST" },
       ],
     }),
@@ -72,6 +74,7 @@ export const usersApi = baseApi.injectEndpoints({
         url: `${ENDPOINT}/change-password`,
         method: "POST",
         body,
+        service: "user"
       }),
 
       invalidatesTags: [],

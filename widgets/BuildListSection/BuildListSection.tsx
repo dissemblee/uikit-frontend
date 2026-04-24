@@ -12,7 +12,7 @@ export const BuildListSection = () => {
 
   return (
     <ListWrapSection
-      title="Ваши сборки"
+      title="обзор ваших сборок"
       isLoading={isLoading}
       isError={isError}
       isEmpty={builds.length === 0}

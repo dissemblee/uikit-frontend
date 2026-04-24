@@ -1,0 +1,11 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+
+.AccountCheck {
+  margin: $value-3;
+}
+
+.AccountCheck__Link {
+  color: $accent;
+  text-decoration: underline;
+}

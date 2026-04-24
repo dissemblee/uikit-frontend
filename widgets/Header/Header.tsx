@@ -1,82 +1,121 @@
-import { Link, useNavigate } from "react-router"
+import { Link, useLocation, useNavigate } from "react-router"
 import styles from "./Header.module.scss"
-import { useGetAllUsersQuery, useGetUserByIdQuery } from "@entities/user";
-import { useEffect, useState } from "react";
-import { UserIcon } from "@features/UserIcon";
 import { Button } from "@shared/ui/Button";
+import { FiArrowRight, FiUser } from "react-icons/fi";
+import { tokenStore } from "@shared/tokenStore";
+import { useEffect, useState } from "react";
+import { Prompt } from "@shared/ui/Prompt/Prompt";
 
 export const Header = () => {
-  const navigate = useNavigate()
-  const [randomUserId, setRandomUserId] = useState<string | null>(null);
+  const location = useLocation();
+  const [displayName, setDisplayName] = useState<string>("");
 
-  const {
-    data: usersData,
-    isLoading: usersLoading,
-    isSuccess: usersSuccess
-  } = useGetAllUsersQuery({ page: 1, perPage: 10 })
+  const getCurrentPath = () => {
+    const path = location.pathname;
+    if (path === "/") return "~";
+    
+    const ruPaths: Record<string, string> = {
+      "/components": "компоненты",
+      "/repositories": "репозитории",
+      "/builds": "сборки",
+      "/docs": "документация"
+    };
+    
+    if (ruPaths[path]) {
+      return `~/${ruPaths[path]}`;
+    }
+    return `~${path}`;
+  };
 
   useEffect(() => {
-    if (usersSuccess && usersData?.result && usersData.result.length > 0) {
-      const data = usersData.result;
-      const randomIndex = Math.floor(Math.random() * data.length);
-      setRandomUserId(data[randomIndex].id);
+    const token = tokenStore.get();
+    if (token) {
+      try {
+        const parts = token.split('.');
+        if (parts.length === 3) {
+          const payload = JSON.parse(atob(parts[1]));
+          
+          let rawUsername = payload.username || payload.userId || "User";
+          
+          try {
+            const fixed = decodeURIComponent(escape(rawUsername));
+            rawUsername = fixed;
+          } catch (e) {
+          }
+          
+          if (rawUsername.includes('Ð') || rawUsername.length > 20) {
+            setDisplayName("User");
+          } else {
+            setDisplayName(rawUsername);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to decode token:", error);
+        setDisplayName("User");
+      }
     }
-  }, [usersData, usersSuccess]);
+  }, []);
 
-  const {
-    data: currentUserData,
-    isLoading: currentUserLoading,
-    isSuccess: userSuccess
-  } = useGetUserByIdQuery(randomUserId || "", {
-    skip: !randomUserId
-  });
+  const navItems = [
+    { path: "/components", label: "компоненты", command: "cd компоненты" },
+    { path: "/repositories", label: "репозитории", command: "ls репозитории" },
+    { path: "/builds", label: "сборки", command: "cat сборки" },
+    { path: "/docs", label: "документация", command: "man документация" },
+  ];
 
-  const renderRight = () => {
-    if (usersLoading || currentUserLoading) {
-      return <div className={styles.Header__userSkeleton} />;
-    }
-
-    if (userSuccess && currentUserData?.result) {
-      const user = Array.isArray(currentUserData.result)
-        ? currentUserData.result[0]
-        : currentUserData.result;
-
-      return (
-        <Link to={`profile/${user.id}`}>
-          <UserIcon user={currentUserData.result} />
-        </Link>
-      );
-    }
-
-    return (
-      <>
-        <Button variant="secondary" onClick={() => navigate("/login")}>
-          Войти
-        </Button>
-        <Button onClick={() => navigate("/registration")}>
-          Регистрация
-        </Button>
-      </>
-    );
-  };
+  const isAuth = !!tokenStore.get();
 
   return (
     <header className={styles.Header}>
-      <Link to="/">
-        <b className={styles.Header__name}>UIKIT</b>
+      <Link to="/" className={styles.Header__Logo}>
+        <Prompt path="~ uikit" />
       </Link>
 
-      <nav>
-        <Link to="/components" className={styles.Header__link}>
-          <b>Компоненты</b>
-        </Link>
-        <Link to="/docs" className={styles.Header__link}>
-          <b>Документация</b>
-        </Link>
+      <nav className={styles.Header__Nav}>
+        {navItems.map((item) => {
+          const isActive = location.pathname === item.path;
+          
+          if (isActive) {
+            return (
+              <div key={item.path} className={styles.Header__ActivePrompt}>
+                <Prompt path={getCurrentPath()} showCursor />
+              </div>
+            );
+          }
+          
+          return (
+            <Link 
+              key={item.path} 
+              to={item.path}
+              className={styles.Header__Link}
+            >
+              <code className={styles.Header__Command}>
+                <span className={styles.Header__PromptSymbol}>$</span>
+                <span className={styles.Header__CommandText}>{item.command}</span>
+              </code>
+            </Link>
+          );
+        })}
       </nav>
 
-      <div className={styles.Header__actions}>
-        {renderRight()}
+      <div className={styles.Header__Actions}>
+        {isAuth ? (
+          <Link to={`/profile/${displayName}`} className={styles.Header__Link}>
+            <code className={styles.Header__UserCode}>
+              <span className={styles.Header__PromptSymbol}>$</span>
+              <span className={styles.Header__CommandText}>whoami</span>
+              <span className={styles.Header__Output}> → {displayName}</span>
+            </code>
+          </Link>
+        ) : (
+          <Link to="/login" className={styles.Header__Link}>
+            <code className={styles.Header__LoginCode}>
+              <span className={styles.Header__PromptSymbol}>$</span>
+              <span className={styles.Header__CommandText}>./login.sh</span>
+              <FiArrowRight className={styles.Header__Arrow} />
+            </code>
+          </Link>
+        )}
       </div>
     </header>
   )

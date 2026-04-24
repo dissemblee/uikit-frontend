@@ -1,5 +1,4 @@
 import { baseApi } from "@shared/api";
-
 import type {
   ComponentCreateDto,
   ComponentCreateResultDto,
@@ -7,74 +6,74 @@ import type {
   ComponentResultDto,
 } from "./component.dto";
 
-const ENDPOINT = "component";
+const ENDPOINT = "components";
 
 export const componentsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllComponents: builder.query<
       ComponentCursorResultDto,
-      { page?: number; perPage?: number }
+      { skip?: number; limit?: number }
     >({
-      query: ({ page = 1, perPage = 10 }) => ({
+      query: ({ skip = 0, limit = 10 }) => ({
         url: ENDPOINT,
         method: "GET",
-        params: { page, perPage },
+        params: { skip, limit },
+        service: "components"
       }),
-
       providesTags: (result) => {
         const components = result?.result?.data;
-
-        if (!components) {
-          return [{ type: "Components", id: "LIST" }];
-        }
-
+        if (!components) return [{ type: "Components", id: "LIST" }];
         return [
-          ...components.map(({ id }) => ({
-            type: "Components" as const,
-            id,
-          })),
-          { type: "Components" as const, id: "LIST" },
+          ...components.map(({ id }) => ({ type: "Components" as const, id })),
+          { type: "Components", id: "LIST" },
         ];
       },
     }),
-
-    getComponentById: builder.query<ComponentResultDto, string>({
-      query: (id) => ({
-        url: `${ENDPOINT}/${id}`,
+    getComponentById: builder.query<ComponentResultDto, { username: string; name: string }>({
+      query: ({ username, name }) => ({
+        url: `${ENDPOINT}/${username}/${name}`,
         method: "GET",
+        service: "components"
       }),
-
-      providesTags: (_result, _error, id) => [
-        { type: "Components", id },
+      providesTags: (_result, _error, { username, name }) => [
+        { type: "Components", id: `${username}/${name}` },
       ],
     }),
-    createComponent: builder.mutation<ComponentCreateResultDto, ComponentCreateDto>({
-      query: (componentData) => {
-        const formData = new FormData();
-        
-        formData.append("name", componentData.name);
-        formData.append("description", componentData.description);
-        formData.append("meta", JSON.stringify(componentData.meta));
-        
-        formData.append("archive", componentData.archive);
-
-        return {
-          url: ENDPOINT,
-          method: "POST",
-          body: formData,
-          formData: true,
-        };
-      },
-      
+    getComponentsByUser: builder.query<
+      ComponentCursorResultDto,
+      { username: string; skip?: number; limit?: number; startDate?: string }
+    >({
+      query: ({ username, skip = 0, limit = 10, startDate }) => ({
+        url: `${ENDPOINT}/${username}`,
+        method: "GET",
+        params: { skip, limit, startDate },
+        service: "components"
+      }),
+    }),
+    createComponent: builder.mutation<ComponentCreateResultDto, FormData>({
+      query: (formData) => ({
+        url: `${ENDPOINT}/upload`,
+        method: "POST",
+        body: formData,
+        service: "components",
+        formData: true,
+      }),
       invalidatesTags: [{ type: "Components", id: "LIST" }],
-      
-      onQueryStarted: async (arg, { queryFulfilled }) => {
-        try {
-          await queryFulfilled;
-        } catch (error) {
-          console.error("Failed to create component:", error);
-        }
-      },
+    }),
+    getComponentSource: builder.query<{ source: string; language: string; fileName: string }, { username: string; name: string }>({
+      query: ({ username, name }) => ({
+        url: `${ENDPOINT}/source/${username}/${name}`,
+        method: "GET",
+        service: "components"
+      }),
+    }),
+    getComponentPackage: builder.query<Blob, { username: string; name: string }>({
+      query: ({ username, name }) => ({
+        url: `${ENDPOINT}/package/${username}/${name}`,
+        method: "GET",
+        service: "components",
+        responseHandler: (response: { blob: () => any; }) => response.blob(),
+      }),
     }),
   }),
 });
@@ -83,4 +82,7 @@ export const {
   useGetAllComponentsQuery,
   useCreateComponentMutation,
   useGetComponentByIdQuery,
+  useGetComponentsByUserQuery,
+  useLazyGetComponentPackageQuery,
+  useGetComponentSourceQuery,
 } = componentsApi;

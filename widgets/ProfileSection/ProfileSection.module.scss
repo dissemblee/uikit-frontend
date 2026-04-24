@@ -2,7 +2,7 @@
 @use '../../shared/styles/mixins' as *;
 
 .ProfileSection {
-  @include glassCard;
+  @include baseCard;
   @include flexCenter;
   min-height: 70vh;
   width: 100%;

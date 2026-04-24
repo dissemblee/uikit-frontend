@@ -19,10 +19,11 @@ export default [
     ]),
     ...prefix("components", [
       route("create", "routes/componentCreateRoute.tsx"),
+      route("/:username/:name", "routes/componentSingleRoute.tsx"),
     ]),
     ...prefix("builds", [
       route("/", "routes/buildListRoute.tsx"),
     ]),
-    route("profile/:id", "routes/profileRoute.tsx"),
+    route("profile/:username", "routes/profileRoute.tsx"),
   ]),
 ] satisfies RouteConfig;

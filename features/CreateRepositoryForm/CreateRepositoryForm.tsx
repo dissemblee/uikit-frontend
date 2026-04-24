@@ -74,8 +74,8 @@ export const CreateRepositoryForm = () => {
 
       <FormError message={form.submitError} />
       
-      <Button type="submit" disabled={form.isSubmitting} loading={isLoading} loadingText="Создаем директории...">
-        🚀 Создать
+      <Button type="submit" disabled={form.isSubmitting} loading={isLoading} loadingText="Создаем директории..." nonBlock>
+        Создать репозиторий
       </Button>
     </form>
   )

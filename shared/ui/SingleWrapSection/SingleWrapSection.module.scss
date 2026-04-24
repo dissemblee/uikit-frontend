@@ -1,0 +1,99 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+
+.SingleWrapSection {
+  @include baseCard;
+  @include flexCenter;
+  min-height: 70vh;
+  width: 100%;
+}
+
+.SingleWrapSection__Card {
+  @include flexColumn;
+  width: 100%;
+  max-width: 680px;
+  gap: $value-6;
+}
+
+.SingleWrapSection__Header {
+  display: flex;
+  align-items: center;
+  @include flexBetween;
+  @include divider;
+}
+
+.SingleWrapSection__HeaderTitle {
+  display: flex;
+  align-items: center;
+  gap: $value-5;
+}
+
+.SingleWrapSection__Icon {
+  @include flexCenter;
+  width: $value-16;
+  height: $value-16;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%);
+  border-radius: $rounded-2xl;
+  color: $title-color;
+}
+
+.SingleWrapSection__Name {
+  color: $title-color;
+  font-size: $value-6;
+  margin-bottom: $value-1;
+}
+
+.SingleWrapSection__Path {
+  font-size: $value-3;
+  color: $subtitle-color;
+}
+
+.SingleWrapSection__NotFound {
+  @include flexColumn;
+  align-items: center;
+  text-align: center;
+  gap: $value-4;
+  padding: $value-14 $value-5;
+  color: $subtitle-color;
+
+  svg {
+    opacity: 0.5;
+  }
+
+  h3 {
+    color: $title-color;
+    font-size: $value-5;
+  }
+
+  p {
+    font-size: $value-3_5;
+  }
+}
+
+.SingleWrapSection__SkeletonWrap {
+  @include flexColumn;
+  gap: $value-4;
+  padding: $value-14 $value-5;
+  width: 100%;
+}
+
+.SingleWrapSection__SkeletonIcon {
+  width: 64px;
+  height: 64px;
+  border-radius: $rounded-2xl;
+  @include SkeletonEffect;
+}
+
+.SingleWrapSection__SkeletonLine {
+  border-radius: $rounded-md;
+  @include SkeletonEffect;
+
+  &:nth-child(2) { width: 60%; height: 32px; animation-delay: 0.1s; }
+  &:nth-child(3) { width: 80%; height: 20px; animation-delay: 0.2s; }
+  &:nth-child(4) { width: 100%; height: 60px; animation-delay: 0.3s; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY($value-2); }
+  to   { opacity: 1; transform: translateY(0);   }
+}

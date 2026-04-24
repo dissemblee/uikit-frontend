@@ -2,85 +2,52 @@
 @use '../../styles/mixins' as *;
 
 .FormTipsPanel {
-  border-radius: $rounded-2xl;
+  border-radius: $rounded-lg;
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
-
-  @include glassSurface;
-
   padding: $value-4 $value-5;
+  background-color: #FAFAFA;
+}
 
-  &.default::before  { background: linear-gradient(180deg, rgba(79, 172, 254, 0.9), rgba(0, 242, 254, 0.6)); }
-  &.warning::before  { background: linear-gradient(180deg, rgba(255, 193, 7, 0.9), rgba(255, 160, 0, 0.6)); }
-  &.success::before  { background: linear-gradient(180deg, rgba(40, 200, 100, 0.9), rgba(0, 230, 130, 0.6)); }
-  &.info::before     { background: linear-gradient(180deg, rgba(23, 162, 184, 0.9), rgba(0, 200, 220, 0.6)); }
+.FormTipsPanel__Hide {
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  pointer-events: none;
+  border-color: transparent;
+  box-shadow: none;
+}
 
-  &.default { background: rgba(79, 172, 254, 0.07); }
-  &.warning { background: rgba(255, 193, 7, 0.07); }
-  &.success { background: rgba(40, 200, 100, 0.07); }
-  &.info    { background: rgba(23, 162, 184, 0.07); }
+.FormTipsPanel__Show {
+  max-height: 400px;
+  opacity: 1;
+  padding: $value-4 $value-5;
+  margin-bottom: $value-5;
+}
 
-  &.hide {
-    max-height: 0;
-    opacity: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin-bottom: 0;
-    pointer-events: none;
-    border-color: transparent;
-    box-shadow: none;
+.FormTipsPanel__List {
+  padding-left: $value-3;
+  margin: 0;
+  list-style: none;
+}
+
+.FormTipsPanel__Item {
+  line-height: 1.5;
+  font-size: 0.88rem;
+  color: #4a4a5a;
+  padding-left: $value-4;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: $value-2;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: $accent;
   }
-
-  &.show {
-    max-height: 400px;
-    opacity: 1;
-    padding: $value-4 $value-5;
-    margin-bottom: $value-5;
-  }
-
-  h3 {
-    margin: 0 0 $value-2_5 0;
-    font-size: 0.92rem;
-    font-weight: 700;
-    letter-spacing: 0.01em;
-    display: flex;
-    align-items: center;
-    gap: $value-2;
-    color: $title-color;
-    padding-left: $value-2;
-
-    .icon {
-      font-size: 1rem;
-    }
-  }
-
-  ul {
-    padding-left: $value-3;
-    margin: 0;
-    list-style: none;
-
-    li {
-      margin: 7px 0;
-      line-height: 1.5;
-      font-size: 0.88rem;
-      color: rgba(10, 30, 70, 0.70);
-      padding-left: $value-4;
-      position: relative;
-
-      &::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: $value-2;
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        background: rgba(79, 172, 254, 0.7);
-      }
-    }
-  }
-
-  &.warning ul li::before { background: rgba(255, 193, 7, 0.8); }
-  &.success ul li::before { background: rgba(40, 200, 100, 0.8); }
-  &.info    ul li::before { background: rgba(23, 162, 184, 0.8); }
 }

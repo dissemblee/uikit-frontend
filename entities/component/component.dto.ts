@@ -2,18 +2,21 @@ import type { EntityDto, CursorResultDto, ResultDto } from "@shared/types/api";
 
 export interface ComponentDto extends EntityDto {
   name: string;
-  type: string;
   version: number;
   description?: string;
   tags?: string[];
-  meta: Record<string, string>;
+  framework: string;
+  type?: string;
 }
 
 export interface ComponentCreateDto {
   name: string;
   description: string;
-  meta: Record<string, string>;
-  archive: File;
+  framework: 'react' | 'vanilla';
+  fileExtension: 'ts' | 'tsx' | 'js' | 'jsx';
+  file: File;
+  css?: Record<string, any>;
+  dependencies?: Record<string, string>;
 }
 
 export interface ComponentCursorResultDto extends CursorResultDto<ComponentDto> {}

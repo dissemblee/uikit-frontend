@@ -1,0 +1,56 @@
+@use '../../../shared/styles/variables' as *;
+@use '../../../shared/styles/mixins' as *;
+
+.BentoCard {
+  @include flexColumn;
+  @include baseCard;
+  gap: $value-3;
+  cursor: pointer;
+  margin: 0;
+  height: 100%;
+}
+
+.BentoCard__Icon {
+  @include flexCenter;
+  width: $value-9;
+  height: $value-9;
+  border-radius: $value-2;
+  flex-shrink: 0;
+}
+
+.BentoCard__Domain {
+  font-size: $value-2_5;
+  color: #7a7a8a;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.BentoCard__Title {
+  font-size: $value-4;
+  color: #1a1825;
+}
+
+.BentoCard__Description {
+  font-size: $value-3;
+  color: #4a4a5a;
+  line-height: 1.6;
+  flex: 1;
+}
+
+.BentoCard__Extra {
+  @include divider;
+}
+
+.BentoCard__Link {
+  color: #7a7a8a;
+  transition: color 0.15s ease;
+  font-size: $value-3;
+
+  &:hover {
+    color: $accent
+  }
+
+  &:hover::after {
+    content: " →";
+  }
+}

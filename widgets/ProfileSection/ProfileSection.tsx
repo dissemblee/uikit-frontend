@@ -3,7 +3,6 @@ import { useParams } from "react-router";
 import styled from "./ProfileSection.module.scss";
 import { useGetUserByIdQuery } from "@entities/user";
 import { Button } from "@shared/ui/Button";
-import { FaUser } from "react-icons/fa";
 import { FiEdit2, FiLock, FiX } from "react-icons/fi";
 import { EditProfile } from "@features/EditProfile";
 import { ChangePassword } from "@features/ChangePassword";
@@ -12,8 +11,8 @@ import { UserIcon } from "@features/UserIcon";
 type ProfileMode = "view" | "edit" | "password";
 
 export const ProfileSection = () => {
-  const { id } = useParams();
-  const { data, isLoading } = useGetUserByIdQuery(Number(id));
+  const { username } = useParams();
+  const { data, isLoading } = useGetUserByIdQuery(String(username));
   const [mode, setMode] = useState<ProfileMode>("view");
 
   const user = data?.result;
@@ -50,21 +49,21 @@ export const ProfileSection = () => {
           <>
             <div className={styled.ProfileSection__Info}>
               <div className={styled.ProfileSection__InfoRow}>
-                <span className={styled.ProfileSection__InfoLabel}>Имя</span>
+                <span className={styled.ProfileSection__InfoLabel}>логин</span>
                 <span className={styled.ProfileSection__InfoValue}>{user?.username ?? "Давид"}</span>
               </div>
               <div className={styled.ProfileSection__InfoRow}>
-                <span className={styled.ProfileSection__InfoLabel}>Email</span>
+                <span className={styled.ProfileSection__InfoLabel}>почта</span>
                 <span className={styled.ProfileSection__InfoValue}>{user?.email ?? "example@mail.ru"}</span>
               </div>
             </div>
 
             <div className={styled.ProfileSection__Action}>
               <Button variant="primary" onClick={() => setMode("edit")}>
-                <FiEdit2 /> Изменить профиль
+                <FiEdit2 /> редактировать_профиль
               </Button>
               <Button variant="secondary" onClick={() => setMode("password")}>
-                <FiLock /> Сменить пароль
+                <FiLock /> сменить_пароль
               </Button>
             </div>
           </>
@@ -73,21 +72,21 @@ export const ProfileSection = () => {
         {mode === "edit" && (
           <div className={styled.ProfileSection__EditForm}>
             <div className={styled.ProfileSection__EditHeader}>
-              <h3>Изменение профиля</h3>
+              <span>// редактировать_профиль</span>
               <Button variant="cancel" nonBlock onClick={() => setMode("view")}>
-                <FiX /> Отмена
+                <FiX /> назад
               </Button>
             </div>
-            <EditProfile id={Number(id)} />
+            <EditProfile />
           </div>
         )}
 
         {mode === "password" && (
           <div className={styled.ProfileSection__EditForm}>
             <div className={styled.ProfileSection__EditHeader}>
-              <h3>Смена пароля</h3>
+              <span>// сменить_пароль</span>
               <Button variant="cancel" nonBlock onClick={() => setMode("view")}>
-                <FiX /> Отмена
+                <FiX /> назад
               </Button>
             </div>
             <ChangePassword />

@@ -17,14 +17,29 @@ export const FormWrapSection = (props: FormWrapSectionProps) => {
   const navigate = useNavigate();
   const [showTips, setShowTips] = useState(false);
 
+  const highlightLastWord = (title: string) => {
+    const words = title.split(" ");
+
+    if (words.length === 1) {
+      return <span>{title}</span>
+    }
+
+    const lastWord = words.pop()
+    const restText = words.join(" ")
+
+    return (
+      <span>// {restText} <span className={styled.FormWrapSection__HighlightTitle}>{lastWord}</span> </span>
+    )
+  }
+
   return (
     <section className={styled.FormWrapSection}>
       <div className={styled.FormWrapSection__Header}>
         <Button variant="cancel" nonBlock onClick={() => navigate(-1)}>
-          <FiArrowLeft /> Назад
+          <FiArrowLeft /> назад
         </Button>
 
-        <h2>{props.title}</h2>
+        <span>{highlightLastWord(props.title)}</span>
 
         <FormTipsButton
           onClick={() => setShowTips(!showTips)}

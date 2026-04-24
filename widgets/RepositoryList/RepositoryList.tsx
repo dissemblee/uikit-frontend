@@ -14,7 +14,7 @@ export const RepositoryList = () => {
 
   return (
     <ListWrapSection
-      title="Репозитории"
+      title="обзор репозиториев"
       action={
         <Link to="/repositories/create">
           <ButtonCreate />

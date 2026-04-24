@@ -1,32 +1,17 @@
 @use '../../styles/mixins' as *;
 @use '../../styles/variables' as *;
 
-$glass-bg: rgba(255, 255, 255, 0.10);
-$glass-bg-hover: rgba(255, 255, 255, 0.20);
-$glass-bg-focus: rgba(255, 255, 255, 0.22);
-$glass-border-color: rgba(255, 255, 255, 0.30);
-$glass-border-hover: rgba(255, 255, 255, 0.75);
-$glass-border-focus: rgba(255, 255, 255, 0.90);
-$glass-border-error: rgba(230, 57, 70, 0.85);
-$glass-glow-focus:
-  0 0 0 1.5px rgba(255, 255, 255, 0.80),
-  0 0 $value-2 2px rgba(90, 150, 255, 0.45),
-  0 0 $value-8 $value-2 rgba(80, 130, 255, 0.18);
-$glass-glow-error:
-  0 0 0 1.5px rgba(255, 255, 255, 0.65),
-  0 0 $value-2 2px rgba(230, 57, 70, 0.45),
-  0 0 $value-8 $value-2 rgba(230, 57, 70, 0.18);
-$glass-blur: blur($value-3);
-$text-primary: rgba(20, 30, 60, 0.9);
-$text-secondary: rgba(20, 30, 60, 0.5);
-$text-label: rgba(20, 30, 60, 0.6);
-$accent: rgba(80, 140, 230, 0.9);
-$error: #e63946;
-$radius: $value-3_5;
-$transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+$input-bg:           #F4F3FB;
+$input-bg-hover:     #EEEDFE;
+$input-bg-focus:     #ffffff;
+$input-border:       #CECBF6;
+$input-border-hover: #AFA9EC;
+$input-border-error: #E24B4A;
+$input-radius:       $rounded-lg;
+$input-transition:   all 0.18s ease;
 
 .Input {
-  margin-bottom: 1.25rem;
+  margin-bottom: $value-5;
   position: relative;
 }
 
@@ -35,44 +20,46 @@ $transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   align-items: center;
   gap: $value-1_5;
   font-size: $value-3;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: $text-label;
+  font-family: 'Geist Mono', monospace;
+  letter-spacing: 0.06em;
+  color: $subtitle-color;
   margin-bottom: $value-1_5;
-  transition: $transition;
 
-  svg {
-    font-size: 0.9rem;
+  &::before {
+    color: $accent;
+    font-size: $value-3;
     opacity: 0.7;
   }
 }
 
 .Input__Field {
-  @include glassSurface;
   width: 100%;
-  padding: $value-3 $value-4;
-  border-radius: $radius;
-  transition: $transition;
-  font-size: $value-4;
-  font-family: inherit;
+  padding: $value-2 $value-3;
+  font-size: $value-3_5;
+  font-family: 'Geist Mono', monospace;
+  color: $title-color;
+  background: $input-bg;
+  border: 0.5px solid $input-border;
+  border-radius: $input-radius;
   outline: none;
+  transition: $input-transition;
   appearance: none;
   -webkit-appearance: none;
 
   &::placeholder {
-    color: $text-secondary;
-    transition: $transition;
+    color: #a0a0b0;
+    font-family: 'Geist Mono', monospace;
   }
 
   &:hover {
-    @include glassSurfaceHover;
+    border-color: $input-border-hover;
+    background: $input-bg-hover;
   }
 
   &:focus {
-    background: $glass-bg-focus;
-    border-color: $glass-border-focus;
-    box-shadow: $glass-glow-focus, inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    background: $input-bg-focus;
+    border-color: $accent;
+    box-shadow: 0 0 0 3px rgba(127, 119, 221, 0.12);
 
     &::placeholder {
       opacity: 0;
@@ -87,40 +74,43 @@ $transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .Input__Field--text {
-  height: $value-12;
+  height: $value-10;
 }
 
 .Input__Field--textarea {
   resize: none;
   min-height: $value-24;
   line-height: 1.6;
+  padding: $value-3 $value-4;
 }
 
 .Input__Field--select {
-  height: $value-12;
+  height: $value-10;
   cursor: pointer;
   padding-right: $value-10;
-  color: $text-primary;
-  
+  color: $title-color;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%237F77DD' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right $value-3 center;
+
   option {
-    @include glassSurfaceHover;
-    color: $text-primary;
+    background: #ffffff;
+    color: $title-color;
   }
 }
 
 .Input__Field--error {
-  border-color: $glass-border-error;
-  background: rgba(230, 57, 70, 0.08);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-color: $input-border-error;
+  background: rgba(226, 75, 74, 0.04);
 
   &:hover {
-    border-color: rgba(255, 100, 110, 0.95);
-    background: rgba(230, 57, 70, 0.11);
+    border-color: $input-border-error;
+    background: rgba(226, 75, 74, 0.07);
   }
 
   &:focus {
-    box-shadow: $glass-glow-error, inset 0 1px 0 rgba(255, 255, 255, 0.25);
-    border-color: $glass-border-error;
+    border-color: $input-border-error;
+    box-shadow: 0 0 0 3px rgba(226, 75, 74, 0.10);
   }
 }
 
@@ -130,18 +120,27 @@ $transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   gap: $value-1;
   margin-top: $value-1_5;
   font-size: $value-3;
-  font-weight: 500;
-  color: $error;
-  animation: errorSlide 0.2s ease;
+  font-family: 'Geist Mono', monospace;
+  color: $input-border-error;
 
   &::before {
-    content: "⚠";
-    font-size: 0.7rem;
+    content: '!';
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: $input-border-error;
+    color: white;
+    font-size: 10px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
   }
 }
 
 .Input--checkbox {
-  margin-bottom: 0.75rem;
+  margin-bottom: $value-3;
 }
 
 .Input__CheckboxLabel {
@@ -149,10 +148,10 @@ $transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   align-items: center;
   gap: $value-2_5;
   cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: $text-primary;
-  transition: $transition;
+  font-size: $value-3_5;
+  font-family: 'Geist Mono', monospace;
+  color: $title-color;
+  transition: $input-transition;
   user-select: none;
 
   &:hover {
@@ -160,101 +159,79 @@ $transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
-.Input__CheckboxLabel:hover .Input__Checkbox {
-  border-color: rgba(80, 140, 230, 0.6);
-  background: rgba(80, 140, 230, 0.08);
-}
-
 .Input__Checkbox {
   width: $value-5;
   height: $value-5;
   min-width: $value-5;
   border-radius: $rounded-md;
-  border: 1.5px solid $glass-border-color;
-  background: $glass-bg;
-  backdrop-filter: $glass-blur;
+  border: 0.5px solid $input-border;
+  background: $input-bg;
   cursor: pointer;
-  transition: $transition;
+  transition: $input-transition;
   appearance: none;
   -webkit-appearance: none;
   position: relative;
 
+  &:hover {
+    border-color: $accent;
+    background: #EEEDFE;
+  }
+
   &:checked {
-    background: linear-gradient(135deg, rgba(80, 140, 230, 0.8), rgba(100, 160, 255, 0.9));
-    border-color: rgba(80, 140, 230, 0.8);
-    box-shadow: 0 0 0 3px rgba(80, 140, 230, 0.15);
+    background: $accent;
+    border-color: $accent;
   }
 
   &:checked::after {
     content: '';
     position: absolute;
-    left: $value-1_5;
-    top: 3px;
-    width: 5px;
-    height: 9px;
-    border: solid rgba(255, 255, 255, 0.95);
-    border-width: 0 2px 2px 0;
+    left: 5px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 1.5px 1.5px 0;
     transform: rotate(45deg);
   }
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(80, 140, 230, 0.18);
+    box-shadow: 0 0 0 3px rgba(127, 119, 221, 0.12);
   }
-
-  &:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-}
-
-.Input__CheckboxText {
-  line-height: 1.4;
-  color: $text-primary;
 }
 
 .FileInput {
-  margin-bottom: 1.25rem;
+  margin-bottom: $value-5;
   width: 100%;
-}
-
-.FileInput--dragging {
-  .FileInput__Dropzone {
-    @include glassSurface;
-  }
-}
-
-.FileInput--error {
-  .FileInput__Dropzone {
-    border-color: $glass-border-error;
-    background: rgba(230, 57, 70, 0.05);
-  }
 }
 
 .FileInput__Dropzone {
   width: 100%;
-  min-height: 140px;
-  border: 1.5px dashed $glass-border-color;
-  border-radius: $radius;
-  background: $glass-bg;
-  backdrop-filter: $glass-blur;
-  -webkit-backdrop-filter: $glass-blur;
+  min-height: 120px;
+  border: 1px dashed $input-border;
+  border-radius: $input-radius;
+  background: $input-bg;
   cursor: pointer;
-  transition: $transition;
+  transition: $input-transition;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
 
   &:hover {
-    background: $glass-bg-hover;
-    border-color: rgba(255, 255, 255, 0.70);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.5),
-      0 2px 1$value-1_5 rgba(0, 0, 0, 0.10),
-      0 0 0 1px rgba(255, 255, 255, 0.20);
+    background: #EEEDFE;
+    border-color: $accent;
   }
+}
+
+.FileInput--dragging .FileInput__Dropzone {
+  background: #EEEDFE;
+  border-color: $accent;
+  box-shadow: 0 0 0 3px rgba(127, 119, 221, 0.12);
+}
+
+.FileInput--error .FileInput__Dropzone {
+  border-color: $input-border-error;
+  background: rgba(226, 75, 74, 0.04);
 }
 
 .FileInput__Input {
@@ -264,30 +241,34 @@ $transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 .FileInput__Placeholder {
   text-align: center;
   padding: $value-6 $value-5;
-  color: $text-secondary;
   pointer-events: none;
 }
 
 .FileInput__UploadIcon {
-  font-size: 2rem;
-  margin-bottom: $value-2_5;
-  color: $accent;
   display: block;
   margin: 0 auto $value-3;
-  animation: floatIcon 3s ease-in-out infinite;
+  color: $accent;
+  width: 20px;
+  height: 20px;
 }
 
 .FileInput__Title {
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-size: $value-3_5;
+  font-family: 'Geist Mono', monospace;
+  font-weight: 500;
+  color: $title-color;
   margin-bottom: $value-1_5;
-  color: $text-primary;
 }
 
 .FileInput__Hint {
   font-size: $value-3;
-  color: $text-secondary;
-  margin: 3px 0;
+  font-family: 'Geist Mono', monospace;
+  color: #a0a0b0;
+  margin: 2px 0;
+
+  span {
+    color: $accent;
+  }
 }
 
 .FileInput__FileInfo {
@@ -296,14 +277,13 @@ $transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   gap: $value-3;
   padding: $value-4 $value-5;
   width: 100%;
-  position: relative;
-  z-index: 1;
 }
 
 .FileInput__FileIcon {
-  font-size: $value-7;
   color: $accent;
   flex-shrink: 0;
+  width: 24px;
+  height: 24px;
 }
 
 .FileInput__FileDetails {
@@ -312,80 +292,54 @@ $transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .FileInput__FileName {
-  font-weight: 600;
-  font-size: $value-4;
-  color: $text-primary;
+  font-size: $value-3_5;
+  font-family: 'Geist Mono', monospace;
+  font-weight: 500;
+  color: $title-color;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .FileInput__FileSize {
-  font-size: $value-3_5;
-  color: $text-secondary;
+  font-size: $value-3;
+  font-family: 'Geist Mono', monospace;
+  color: #7a7a8a;
+  margin-top: 2px;
 }
 
 .FileInput__RemoveButton {
-  background: rgba(230, 57, 70, 0.08);
-  border: 1px solid rgba(230, 57, 70, 0.2);
+  background: rgba(226, 75, 74, 0.06);
+  border: 0.5px solid rgba(226, 75, 74, 0.2);
+  border-radius: $rounded-lg;
   cursor: pointer;
   padding: $value-1_5;
-  @include flexCenter;
-  color: rgba(230, 57, 70, 0.7);
-  transition: $transition;
-  border-radius: $rounded-lg;
-  pointer-events: all;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(226, 75, 74, 0.7);
+  transition: $input-transition;
   flex-shrink: 0;
 
   &:hover {
-    color: $error;
-    background: rgba(230, 57, 70, 0.15);
-    border-color: rgba(230, 57, 70, 0.4);
-    transform: scale(1.08);
-  }
-
-  svg {
-    font-size: $value-4;
+    color: $input-border-error;
+    background: rgba(226, 75, 74, 0.12);
+    border-color: rgba(226, 75, 74, 0.4);
   }
 }
 
 .FileInput__CheckIcon {
-  color: rgba(40, 167, 80, 0.85);
-  font-size: $value-5;
+  color: #1D9E75;
   flex-shrink: 0;
-  animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  width: 18px;
+  height: 18px;
 }
 
 @keyframes errorSlide {
-  from {
-    opacity: 0;
-    transform: translateY(-$value-1);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes floatIcon {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-$value-1_5);
-  }
-}
-
-@keyframes popIn {
-  0% {
-    transform: scale(0) rotate(-10deg);
-    opacity: 0;
-  }
-  70% {
-    transform: scale(1.2) rotate(3deg);
-  }
-  100% {
-    transform: scale(1) rotate(0deg);
-    opacity: 1;
-  }
+.Input__Error {
+  animation: errorSlide 0.15s ease;
 }

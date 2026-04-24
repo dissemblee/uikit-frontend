@@ -1,16 +1,24 @@
 import { Link } from "react-router";
 import styled from "./welcome.module.scss"
+import { BentoSection } from "@widgets/BentoSection";
 
 export function Welcome() {
   return (
     <main className={styled.Welcome}>
-      <nav className={styled.Welcome__nav}>
-        <Link to="/login">Login</Link>
-        <Link to="/registration">Register</Link>
-        <Link to="/repositories">Репозитории</Link>
-        <Link to="/repositories/create">Создать Репозиторий</Link>
-        <Link to="/components">Компоненты</Link>
-      </nav>
+      <div className={styled.Welcome__Hero}>
+        <h5 className={styled.Welcome__Domain}>
+          // component registry
+        </h5>
+        <h1 className={styled.Welcome__Title}>
+          Your components. <br />
+          <span>Without the bloat.</span>
+        </h1>
+        <p className={styled.Welcome__About}>
+          Publish, discover and install individual UI components — no full UI kit required. 
+          Just the parts you actually need.
+        </p>
+      </div>
+      <BentoSection />
     </main>
   );
 }

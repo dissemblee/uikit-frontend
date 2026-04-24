@@ -2,47 +2,92 @@
 @use '../../shared/styles/mixins' as *;
 
 .Header {
-  @include glassCard;
   @include flexBetween;
-  padding: 0 $value-8;
-  height: 90px;
-  position: sticky;
-  top: $value-2;
-  z-index: 100;
+  padding: $value-5 $value-8;
+  background-color: #FFFFFF;
+  gap: $value-6;
+  flex-wrap: wrap;
 }
 
-.Header__name {
-  font-size: 2rem;
-  color: $title-color;
-  letter-spacing: 0.2em;
-}
-
-.Header__link {
-  padding: $value-2_5 $value-5;
-  border-radius: $rounded-2xl;
-  font-size: $value-5;
-  color: rgba(10, 30, 70, 0.60);
+.Header__Logo {
   text-decoration: none;
-  letter-spacing: 0.02em;
-
-  &:hover {
-    color: $title-color;
-    background: rgba(255, 255, 255, 0.25);
-  }
-
-  &.active {
-    color: $title-color;
-    background: rgba(255, 255, 255, 0.30);
-    border: 1px solid rgba(255, 255, 255, 0.45);
-  }
+  flex-shrink: 0;
 }
 
-.Header__actions {
+.Header__Logo:hover {
+  opacity: 0.8;
+}
+
+.Header__Nav {
   @include flexCenter;
   gap: $value-2;
+  flex: 1;
+  flex-wrap: wrap;
 }
 
-.Header__userSkeleton {
+.Header__Link {
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.Header__Link:hover .Header__Command {
+  background: #F0EEFF;
+}
+
+.Header__ActivePrompt {
+  background: #F0EEFF;
+  border-radius: $rounded-lg;
+  border-left: 2px solid $accent;
+}
+
+.Header__Command {
+  @include flexCenter;
+  gap: $value-1_5;
+  padding: $value-1_5 $value-3;
+  border-radius: $rounded-lg;
+  font-size: $value-3_5;
+  background: transparent;
+  transition: background 0.2s ease;
+}
+
+.Header__PromptSymbol {
+  color: #8A8AAA;
+  font-weight: 500;
+}
+
+.Header__CommandText {
+  color: #5A5A7A;
+}
+
+.Header__Output {
+  color: $accent;
+  margin-left: $value-1;
+}
+
+.Header__Actions {
+  @include flexCenter;
+  gap: $value-2;
+  flex-shrink: 0;
+}
+
+.Header__UserCode {
+  @include flexCenter;
+  gap: $value-1_5;
+  font-size: $value-3_5;
+}
+
+.Header__LoginCode {
+  @include flexCenter;
+  gap: $value-1_5;
+  font-size: $value-3_5;
+}
+
+.Header__Arrow {
+  margin-left: $value-1;
+  color: #8A8AAA;
+}
+
+.Header__UserSkeleton {
   width: $value-16;
   height: $value-16;
   border-radius: 50%;

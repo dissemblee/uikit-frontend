@@ -29,7 +29,7 @@ export const Input = ({ label, error, className, icon, ...props }: InputProps) =
   return (
     <div className={styles.Input}>
       <label htmlFor={props.id} className={styles.Input__Label}>
-        {icon ? icon : null} {label}
+        // {label}
       </label>
       <div style={{display: 'flex'}}>
         <input 
@@ -55,7 +55,7 @@ export const Textarea = ({ label, error, className, icon, ...props }: TextareaPr
   return (
     <div className={styles.Input}>
       <label htmlFor={props.id} className={styles.Input__Label}>
-        {icon ? icon : null} {label}
+        // {label}
       </label>
       <textarea 
         {...props} 
@@ -86,7 +86,7 @@ export const Select = ({ label, error, options, icon, className, ...props }: Sel
   return (
     <div className={styles.Input}>
       <label htmlFor={props.id} className={styles.Input__Label}>
-        {icon ? icon : null} {label}
+        // {label}
       </label>
       <select {...props} className={fieldClasses}>
         <option value="">Выберите опцию</option>
@@ -141,7 +141,7 @@ export const FileInput = ({
   icon,
   value,
   onChange,
-  acceptedFileTypes = ['.zip', '.rar', '.7z', '.tar', '.gz', '.tgz'],
+  acceptedFileTypes,
   maxSize = 10 * 1024 * 1024,
   className,
   ...props
@@ -168,12 +168,14 @@ export const FileInput = ({
   }
 
   const validateFile = (file: File): string | null => {
-    const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase()
-    if (!acceptedFileTypes.includes(fileExtension)) {
-      return `Допустимые форматы: ${acceptedFileTypes.join(', ')}`
+    if (acceptedFileTypes && acceptedFileTypes.length > 0) {
+      const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase()
+      if (!acceptedFileTypes.includes(fileExtension)) {
+        return `Acceptable formats: ${acceptedFileTypes.join(', ')}`
+      }
     }
     if (file.size > maxSize) {
-      return `Размер файла не должен превышать ${maxSize / (1024 * 1024)}MB`
+      return `File size must not exceed ${maxSize / (1024 * 1024)}MB`
     }
     return null
   }
@@ -242,7 +244,7 @@ export const FileInput = ({
   return (
     <div className={wrapperClasses}>
       <label className={styles.Input__Label}>
-        {icon ? icon : <FiArchive />} {label}
+        {label}
       </label>
 
       <input
@@ -250,7 +252,7 @@ export const FileInput = ({
         type="file"
         className={styles.FileInput__Input}
         onChange={handleFileSelect}
-        accept={acceptedFileTypes.join(',')}
+        accept={acceptedFileTypes?.join(',')}
         {...props}
       />
 
@@ -266,13 +268,15 @@ export const FileInput = ({
           <div className={styles.FileInput__Placeholder}>
             <FiUpload className={styles.FileInput__UploadIcon} />
             <div className={styles.FileInput__Title}>
-              {isDragging ? 'Отпустите файл' : 'Перетащите архив или нажмите для выбора'}
+              {isDragging ? 'Drop file' : 'Drag and drop or click to select'}
             </div>
+            {acceptedFileTypes && (
+              <div className={styles.FileInput__Hint}>
+                Acceptable formats: {acceptedFileTypes.join(', ')}
+              </div>
+            )}
             <div className={styles.FileInput__Hint}>
-              Допустимые форматы: {acceptedFileTypes.join(', ')}
-            </div>
-            <div className={styles.FileInput__Hint}>
-              Максимальный размер: {maxSize / (1024 * 1024)}MB
+              Maximum size: {maxSize / (1024 * 1024)}MB
             </div>
           </div>
         ) : (

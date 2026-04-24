@@ -1,0 +1,45 @@
+@use '../../../shared/styles/variables' as *;
+@use '../../../shared/styles/mixins' as *;
+
+.Prompt {
+  @include flexCenter;
+  gap: $value-1;
+  background: #F0EEFF;
+  padding: $value-1_5 $value-3;
+  border-radius: $rounded-lg;
+  font-family: 'Geist Mono', 'JetBrains Mono', Menlo, monospace;
+  font-size: $value-3_5;
+}
+
+.Prompt__User {
+  color: #4A4A5A;
+}
+
+.Prompt__Separator {
+  color: $border-color;
+}
+
+.Prompt__Path {
+  color: $accent;
+  font-weight: 500;
+}
+
+.Prompt__Dollar {
+  color: #6A6A8A;
+  margin-left: $value-1;
+}
+
+.Prompt__Cursor {
+  color: $accent;
+  margin-left: $value-0_5;
+  animation: PromptBlink 1s step-end infinite;
+}
+
+@keyframes PromptBlink {
+  0%, 100% { 
+    opacity: 1; 
+  }
+  50% { 
+    opacity: 0; 
+  }
+}

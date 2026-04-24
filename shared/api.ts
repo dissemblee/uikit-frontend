@@ -16,6 +16,8 @@ interface ApiArgs {
   data?: any;
   body?: unknown;
   params?: Record<string, any>;
+  service?: "components" | "auth" | "user";
+  formData?: boolean;
 }
 
 interface ApiArgsAxios<TData = any> {
@@ -24,31 +26,40 @@ interface ApiArgsAxios<TData = any> {
   method: "GET" | "POST" | "PUT" | "DELETE"
   data?: TData
   query?: Record<string, any>
+  service?: "components" | "auth" | "user"
+  formData?: boolean;
 }
 
-/**
- * Axios instance с правильными заголовками и withCredentials
- */
-const axiosInstance = axios.create({
-  baseURL: "http://localhost:81/api/",
-  withCredentials: true,
-  headers: {
-    Accept: "application/json",
+const SERVICES = {
+  components: {
+    baseURL: "http://localhost:80/api/",
+    port: 80
   },
-})
+  auth: {
+    baseURL: "http://localhost:81/api/",
+    port: 81
+  },
+  user: {
+    baseURL: "http://localhost:8081/api/",
+    port: 8081
+  }
+};
 
-/**
- * Makes a request to the backend API.
- *
- * @param {ApiArgs<TData>} args - The request arguments.
- * @returns {Promise<AxiosResponse<TResponse>>} - The response.
- *
- * @throws {Error} - If there is an error with the request.
- */
+const getAxiosInstance = (service: "components" | "auth" | "user" = "components") => {
+  return axios.create({
+    baseURL: SERVICES[service].baseURL,
+    withCredentials: true,
+    headers: {
+      Accept: "application/json",
+    },
+  });
+};
+
 export async function $api<TResponse = any, TData = any>(
   args: ApiArgsAxios<TData>
 ): Promise<AxiosResponse<TResponse>> {
-
+  const axiosInstance = getAxiosInstance(args.service || "components");
+  
   try {
     const response = await axiosInstance.request<TResponse>({
       url: args.id ? `${args.endPoint}/${args.id}` : args.endPoint,
@@ -58,7 +69,7 @@ export async function $api<TResponse = any, TData = any>(
       withCredentials: true,
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Barer"
+        "Authorization": "Bearer"
       }
     })
 
@@ -69,26 +80,32 @@ export async function $api<TResponse = any, TData = any>(
   }
 }
 
-/**
- * customBaseQuery для RTK Query
- */
 export const customBaseQuery: BaseQueryFn<
   ApiArgs,
   unknown,
   { status?: number; data?: any }
-> = async ({ url, method = "GET", body, params }) => {
+> = async ({ url, method = "GET", body, params, service = "components", formData = false }) => {
   try {
     const token = tokenStore.get();
+    const axiosInstance = getAxiosInstance(service);
+    const headers: Record<string, string> = {};
+    console.log('Token being sent:', token);
+    console.log('Request URL:', url);
+    console.log('Method:', method);
+    if (!formData) {
+      headers["Content-Type"] = "application/json";
+    }
+
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
 
     const response = await axiosInstance.request({
       url,
       method,
       data: body,
       params,
-      headers: {
-        "Content-Type": "application/json",
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      },
+      headers,
     });
 
     return { data: response.data };
@@ -105,7 +122,7 @@ export const customBaseQuery: BaseQueryFn<
 
 export const baseApi = createApi({
   reducerPath: "baseApi",
-  baseQuery: mockBaseQuery,
+  baseQuery: customBaseQuery,
   tagTypes: ["Users", "Repositories", "Components", "Builds"],
   endpoints: () => ({}),
 });

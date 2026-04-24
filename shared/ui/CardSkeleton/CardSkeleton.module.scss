@@ -5,8 +5,8 @@
   @include flexCenter;
   padding: $value-3_5 $value-4;
   border-radius: $value-4;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.20);
+  background: rgba(225, 225, 225, 0.562);
+  border: 1px solid rgba(225, 225, 225, 0.20);
   animation: skeletonPulse 1.6s ease-in-out infinite both;
 }
 
@@ -38,8 +38,7 @@
 .CardSkeleton__icon {
   width: $value-8;
   height: $value-8;
-  border-radius:
-  $value-2;
+  border-radius: $value-2;
 }
 
 .CardSkeleton__name {

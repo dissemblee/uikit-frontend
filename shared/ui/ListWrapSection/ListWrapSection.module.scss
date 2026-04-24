@@ -2,9 +2,7 @@
 @use '../../styles/variables' as *;
 
 .ListWrapSection {
-  @include glassCard;
-  display: flex;
-  flex-direction: column;
+  @include flexColumn;
   gap: $value-4;
   padding: $value-6;
   width: 100%;
@@ -13,13 +11,26 @@
 .ListWrapSection__Header {
   @include flexBetween;
   @include divider;
-  flex-wrap: wrap;
 }
 
-.ListWrapSection__Title {
-  font-size: $value-6;
+.ListWrapSection__TitleCode {
+  display: inline-flex;
+  align-items: center;
+  gap: $value-2;
+  font-size: $value-5;
+  background: #F4F3FB;
+  padding: $value-1_5 $value-3;
+  border-radius: $rounded-lg;
   color: $title-color;
-  letter-spacing: -0.02em;
+}
+
+.ListWrapSection__Comment {
+  color: #8A8AAA;
+}
+
+.ListWrapSection__HighlightTitle {
+  color: $accent;
+  font-weight: 500;
 }
 
 .ListWrapSection__Action {
@@ -28,28 +39,86 @@
 
 .ListWrapSection__Body {
   @include flexColumn;
+  @include baseCard;
   gap: $value-1;
+  min-height: 800px;
+  position: relative;
+}
+
+.ListWrapSection__StatsLine {
+  display: flex;
+  align-items: center;
+  gap: $value-2;
+  padding: $value-1_5 $value-3;
+  background: #F4F3FB;
+  border-bottom: 1px solid $border-color;
+  font-size: $value-3;
+}
+
+.ListWrapSection__Stats {
+  display: inline-flex;
+  align-items: center;
+  gap: $value-2;
+  flex-wrap: wrap;
+}
+
+.ListWrapSection__StatsPrompt {
+  color: #8A8AAA;
+}
+
+.ListWrapSection__StatsCommand {
+  color: #CE9178;
+}
+
+.ListWrapSection__StatsOutput {
+  color: #4EC9B0;
+}
+
+.ListWrapSection__StatsTime {
+  color: #8A8AAA;
+  font-size: $value-3;
 }
 
 .ListWrapSection__State {
   @include flexCenter;
   @include flexColumn;
-  gap: $value-2;
+  gap: $value-3;
   padding: $value-12 $value-5;
-  color: $subtitle-color;
   animation: fadeUp 0.3s ease both;
+}
 
-  span {
-    font-size: $value-10;
-    filter: grayscale(0.2);
-  }
+.ListWrapSection__StateIcon {
+  font-size: $value-10;
+  filter: grayscale(0.2);
+}
 
-  p {
-    font-size: $value-5;
-  }
+.ListWrapSection__StateMessage {
+  @include flexCenter;
+  gap: $value-2;
+  font-size: $value-4;
+  background: #F4F3FB;
+  padding: $value-2 $value-4;
+  border-radius: $rounded-lg;
+  color: $title-color;
+}
+
+.ListWrapSection__ErrorPrompt {
+  color: #E5484D;
+  font-weight: 500;
+}
+
+.ListWrapSection__InfoPrompt {
+  color: $accent;
+  font-weight: 500;
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0);   }
+  from { 
+    opacity: 0; 
+    transform: translateY($value-2); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
 }

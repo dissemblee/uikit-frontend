@@ -4,7 +4,7 @@ import { Button } from "@shared/ui/Button";
 import { FormError } from "@shared/ui/FormError";
 import { Input } from "@shared/ui/Inputs";
 
-export const EditProfile = ({ id }: { id: number }) => {
+export const EditProfile = () => {
   const [ updateUser, {isLoading} ] = useUpdateUserMutation()
 
   const form = useForm({
@@ -22,7 +22,6 @@ export const EditProfile = ({ id }: { id: number }) => {
 
     async onSubmit(values) {
       const result = await updateUser({
-        id: id,
         data: {
           email: values.email
         }

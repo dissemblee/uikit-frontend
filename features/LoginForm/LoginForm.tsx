@@ -1,7 +1,8 @@
 import { useForm } from "@shared/hooks/useForm";
+import { AccountCheck } from "@shared/ui/AccountCheck";
 import { Button } from "@shared/ui/Button";
 import { FormError } from "@shared/ui/FormError";
-import { Input } from "@shared/ui/Inputs/Inputs";
+import { Input } from "@shared/ui/Inputs";
 import { useNavigate } from "react-router";
 import { useAuthContext } from "~/provider/AuthProvider";
 
@@ -48,9 +49,11 @@ export const LoginForm = () => {
         placeholder="qwerty1234"
       />
       <FormError message={form.submitError} />
-      
-      <Button type="submit" disabled={form.isSubmitting} loading={loading} loadingText="Пытаемся войти">
-        🚀 Войти
+
+      <AccountCheck isAccount={false} />
+
+      <Button type="submit" disabled={form.isSubmitting} loading={loading} loadingText="Пытаемся войти" nonBlock>
+        Войти
       </Button>
     </form>
   );

@@ -15,8 +15,8 @@ export const ComponentCard = ({ component, index = 0 }: ComponentCardProps) => {
       icon="🧩"
       name={component.name}
       sub={component.description}
-      meta={component.meta}
-      date={component.updatedAt}
+      meta={component.framework}
+      date={component.createdAt}
       extra={
         component.type && (
           <span className={styles.ComponentCard__Type}>
