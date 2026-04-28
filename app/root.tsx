@@ -12,12 +12,12 @@ import "../shared/styles/globals.scss"
 import { ReduxProviders } from "./provider/ReduxProvider";
 import { CookiesProvider } from "react-cookie"
 import { Header } from "@widgets/Header";
-import { Background } from "@shared/ui/TetrisBackground";
 import { GlassFilters } from "@shared/ui/GlassFilters";
 import "../shared/mockServer/entites";
 import { initDb } from "@shared/mockServer/mockDb";
 import { useEffect } from "react";
 import { AuthProvider } from "./provider/AuthProvider";
+import { initAuthInterceptor } from "@entities/auth";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -37,6 +37,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     initDb();
   }, []);
 
+  initAuthInterceptor();
   return (
     <html lang="en">
       <head>

@@ -1,6 +1,7 @@
-import { baseApi } from "@shared/api";
+import { baseApi, setRefreshFn } from "@shared/api";
 import type { SignInDto, SignInResultDto, SignUpDto, SignUpResultDto } from "./auth.dto";
 import { tokenStore } from "@shared/tokenStore";
+import { store } from "~/provider/store";
 
 const ENDPOINT = "auth";
 
@@ -73,3 +74,9 @@ export const {
   useLogoutMutation,
   useRefreshMutation,
 } = authApi;
+
+export const initAuthInterceptor = () => {
+  setRefreshFn(async () => {
+    await store.dispatch(authApi.endpoints.refresh.initiate()).unwrap();
+  });
+};

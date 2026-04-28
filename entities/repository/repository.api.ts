@@ -20,6 +20,7 @@ export const repositoriesApi = baseApi.injectEndpoints({
         url: ENDPOINT,
         method: "GET",
         params: { page, perPage },
+        service: "repo",
       }),
 
       providesTags: (result) => {
@@ -44,6 +45,7 @@ export const repositoriesApi = baseApi.injectEndpoints({
       query: (id) => ({
         url: `${ENDPOINT}/${id}`,
         method: "GET",
+        service: "repo",
       }),
 
       providesTags: (result, error, id) => [
@@ -59,7 +61,8 @@ export const repositoriesApi = baseApi.injectEndpoints({
         url: ENDPOINT,
         method: "POST",
         body,
-      }),
+        service: "repo",
+        }),
 
       invalidatesTags: (result) =>
         result
@@ -78,6 +81,7 @@ export const repositoriesApi = baseApi.injectEndpoints({
         url: `${ENDPOINT}/${id}`,
         method: "PATCH",
         body: data,
+        service: "repo",
       }),
 
       invalidatesTags: (result, error, { id }) => [
@@ -93,6 +97,7 @@ export const repositoriesApi = baseApi.injectEndpoints({
       query: (id) => ({
         url: `${ENDPOINT}/${id}`,
         method: "DELETE",
+        service: "repo",
       }),
 
       invalidatesTags: (result, error, id) => [
