@@ -4,6 +4,7 @@ import { useRegisterMutation } from "@entities/auth";
 import { useGetUserByIdQuery } from "@entities/user";
 import { useCookies } from "react-cookie";
 import { tokenStore } from "@shared/tokenStore";
+import { useGetMeQuery } from "@entities/user/user.api";
 
 export const useAuth = () => {
   const [cookies] = useCookies(["isAuth"]);
@@ -23,9 +24,7 @@ export const useAuth = () => {
   const hasToken = !!tokenStore.get();
   const isSessionAlive = hasToken || isAuthCookie;
 
-  const { data: user, isLoading: isUserLoading } = useGetUserByIdQuery("me", {
-    skip: !isSessionAlive || refreshState.isLoading,
-  });
+  const { data: user, isLoading: isUserLoading } = useGetMeQuery();
 
   const register = useCallback(
     async (data: Parameters<typeof registerMutation>[0]) => {

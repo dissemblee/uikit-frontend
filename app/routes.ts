@@ -16,10 +16,10 @@ export default [
   layout("provider/ProtectedRoute.tsx", [
     ...prefix("repositories", [
       route("create", "routes/repositoryCreateRoute.tsx"),
+      route("/:username/:name", "routes/repositorySingleRoute.tsx"),
     ]),
     ...prefix("components", [
       route("create", "routes/componentCreateRoute.tsx"),
-      route("/:username/:name", "routes/componentSingleRoute.tsx"),
     ]),
     ...prefix("builds", [
       route("/", "routes/buildListRoute.tsx"),

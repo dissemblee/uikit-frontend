@@ -2,6 +2,7 @@ import { baseApi, setRefreshFn } from "@shared/api";
 import type { SignInDto, SignInResultDto, SignUpDto, SignUpResultDto } from "./auth.dto";
 import { tokenStore } from "@shared/tokenStore";
 import { store } from "~/provider/store";
+import type { UserChangePasswordDto } from "@entities/user/user.dto";
 
 const ENDPOINT = "auth";
 
@@ -58,11 +59,25 @@ export const authApi = baseApi.injectEndpoints({
         
         if (accessToken) {
           tokenStore.set(accessToken);
-          console.log('🔄 Token refreshed and saved');
+          console.log('Token refreshed and saved');
         }
         
         return response;
       },
+    }),
+
+    changePassword: builder.mutation<
+      { result: { success: boolean } },
+      UserChangePasswordDto
+    >({
+      query: (body) => ({
+        url: `${ENDPOINT}/change-password`,
+        method: "POST",
+        body,
+        service: "auth"
+      }),
+
+      invalidatesTags: [],
     }),
   }),
   overrideExisting: false,
@@ -73,6 +88,7 @@ export const {
   useLoginMutation,
   useLogoutMutation,
   useRefreshMutation,
+  useChangePasswordMutation
 } = authApi;
 
 export const initAuthInterceptor = () => {

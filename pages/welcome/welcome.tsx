@@ -7,15 +7,14 @@ export function Welcome() {
     <main className={styled.Welcome}>
       <div className={styled.Welcome__Hero}>
         <h5 className={styled.Welcome__Domain}>
-          // component registry
+          // реестр компонентов
         </h5>
         <h1 className={styled.Welcome__Title}>
-          Your components. <br />
-          <span>Without the bloat.</span>
+          Ваши компоненты. <br />
+          <span>Без раздувания кода.</span>
         </h1>
         <p className={styled.Welcome__About}>
-          Publish, discover and install individual UI components — no full UI kit required. 
-          Just the parts you actually need.
+          Публикуйте, находите и устанавливайте отдельные UI-компоненты.  Только те части, которые вам действительно нужны.
         </p>
       </div>
       <BentoSection />

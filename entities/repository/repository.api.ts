@@ -14,55 +14,60 @@ export const repositoriesApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllRepositories: builder.query<
       RepositoryCursorResultDto,
-      { page?: number; perPage?: number }
+      { skip?: number; limit?: number }
     >({
-      query: ({ page = 1, perPage = 10 }) => ({
+      query: ({ skip = 0, limit = 10 }) => ({
         url: ENDPOINT,
         method: "GET",
-        params: { page, perPage },
+        params: { skip, limit },
         service: "repo",
       }),
 
       providesTags: (result) => {
-        if (!result?.result?.data) {
-          return [{ type: "Repositories", id: "LIST" }];
-        }
-
+        const repo = result?.result?.data;
+        if (!repo) return [{ type: "Repositories", id: "LIST" }];
         return [
-          ...result.result.data.map(({ id }) => ({
-            type: "Repositories" as const,
-            id,
-          })),
-          { type: "Repositories" as const, id: "LIST" },
+          ...repo.map(({ id }) => ({ type: "Repositories" as const, id })),
+          { type: "Repositories", id: "LIST" },
         ];
       },
     }),
 
     getRepositoryById: builder.query<
       RepositoryResultDto,
-      string
+      { username: string; name: string }
     >({
-      query: (id) => ({
-        url: `${ENDPOINT}/${id}`,
+      query: ({ username, name }) => ({
+        url: `${ENDPOINT}/${username}/${name}`,
         method: "GET",
         service: "repo",
       }),
-
-      providesTags: (result, error, id) => [
-        { type: "Repositories", id },
+      providesTags: (_result, _error, { username, name }) => [
+        { type: "Repositories", id: `${username}/${name}` },
       ],
     }),
 
+    getComponentsByUser: builder.query<
+      RepositoryCursorResultDto,
+      { username: string; skip?: number; limit?: number; startDate?: string }
+    >({
+      query: ({ username, skip = 0, limit = 10, startDate }) => ({
+        url: `${ENDPOINT}/${username}`,
+        method: "GET",
+        params: { skip, limit, startDate },
+        service: "repo",
+      }),
+    }),
     createRepository: builder.mutation<
       RepositoryCreateResultDto,
-      RepositoryCreateDto
+      FormData
     >({
       query: (body) => ({
         url: ENDPOINT,
         method: "POST",
         body,
         service: "repo",
-        }),
+      }),
 
       invalidatesTags: (result) =>
         result

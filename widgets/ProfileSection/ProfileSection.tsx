@@ -11,11 +11,13 @@ import { UserIcon } from "@features/UserIcon";
 type ProfileMode = "view" | "edit" | "password";
 
 export const ProfileSection = () => {
-  const { username } = useParams();
-  const { data, isLoading } = useGetUserByIdQuery(String(username));
+  // const { username } = useParams();
+  // const { data, isLoading } = useGetUserByIdQuery(String(username));
+
+  const { data, isLoading } = useGetUserByIdQuery("me");
   const [mode, setMode] = useState<ProfileMode>("view");
 
-  const user = data?.result;
+  const user = data;
 
   if (isLoading) return (
     <section className={styled.ProfileSection}>
@@ -37,7 +39,7 @@ export const ProfileSection = () => {
           <UserIcon />
           <div>
             <h2 className={styled.ProfileSection__Name}>
-              {user?.username ?? "Давид"}
+              {user?.id ?? "Давид"}
             </h2>
             <span className={styled.ProfileSection__Email}>
               {user?.email ?? "example@mail.ru"}
@@ -50,7 +52,7 @@ export const ProfileSection = () => {
             <div className={styled.ProfileSection__Info}>
               <div className={styled.ProfileSection__InfoRow}>
                 <span className={styled.ProfileSection__InfoLabel}>логин</span>
-                <span className={styled.ProfileSection__InfoValue}>{user?.username ?? "Давид"}</span>
+                <span className={styled.ProfileSection__InfoValue}>{user?.id ?? "Давид"}</span>
               </div>
               <div className={styled.ProfileSection__InfoRow}>
                 <span className={styled.ProfileSection__InfoLabel}>почта</span>

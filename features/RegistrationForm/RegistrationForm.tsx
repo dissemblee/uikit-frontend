@@ -1,3 +1,4 @@
+import { useCreateUserMutation } from "@entities/user/user.api";
 import { useForm } from "@shared/hooks/useForm"
 import { AccountCheck } from "@shared/ui/AccountCheck";
 import { Button } from "@shared/ui/Button"
@@ -8,6 +9,7 @@ import { useAuthContext } from "~/provider/AuthProvider";
 
 export const RegistrationForm = () => {
   const { register, loading } = useAuthContext()
+  const [ createUser, {isLoading}] = useCreateUserMutation()
   const navigate = useNavigate();
 
   const form = useForm({
@@ -29,7 +31,7 @@ export const RegistrationForm = () => {
 
     async onSubmit(values) {
       register(values)
-      navigate("/login")
+      createUser({ data: { username: values.username, email: values.email } })
     }
   })
 
@@ -59,7 +61,7 @@ export const RegistrationForm = () => {
 
       <AccountCheck isAccount />
 
-      <Button type="submit" disabled={form.isSubmitting} loading={loading} loadingText="Создаем аккаунт" nonBlock>
+      <Button type="submit" disabled={form.isSubmitting} loading={isLoading} loadingText="Создаем аккаунт" nonBlock>
         Зарегистрироваться
       </Button>
     </form>

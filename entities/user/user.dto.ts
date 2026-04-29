@@ -9,6 +9,11 @@ export interface UserUpdateDto {
   email?: string;
 }
 
+export interface UserCreateDto {
+  username: string;
+  email?: string;
+}
+
 export interface UserChangePasswordDto {
   currentPassword: string;
   newPassword: string;

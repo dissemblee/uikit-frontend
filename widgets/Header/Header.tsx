@@ -1,15 +1,11 @@
-import { Link, useLocation, useNavigate } from "react-router"
+import { Link, useLocation } from "react-router"
 import styles from "./Header.module.scss"
-import { Button } from "@shared/ui/Button";
-import { FiArrowRight, FiUser } from "react-icons/fi";
+import { FiArrowRight } from "react-icons/fi";
 import { tokenStore } from "@shared/tokenStore";
-import { useEffect, useState } from "react";
 import { Prompt } from "@shared/ui/Prompt/Prompt";
 
 export const Header = () => {
   const location = useLocation();
-  const [displayName, setDisplayName] = useState<string>("");
-
   const getCurrentPath = () => {
     const path = location.pathname;
     if (path === "/") return "~";
@@ -27,34 +23,33 @@ export const Header = () => {
     return `~${path}`;
   };
 
-  useEffect(() => {
+  const getDisplayName = () => {
     const token = tokenStore.get();
-    if (token) {
-      try {
-        const parts = token.split('.');
-        if (parts.length === 3) {
-          const payload = JSON.parse(atob(parts[1]));
-          
-          let rawUsername = payload.username || payload.userId || "User";
-          
-          try {
-            const fixed = decodeURIComponent(escape(rawUsername));
-            rawUsername = fixed;
-          } catch (e) {
-          }
-          
-          if (rawUsername.includes('Ð') || rawUsername.length > 20) {
-            setDisplayName("User");
-          } else {
-            setDisplayName(rawUsername);
-          }
+    if (!token) return "";
+    
+    try {
+      const parts = token.split('.');
+      if (parts.length === 3) {
+        const payload = JSON.parse(atob(parts[1]));
+        let rawUsername = payload.username || payload.userId || "User";
+        
+        try {
+          const fixed = decodeURIComponent(escape(rawUsername));
+          rawUsername = fixed;
+        } catch (e) {}
+        
+        if (rawUsername.includes('Ð') || rawUsername.length > 20) {
+          return "User";
         }
-      } catch (error) {
-        console.error("Failed to decode token:", error);
-        setDisplayName("User");
+        return rawUsername;
       }
+    } catch (error) {
+      console.error("Failed to decode token:", error);
     }
-  }, []);
+    return "User";
+  };
+  
+  const displayName = getDisplayName(); 
 
   const navItems = [
     { path: "/components", label: "компоненты", command: "cd компоненты" },

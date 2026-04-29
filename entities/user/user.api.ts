@@ -4,6 +4,7 @@ import type {
   UserChangePasswordDto,
   UserCursorResultDto,
   UserResultDto,
+  UserCreateDto,
 } from "./user.dto";
 
 const ENDPOINT = "user";
@@ -50,14 +51,27 @@ export const usersApi = baseApi.injectEndpoints({
       ],
     }),
 
-    updateUser: builder.mutation<
+    getMe: builder.query<UserResultDto, void>({
+      query: () => ({
+        url: `${ENDPOINT}/me`,
+        method: "GET",
+        service: "user"
+      }),
+
+      providesTags: (_result, _error) => [
+        { type: "Users", id: "me" },
+      ],
+    }),
+
+    createUser: builder.mutation<
       UserResultDto,
-      { data: UserUpdateDto }
+      { data: UserCreateDto }
     >({
       query: ({ data }) => ({
         url: `${ENDPOINT}`,
-        method: "PATCH",
+        method: "POST",
         body: data,
+        service: "user"
       }),
 
       invalidatesTags: (_result, _error,) => [
@@ -66,18 +80,21 @@ export const usersApi = baseApi.injectEndpoints({
       ],
     }),
 
-    changePassword: builder.mutation<
-      { result: { success: boolean } },
-      UserChangePasswordDto
+    updateUser: builder.mutation<
+      UserResultDto,
+      { data: UserUpdateDto }
     >({
-      query: (body) => ({
-        url: `${ENDPOINT}/change-password`,
-        method: "POST",
-        body,
+      query: ({ data }) => ({
+        url: `${ENDPOINT}`,
+        method: "PUT",
+        body: data,
         service: "user"
       }),
 
-      invalidatesTags: [],
+      invalidatesTags: (_result, _error,) => [
+        { type: "Users", },
+        { type: "Users", id: "LIST" },
+      ],
     }),
   }),
 });
@@ -85,6 +102,7 @@ export const usersApi = baseApi.injectEndpoints({
 export const {
   useGetAllUsersQuery,
   useGetUserByIdQuery,
+  useCreateUserMutation,
   useUpdateUserMutation,
-  useChangePasswordMutation,
+  useGetMeQuery,
 } = usersApi;

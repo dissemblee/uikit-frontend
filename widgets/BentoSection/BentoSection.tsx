@@ -9,10 +9,10 @@ export const BentoSection = () => {
           icon={
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="6" height="6" rx="1.5" fill="#7F77DD"></rect><rect x="10" y="2" width="6" height="6" rx="1.5" fill="#7F77DD" opacity="0.4"></rect><rect x="2" y="10" width="6" height="6" rx="1.5" fill="#7F77DD" opacity="0.4"></rect><rect x="10" y="10" width="6" height="6" rx="1.5" fill="#7F77DD" opacity="0.2"></rect></svg>
           }
-          domain={"components"}
-          title={"browse & install components"}
-          description={"Explore community-built UI components. Filter by framework, download a ready bundle and drop it straight into your node_modules."}
-          linkText={"browse components"}
+          domain={"компоненты"}
+          title={"просмотр и установка компонентов"}
+          description={"Изучайте UI-компоненты от сообщества. Фильтруйте по фреймворку, скачивайте готовый пакет и добавляйте прямо в свой node_modules."}
+          linkText={"перейти к компонентам"}
           linkTo={"/components"}
           extra={
             <div className={styled.BentoSection__TagContainer}>
@@ -29,10 +29,10 @@ export const BentoSection = () => {
           icon={
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v14M2 9h14" stroke="#7F77DD" stroke-width="1.5" stroke-linecap="round"></path></svg>
           }
-          domain={"publish"}
-          title={"upload your component"}
-          description={"Share what you've built. We compile it into a standalone bundle — others can install it just like any npm package."}
-          linkText={"publish component"}
+          domain={"публикация"}
+          title={"загрузите ваш компонент"}
+          description={"Поделитесь тем, что вы создали. Мы скомпилируем его в отдельный пакет — другие смогут установить его как любой npm-пакет."}
+          linkText={"опубликовать компонент"}
           linkTo={"/components/create"}
           backgroundColor="#EEEDFE"
           backgroundIconColor="#ffffff"
@@ -45,9 +45,9 @@ export const BentoSection = () => {
           icon={
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="6" stroke="#1D9E75" stroke-width="1.2"></circle><path d="M6 9l2 2 4-4" stroke="#1D9E75" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
           }
-          domain={"builds"}
-          title={"monitor builds"}
-          linkText={"view all builds"}
+          domain={"сборка"}
+          title={"мониторинг сборок"}
+          linkText={"смотреть все сборки"}
           linkTo={"/builds"}
           backgroundIconColor="#EAF3DE"
           extra={
@@ -83,10 +83,9 @@ export const BentoSection = () => {
           icon={
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="3" width="14" height="12" rx="2" stroke="#7F77DD" stroke-width="1.2"></rect><path d="M2 7h14" stroke="#7F77DD" stroke-width="1.2"></path><path d="M6 11h6" stroke="#7F77DD" stroke-width="1.2" stroke-linecap="round"></path></svg>
           }
-          domain={"repositories"}
-          title={"collect components into repositories"}
-          description={"Group related components into a single repository. Download the whole set as one bundle — install it as a full mini-library in your project. Perfect for design systems and shared component collections across teams."}
-          linkText={"open repositories"}
+          domain={"репозитории"}
+          title={"собирайте компоненты в сборки"}
+          description={"Объединяйте связанные компоненты в один репозиторий. Скачивайте весь набор как единый пакет — устанавливайте как полноценную мини-библиотеку в свой проект. Идеально подходит для дизайн-систем и коллекций общих компонентов для команд."}          linkText={"открыть репозитории"}
           linkTo={"/repositories"}
           backgroundColor="#EEEDFE"
           backgroundIconColor="#ffffff"
@@ -99,10 +98,9 @@ export const BentoSection = () => {
           icon={
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3" stroke="#7F77DD" stroke-width="1.2"></circle><path d="M3 15c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="#7F77DD" stroke-width="1.2" stroke-linecap="round"></path></svg>
           }
-          domain={"my components"}
-          title={"manage what you've published"}
-          description={"Edit, update versions and track download stats for components you've published. See how the community uses your work."}
-          linkText={"open repositories"}
+          domain={"мои компоненты"}
+          title={"управление опубликованным"}
+          description={"Редактируйте, обновляйте версии и отслеживайте статистику загрузок ваших опубликованных компонентов. Смотрите, как сообщество использует ваши работы."}          linkText={"open repositories"}
           linkTo={"/repositories"}
         />
       </div>
@@ -112,9 +110,9 @@ export const BentoSection = () => {
           icon={
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L11.5 7H16L12.5 10.5L14 15.5L9 12.5L4 15.5L5.5 10.5L2 7H6.5L9 2Z" stroke="#BA7517" stroke-width="1.2" stroke-linejoin="round"></path></svg>
           }
-          domain={"trending"}
-          title={"most downloaded this week"}
-          linkText={"see all"}
+          domain={"популярное"}
+          title={"самые скачиваемые за неделю"}
+          linkText={"смотреть всё"}
           linkTo={"/components"}
           backgroundIconColor="#FAEEDA"
           extra={
@@ -147,10 +145,9 @@ export const BentoSection = () => {
           icon={
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 4h10M4 8h7M4 12h5" stroke="#7F77DD" stroke-width="1.3" stroke-linecap="round"></path></svg>
           }
-          domain={"docs"}
-          title={"documentation"}
-          description={"Learn how to publish, build and install components. Explore the API reference for CI/CD integration."}
-          linkText={"read the docs"}
+          domain={"документация"}
+          title={"документация по платформе"}
+          description={"Узнайте, как публиковать, собирать и устанавливать компоненты. Изучите справочник API для интеграции с CI/CD."}          linkText={"read the docs"}
           linkTo={"/docs"}
         />
       </div>
@@ -160,10 +157,10 @@ export const BentoSection = () => {
           icon={
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 9l3 3 5-5" stroke="#7F77DD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
           }
-          domain={"get started"}
-          title={"new here?"}
-          description={"To publish your components and manage repositories, you need to create your own account."}
-          linkText={"try now"}
+          domain={"начните работу"}
+          title={"впервые здесь?"}
+          description={"Чтобы публиковать компоненты и управлять репозиториями, вам необходимо создать свой аккаунт."}
+          linkText={"попробовать"}
           linkTo={"/registration"}
           backgroundColor="#EEEDFE"
           backgroundIconColor="#ffffff"

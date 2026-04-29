@@ -1,4 +1,4 @@
-import { useChangePasswordMutation } from "@entities/user"
+import { useChangePasswordMutation } from "@entities/auth"
 import { useForm } from "@shared/hooks/useForm";
 import { Button } from "@shared/ui/Button";
 import { FormError } from "@shared/ui/FormError";
