@@ -1,0 +1,151 @@
+.ComponentSearch {
+  position: relative;
+  
+  &__Label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-family: monospace;
+    color: #666;
+  }
+  
+  &__InputWrapper {
+    position: relative;
+  }
+  
+  &__SearchIcon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+  }
+  
+  &__Input {
+    width: 100%;
+    padding: 10px 12px 10px 36px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    background: white;
+    
+    &:focus {
+      outline: none;
+      border-color: #7F77DD;
+    }
+  }
+  
+  &__Results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  &__Result {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+    
+    &:hover {
+      background: #f5f5f5;
+    }
+  }
+  
+  &__ResultInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  &__ResultName {
+    font-weight: 500;
+    font-size: 14px;
+  }
+  
+  &__ResultMeta {
+    font-size: 12px;
+    color: #888;
+  }
+  
+  &__AddIcon {
+    color: #7F77DD;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  
+  &__Result:hover &__AddIcon {
+    opacity: 1;
+  }
+  
+  &__Loading, &__Empty {
+    padding: 24px;
+    text-align: center;
+    color: #888;
+  }
+}
+
+.SelectedComponents {
+  background: #f8f8f8;
+  border-radius: 8px;
+  padding: 12px;
+  
+  &__Title {
+    font-size: 12px;
+    font-family: monospace;
+    color: #666;
+    margin-bottom: 12px;
+  }
+  
+  &__List {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  &__Item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid #e0e0e0;
+    font-size: 13px;
+  }
+  
+  &__ItemName {
+    font-size: 13px;
+  }
+  
+  &__Remove {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 2px;
+    color: #999;
+    
+    &:hover {
+      color: #ff4444;
+    }
+  }
+}
+
+.Error {
+  color: #ff4444;
+  font-size: 12px;
+  margin-top: -12px;
+}

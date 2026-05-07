@@ -16,38 +16,8 @@ export const ComponentSingleSection = () => {
     name: name! 
   });
 
-  const [downloadPackage, { isLoading: isDownloading }] = useLazyGetComponentPackageQuery();
-
-  const handleDownload = async () => {
-    if (!username || !name) return;
-
-    try {
-      const token = tokenStore.get();
-      
-      const response = await fetch(
-        `http://localhost/api/components/package/${username}/${name}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (!response.ok) throw new Error("Ошибка загрузки");
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `${username}_${name}.zip`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Ошибка при скачивании:", error);
-    }
-  };
+  const packageId = `${username}/${name}`;
+  const downloadUrl = `http://localhost:80/api/components/package/${packageId}`;
 
   if (componentLoading) {
     return (
@@ -85,16 +55,21 @@ export const ComponentSingleSection = () => {
       path={`${component.username}/${component.name}`}
       icon={<FiCode size={32} />}
       extraActions={
-        <Button 
-          variant="primary" 
-          nonBlock 
-          className={styled.SingleWrapSection_DownloadButton}
-          onClick={handleDownload}
-          disabled={isDownloading}
+        <a 
+          href={downloadUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styled.RepositorySingleSection__DownloadLink}
         >
-          <FiDownload /> 
-          {isDownloading ? "загрузка..." : "установить"}
-        </Button>
+          <Button 
+            variant="primary" 
+            nonBlock 
+            className={styled.SingleWrapSection_DownloadButton}
+            >
+            <FiDownload /> 
+            установить
+          </Button>
+        </a>
       }
     >
       <div className={styled.ComponentSingleSection__Info}>

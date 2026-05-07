@@ -31,7 +31,6 @@ export const RegistrationForm = () => {
 
     async onSubmit(values) {
       register(values)
-      createUser({ data: { username: values.username, email: values.email } })
     }
   })
 

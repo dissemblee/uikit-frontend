@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { Button } from "@shared/ui/Button";
 import { FiCode, FiDownload, FiUser, FiCalendar, FiPackage, FiBox } from "react-icons/fi";
 import styled from "./RepositorySingleSection.module.scss";
@@ -12,41 +12,11 @@ export const RepositorySingleSection = () => {
   
   const { data: repo, isLoading: repoLoading } = useGetRepositoryByIdQuery({ 
     username: username!, 
-    name: name! 
+    name: name!
   });
 
-  const [downloadPackage, { isLoading: isDownloading }] = useLazyGetComponentPackageQuery();
-
-  const handleDownload = async () => {
-    if (!username || !name) return;
-
-    try {
-      const token = tokenStore.get();
-      
-      const response = await fetch(
-        `http://localhost/api/components/package/${username}/${name}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (!response.ok) throw new Error("Ошибка загрузки");
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `${username}_${name}.zip`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Ошибка при скачивании:", error);
-    }
-  };
+  const packageId = `${username}/${name}`;
+  const downloadUrl = `http://localhost:82/api/repo/package/${packageId}`;
 
   if (repoLoading) {
     return (
@@ -80,20 +50,25 @@ export const RepositorySingleSection = () => {
     <SingleWrapSection
       entity={repo}
       entityLoading={repoLoading}
-      title={repo.name}
-      path={`${repo.username}/${repo.name}`}
+      title={repo.id}
+      path={`${repo.id}`}
       icon={<FiCode size={32} />}
       extraActions={
-        <Button 
-          variant="primary" 
-          nonBlock 
-          className={styled.SingleWrapSection_DownloadButton}
-          onClick={handleDownload}
-          disabled={isDownloading}
+        <a 
+          href={downloadUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styled.RepositorySingleSection__DownloadLink}
         >
-          <FiDownload /> 
-          {isDownloading ? "загрузка..." : "установить"}
-        </Button>
+          <Button 
+            variant="primary" 
+            nonBlock 
+            className={styled.SingleWrapSection_DownloadButton}
+            >
+            <FiDownload /> 
+            установить
+          </Button>
+        </a>
       }
     >
       <div className={styled.RepositorySingleSection__Info}>
@@ -101,13 +76,7 @@ export const RepositorySingleSection = () => {
           <span className={styled.RepositorySingleSection__InfoLabel}>
             <FiUser size={14} /> автор
           </span>
-          <span className={styled.RepositorySingleSection__InfoValue}>{repo.username}</span>
-        </div>
-        <div className={styled.RepositorySingleSection__InfoRow}>
-          <span className={styled.RepositorySingleSection__InfoLabel}>
-            <FiPackage size={14} /> фреймворк
-          </span>
-          <span className={styled.RepositorySingleSection__InfoValue}>{repo.framework}</span>
+          <span className={styled.RepositorySingleSection__InfoValue}>{username}</span>
         </div>
         <div className={styled.RepositorySingleSection__InfoRow}>
           <span className={styled.RepositorySingleSection__InfoLabel}>
@@ -124,6 +93,20 @@ export const RepositorySingleSection = () => {
           </span>
         </div>
       </div>
+      {repo.components && repo.components.length > 0 && (
+        <div className={styled.RepositorySingleSection__Components}>
+          <h4>компоненты</h4>
+          <div className={styled.RepositorySingleSection__ComponentsList}>
+            {repo.components.map((component, index) => (
+              <span key={index} className={styled.RepositorySingleSection__ComponentTag}>
+                <Link to={`/components/${component}`}>
+                  {component}
+                </Link>
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
       {repo.description && (
         <div className={styled.RepositorySingleSection__Description}>
           <h4>описание</h4>

@@ -8,10 +8,10 @@ export const RepositoryCard = ({ repo, index = 0 }: { repo: RepositoryDto; index
 
   return (
     <BaseCard
-      to={`/repository/${repo.id}`}
+      to={`/repositories/${repo.id}`}
       index={index}
       icon={<FiBox />}
-      name={repo.name}
+      name={repo.id}
       sub={repo.description}
       meta={repo.meta}
       date={repo.updatedAt}

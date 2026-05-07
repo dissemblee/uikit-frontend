@@ -52,7 +52,7 @@ export const ChangePassword = () => {
 
       <FormError message={form.submitError} />
 
-      <Button type="submit" disabled={form.isSubmitting} loading={isLoading}>
+      <Button type="submit" disabled={form.isSubmitting} loading={isLoading} nonBlock>
         Сменить пароль
       </Button>
     </form>

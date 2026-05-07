@@ -8,26 +8,26 @@ import type {
   RepositoryResultDto,
 } from "./repository.dto";
 
-const ENDPOINT = "repository";
+const ENDPOINT = "repo";
 
 export const repositoriesApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllRepositories: builder.query<
-      RepositoryCursorResultDto,
-      { skip?: number; limit?: number }
+      RepositoryResultDto[],
+      void
     >({
-      query: ({ skip = 0, limit = 10 }) => ({
+      query: () => ({
         url: ENDPOINT,
         method: "GET",
-        params: { skip, limit },
         service: "repo",
       }),
 
       providesTags: (result) => {
-        const repo = result?.result?.data;
-        if (!repo) return [{ type: "Repositories", id: "LIST" }];
+        if (!result || result.length === 0) {
+          return [{ type: "Repositories", id: "LIST" }];
+        }
         return [
-          ...repo.map(({ id }) => ({ type: "Repositories" as const, id })),
+          ...result.map(({ id }) => ({ type: "Repositories" as const, id })),
           { type: "Repositories", id: "LIST" },
         ];
       },
@@ -46,8 +46,7 @@ export const repositoriesApi = baseApi.injectEndpoints({
         { type: "Repositories", id: `${username}/${name}` },
       ],
     }),
-
-    getComponentsByUser: builder.query<
+    getRepositoryByUser: builder.query<
       RepositoryCursorResultDto,
       { username: string; skip?: number; limit?: number; startDate?: string }
     >({
@@ -60,7 +59,7 @@ export const repositoriesApi = baseApi.injectEndpoints({
     }),
     createRepository: builder.mutation<
       RepositoryCreateResultDto,
-      FormData
+      RepositoryCreateDto
     >({
       query: (body) => ({
         url: ENDPOINT,
@@ -116,6 +115,7 @@ export const repositoriesApi = baseApi.injectEndpoints({
 export const {
   useGetAllRepositoriesQuery,
   useGetRepositoryByIdQuery,
+  useGetRepositoryByUserQuery,
   useCreateRepositoryMutation,
   useUpdateRepositoryMutation,
   useDeleteRepositoryMutation,

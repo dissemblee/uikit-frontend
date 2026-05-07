@@ -35,17 +35,17 @@ interface ApiArgs {
 }
 
 const SERVICES: Services = {
-  components: {
+  auth: {
     baseURL: "http://localhost:80/api/",
   },
-  auth: {
+  user: {
     baseURL: "http://localhost:81/api/",
   },
-  user: {
-    baseURL: "http://localhost:8081/api/",
+  components: {
+    baseURL: "http://localhost:82/api/",
   },
   repo: {
-    baseURL: "http://localhost:82/api/",
+    baseURL: "http://localhost:83/api/",
   }
 };
 

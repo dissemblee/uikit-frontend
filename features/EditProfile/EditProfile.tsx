@@ -44,7 +44,7 @@ export const EditProfile = () => {
 
       <FormError message={form.submitError} />
 
-      <Button type="submit" disabled={form.isSubmitting} loading={isLoading} loadingText="Меняем почту...">
+      <Button type="submit" disabled={form.isSubmitting} loading={isLoading} loadingText="Меняем почту..." nonBlock>
         Сменить почту
       </Button>
     </form>

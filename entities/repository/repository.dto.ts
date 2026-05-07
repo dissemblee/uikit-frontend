@@ -10,7 +10,8 @@ export interface RepositoryDto extends EntityDto {
 export interface RepositoryCreateDto {
   name: string;
   description: string;
-  meta: Record<string, string>;
+  components: string[];
+  version: string;
 }
 
 export interface RepositoryUpdateDto {

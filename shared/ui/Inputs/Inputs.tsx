@@ -42,6 +42,47 @@ export const Input = ({ label, error, className, icon, ...props }: InputProps) =
   )
 }
 
+interface InputSearch extends BaseInputProps, InputHTMLAttributes<HTMLInputElement> {
+  dataSearch: unknown[];
+}
+
+export const InputSearch = ({ label, error, className, icon, dataSearch, ...props }: InputSearch) => {
+  const searchRef = useRef<HTMLDivElement>(null)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [selectedComponents, setSelectedComponents] = useState<string[]>([])
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+
+  const fieldClasses = [
+    styles.Input__Field,
+    styles['Input__Field--text'],
+    error && styles['Input__Field--error'],
+    className
+  ].filter(Boolean).join(' ')
+
+  return (
+    <div className={styles.Input} ref={searchRef}>
+      <label htmlFor={props.id} className={styles.Input__Label}>
+        // {label}
+      </label>
+      <div style={{display: 'flex'}}>
+        <input 
+          {...props} 
+          className={fieldClasses}
+          placeholder="Поиск"
+          type="text"
+          onChange={(e) => {
+            setSearchQuery(e.target.value)
+            setIsSearchOpen(true)
+          }}
+          onFocus={() => setIsSearchOpen(true)}
+        />
+      </div>
+
+      {error && <div className={styles.Input__Error}>{error}</div>}
+    </div>
+  )
+}
+
 interface TextareaProps extends BaseInputProps, TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
 export const Textarea = ({ label, error, className, icon, ...props }: TextareaProps) => {

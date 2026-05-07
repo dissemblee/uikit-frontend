@@ -62,3 +62,35 @@
   display: flex;
   gap: $value-2_5;
 }
+
+.RepositorySingleSection__Components {
+  margin-bottom: 24px;
+
+  h4 {
+    font-size: 14px;
+    font-family: monospace;
+    color: #666;
+    margin-bottom: 12px;
+  }
+}
+
+.RepositorySingleSection__ComponentsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.RepositorySingleSection__ComponentTag {
+  background: #f0f0f0;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-family: monospace;
+  color: #333;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #7F77DD20;
+    color: #7F77DD;
+  }
+}
