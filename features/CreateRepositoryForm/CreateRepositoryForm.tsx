@@ -8,13 +8,15 @@ import { FormError } from "@shared/ui/FormError"
 import { useGetAllComponentsQuery } from "@entities/component"
 import { useState, useMemo, useRef, useEffect } from "react"
 import styles from "./CreateRepositoryForm.module.scss"
+import { useNavigate } from "react-router"
 
 export const CreateRepositoryForm = () => {
-  const [create, { isLoading }] = useCreateRepositoryMutation()
+  const [create, { isLoading, isSuccess }] = useCreateRepositoryMutation()
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedComponents, setSelectedComponents] = useState<string[]>([])
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const searchRef = useRef<HTMLDivElement>(null)
+  const navigate = useNavigate()
 
   const { data: componentsData, isLoading: componentsLoading } = useGetAllComponentsQuery({
     skip: 0,
@@ -131,7 +133,7 @@ export const CreateRepositoryForm = () => {
             className={styles.ComponentSearch__Input}
           />
         </div>
-
+        <br />
         {isSearchOpen && searchQuery && (
           <div className={styles.ComponentSearch__Results}>
             {componentsLoading ? (
@@ -164,27 +166,30 @@ export const CreateRepositoryForm = () => {
       </div>
 
       {selectedComponents.length > 0 && (
-        <div className={styles.SelectedComponents}>
-          <div className={styles.SelectedComponents__Title}>
-            // Выбранные компоненты ({selectedComponents.length})
+        <>
+          <div className={styles.SelectedComponents}>
+            <div className={styles.SelectedComponents__Title}>
+              // Выбранные компоненты ({selectedComponents.length})
+            </div>
+            <div className={styles.SelectedComponents__List}>
+              {selectedComponents.map(componentId => (
+                <div key={componentId} className={styles.SelectedComponents__Item}>
+                  <span className={styles.SelectedComponents__ItemName}>
+                    {getComponentDisplayName(componentId)}
+                  </span>
+                  <button
+                    type="button"
+                    className={styles.SelectedComponents__Remove}
+                    onClick={() => handleRemoveComponent(componentId)}
+                  >
+                    <FiX />
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className={styles.SelectedComponents__List}>
-            {selectedComponents.map(componentId => (
-              <div key={componentId} className={styles.SelectedComponents__Item}>
-                <span className={styles.SelectedComponents__ItemName}>
-                  {getComponentDisplayName(componentId)}
-                </span>
-                <button
-                  type="button"
-                  className={styles.SelectedComponents__Remove}
-                  onClick={() => handleRemoveComponent(componentId)}
-                >
-                  <FiX />
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
+          <br />
+        </>
       )}
 
       <FormError message={form.submitError} />
