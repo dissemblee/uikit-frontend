@@ -119,24 +119,34 @@ export const BuildSingleSection = () => {
 
             <pre className={styled.BuildSingleSection__Logs}>
               <code>
-                {build?.logs
-                  ?.split("\n")
-                  .map((line, index) => {
-                    const className =
-                      line.includes("ERROR")
-                        ? styled["BuildSingleSection__Logs--error"]
-                        : line.includes("WARN")
-                        ? styled["BuildSingleSection__Logs--warn"]
-                        : line.includes("SUCCESS")
-                        ? styled["BuildSingleSection__Logs--success"]
-                        : "";
+{build?.logs
+  ?.split("\n")
+  .filter(Boolean)
+  .map((line, index) => {
+    const level =
+      line.includes("[ERROR]") ? "error"
+      : line.includes("[WARN]") ? "warn"
+      : line.includes("[DEBUG]") ? "debug"
+      : line.includes("[SUCCESS]") ? "success"
+      : "info";
 
-                    return (
-                      <div key={index} className={className}>
-                        {line}
-                      </div>
-                    );
-                  })}
+    const className =
+      level === "error"
+        ? styled["BuildSingleSection__Logs--error"]
+        : level === "warn"
+        ? styled["BuildSingleSection__Logs--warn"]
+        : level === "success"
+        ? styled["BuildSingleSection__Logs--success"]
+        : level === "debug"
+        ? styled["BuildSingleSection__Logs--debug"]
+        : "";
+
+    return (
+      <div key={index} className={className}>
+        {line}
+      </div>
+    );
+  })}
               </code>
             </pre>
           </div>
