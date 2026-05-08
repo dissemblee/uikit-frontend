@@ -1,27 +1,23 @@
 import { baseApi } from "@shared/api";
 
-import type {
-  BuildResultDto,
-  BuildCursorResultDto,
-  BuildLogsCursorResultDto,
-} from "./build.dto";
+import type { BuildDto, BuildLogsResponse, BuildsListResponse } from "./build.dto";
 
-const ENDPOINT = "build";
+const ENDPOINT = "repo";
 
 export const buildsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAllBuilds: builder.query<
-      BuildCursorResultDto,
-      { page?: number; perPage?: number }
+    getUserBuilds: builder.query<
+      BuildsListResponse,
+      { username: string;}
     >({
-      query: ({ page = 1, perPage = 10 }) => ({
-        url: ENDPOINT,
+      query: ({ username}) => ({
+        url: `${ENDPOINT}/${username}/builds`,
         method: "GET",
-        params: { page, perPage },
+        service: "repo"
       }),
 
       providesTags: (result) => {
-        const builds = result?.result?.data;
+        const builds = result;
 
         if (!builds) {
           return [{ type: "Builds", id: "LIST" }];
@@ -37,38 +33,54 @@ export const buildsApi = baseApi.injectEndpoints({
       },
     }),
 
-    getBuildById: builder.query<BuildResultDto, string>({
-      query: (id) => ({
-        url: `${ENDPOINT}/${id}`,
+    getRepoBuilds: builder.query<
+      BuildsListResponse,
+      { username: string; repoName: string; }
+    >({
+      query: ({ username, repoName}) => ({
+        url: `${ENDPOINT}/${username}/${repoName}/builds`,
         method: "GET",
+        service: "repo"
       }),
 
-      providesTags: (_result, _error, id) => [
-        { type: "Builds", id },
+      providesTags: (result, _error, { username, repoName }) => {
+        const builds = result;
+        const tagId = `${username}/${repoName}`;
+
+        if (!builds) {
+          return [{ type: "Builds", id: tagId }];
+        }
+
+        return [
+          ...builds.map(({ id }) => ({
+            type: "Builds" as const,
+            id,
+          })),
+          { type: "Builds" as const, id: tagId },
+        ];
+      },
+    }),
+
+    getBuildById: builder.query<BuildDto, string>({
+      query: (buildId) => ({
+        url: `${ENDPOINT}/builds/${buildId}`,
+        method: "GET",
+        service: "repo"
+      }),
+
+      providesTags: (_result, _error, buildId) => [
+        { type: "Builds", id: buildId },
       ],
     }),
 
-    startBuild: builder.mutation<
-      BuildResultDto,
-      { componentId: string }
-    >({
-      query: (body) => ({
-        url: ENDPOINT,
-        method: "POST",
-        body,
-      }),
-
-      invalidatesTags: [{ type: "Builds", id: "LIST" }],
-    }),
-
     getBuildLogs: builder.query<
-      BuildLogsCursorResultDto,
-      { buildId: string; cursor?: string }
+      BuildLogsResponse,
+      { buildId: string }
     >({
-      query: ({ buildId, cursor }) => ({
-        url: `${ENDPOINT}/${buildId}/logs`,
+      query: ({ buildId }) => ({
+        url: `${ENDPOINT}/builds/${buildId}/logs`,
         method: "GET",
-        params: { cursor },
+        service: "repo"
       }),
 
       providesTags: (_result, _error, { buildId }) => [
@@ -78,9 +90,10 @@ export const buildsApi = baseApi.injectEndpoints({
   }),
 });
 
+
 export const {
-  useGetAllBuildsQuery,
+  useGetUserBuildsQuery,
+  useGetRepoBuildsQuery,
   useGetBuildByIdQuery,
-  useStartBuildMutation,
   useGetBuildLogsQuery,
 } = buildsApi;

@@ -1,7 +1,6 @@
 import moment from "moment"
 import styles from "./BuildCard.module.scss"
-import type { BuildDto } from "@entities/build"
-import { BuildStatus } from "@entities/build"
+import { BuildStatus, type BuildDto } from "@entities/build"
 import { BaseCard } from "@shared/ui/BaseCard"
 
 const statusConfig: Record<BuildStatus, { icon: string; label: string; className: string }> = {
@@ -10,12 +9,12 @@ const statusConfig: Record<BuildStatus, { icon: string; label: string; className
     label: "Ожидание", 
     className: "pending" 
   },
-  [BuildStatus.IN_PROGRESS]: { 
+  [BuildStatus.RUNNING]: { 
     icon: "⚙️", 
     label: "В процессе", 
     className: "in_progress" 
   },
-  [BuildStatus.COMPLETED]: { 
+  [BuildStatus.SUCCESS]: { 
     icon: "✅", 
     label: "Завершено", 
     className: "completed" 
@@ -27,7 +26,7 @@ const statusConfig: Record<BuildStatus, { icon: string; label: string; className
   },
 };
 
-const getDuration = (startedAt: string, completedAt?: string): string => {
+const getDuration = (startedAt: string, completedAt?: string | null): string => {
   const start = moment(startedAt);
   const end = completedAt ? moment(completedAt) : moment();
   const diff = end.diff(start, "seconds");
@@ -39,8 +38,8 @@ const getDuration = (startedAt: string, completedAt?: string): string => {
 
 export const BuildCard = ({ build, index = 0 }: { build: BuildDto; index?: number }) => {
   const status = statusConfig[build.status];
-  const isRunning = build.status === BuildStatus.IN_PROGRESS;
-  const duration = getDuration(build.startedAt, build.completedAt);
+  const isRunning = build.status === BuildStatus.RUNNING;
+  const duration = getDuration(build.startedAt, build.finishedAt);
 
   return (
     <BaseCard
@@ -53,8 +52,8 @@ export const BuildCard = ({ build, index = 0 }: { build: BuildDto; index?: numbe
           </div>
         </>
       }
-      name={build.component.name}
-      sub={`v${build.component.version}`}
+      name={build.name}
+      sub={`v${build.version}`}
       extra={
         <span className={`${styles.BuildCard__Status} ${styles[`BuildCard__Status--${status.className}`]}`}>
           {status.label}

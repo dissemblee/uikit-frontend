@@ -37,6 +37,41 @@
   color: $title-color;
 }
 
+.SingleWrapSection__Info {
+  overflow: hidden;
+  animation: fadeUp 0.25s ease both;
+}
+
+.SingleWrapSection__InfoRow {
+  display: flex;
+  align-items: center;
+  gap: $value-4;
+  padding: $value-3_5 $value-5;
+  font-size: $value-4;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.10);
+  }
+}
+
+.SingleWrapSection__InfoLabel {
+  display: flex;
+  align-items: center;
+  gap: $value-2;
+  font-size: $value-3;
+  font-weight: bolder;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: $title-color;
+  min-width: 100px;
+}
+
+.SingleWrapSection__InfoValue {
+  color: $subtitle-color;
+  word-break: break-word;
+}
+
 .SingleWrapSection__Name {
   color: $title-color;
   font-size: $value-6;
@@ -96,4 +131,26 @@
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY($value-2); }
   to   { opacity: 1; transform: translateY(0);   }
+}
+
+.SingleWrapSection__Description {
+  @include flexColumn;
+  gap: $value-3;
+  animation: fadeUp 0.3s ease both;
+  animation-delay: 0.05s;
+
+  h4 {
+    font-size: $value-3_5;
+    color: $title-color;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  p {
+    color: $subtitle-color;
+    line-height: 1.5;
+    padding: $value-4;
+    border-radius: $rounded-lg;
+    border-left: 3px solid $border-color;
+  }
 }

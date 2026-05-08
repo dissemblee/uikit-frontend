@@ -1,0 +1,62 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.DownloadMenu {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.DownloadMenu__MenuButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  color: $title-color;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.DownloadMenu__MenuDropdown {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  min-width: 220px;
+  background: #F4F3FB;
+  border: 1px solid $border-color;
+  border-radius: 10px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 100;
+}
+
+.DownloadMenu__MenuItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  color: $title-color;
+  cursor: pointer;
+  text-decoration: none;
+  &:hover {
+    background: white;
+    color: $title-color;
+  }
+}
+
+.DownloadMenu__MenuCode {
+  margin-top: 6px;
+  padding: 8px;
+  font-size: 12px;
+  background: white;
+  border-radius: 6px;
+  color: $subtitle-color;
+  word-break: break-all;
+}

@@ -35,18 +35,18 @@ interface ApiArgs {
 }
 
 const SERVICES: Services = {
+  components: {
+    baseURL: "http://localhost:8080/api/",
+  },
   auth: {
     baseURL: "http://localhost:80/api/",
   },
   user: {
     baseURL: "http://localhost:81/api/",
   },
-  components: {
-    baseURL: "http://localhost:82/api/",
-  },
   repo: {
-    baseURL: "http://localhost:83/api/",
-  }
+    baseURL: "http://localhost:8082/api/",
+  },
 };
 
 const axiosInstances: Record<string, AxiosInstance> = {};

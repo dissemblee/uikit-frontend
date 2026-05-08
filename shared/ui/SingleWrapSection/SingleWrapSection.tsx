@@ -1,19 +1,36 @@
-import { FiBox, FiCode, FiDownload } from 'react-icons/fi';
+import { FiCalendar, FiUser } from 'react-icons/fi';
 import styled from './SingleWrapSection.module.scss'
-import { Button } from '../Button';
 
-interface SingleWrapSectionProps {
-  title: string;
+interface BaseProps {
   path?: string;
   icon?: React.ReactNode;
-  entity: any;
-  entityLoading: boolean;
   extraActions?: React.ReactNode;
+  username?: string;
+}
+
+interface LoadingProps extends BaseProps {
+  state: "loading";
+}
+
+interface NotFoundProps extends BaseProps {
+  state: "not_found";
+}
+
+interface SuccessProps extends BaseProps {
+  state: "success";
+  entity: any;
+  title: string;
   children: React.ReactNode;
 }
 
-export const SingleWrapSection = ({ title, path, icon, entity, entityLoading, extraActions, children }: SingleWrapSectionProps) => {
-  if (entityLoading) {
+type SingleWrapSectionProps =
+  | LoadingProps
+  | NotFoundProps
+  | SuccessProps;
+
+export const SingleWrapSection = (props: SingleWrapSectionProps) => {
+
+  if (props.state === "loading") {
     return (
       <section className={styled.SingleWrapSection}>
         <div className={styled.SingleWrapSection__Card}>
@@ -27,14 +44,14 @@ export const SingleWrapSection = ({ title, path, icon, entity, entityLoading, ex
     );
   }
 
-  if (!entity) {
+  if (props.state === "not_found") {
     return (
       <section className={styled.SingleWrapSection}>
         <div className={styled.SingleWrapSection__Card}>
           <div className={styled.SingleWrapSection__NotFound}>
-            <FiBox size={48} />
+            {props.icon}
             <h3>Запись не найдена</h3>
-            <p>{path}</p>
+            <p>{props.path}</p>
           </div>
         </div>
       </section>
@@ -47,22 +64,52 @@ export const SingleWrapSection = ({ title, path, icon, entity, entityLoading, ex
         <div className={styled.SingleWrapSection__Header}>
           <div className={styled.SingleWrapSection__HeaderTitle}>
             <div className={styled.SingleWrapSection__Icon}>
-              {icon}
+              {props.icon}
             </div>
             <div>
-              <h2 className={styled.SingleWrapSection__Name}>{title}</h2>
+              <h2 className={styled.SingleWrapSection__Name}>{props.title}</h2>
               <span className={styled.SingleWrapSection__Path}>
-                {path}
+                {props.path}
               </span>
             </div>
           </div>
-          {extraActions && (
+          {props.extraActions && (
             <>
-              {extraActions}
+              {props.extraActions}
             </>
           )}
         </div>
-          {children}
+          <div className={styled.SingleWrapSection__Info}>
+            {props.username && (
+              <div className={styled.SingleWrapSection__InfoRow}>
+                <span className={styled.SingleWrapSection__InfoLabel}>
+                  <FiUser size={14} /> автор
+                </span>
+                <span className={styled.SingleWrapSection__InfoValue}>{props.username}</span>
+              </div>
+            )}
+            <div className={styled.SingleWrapSection__InfoRow}>
+              <span className={styled.SingleWrapSection__InfoLabel}>
+                <FiCalendar size={14} /> создан
+              </span>
+              <span className={styled.SingleWrapSection__InfoValue}>
+                {new Date(props.entity?.createdAt || props.entity?.startedAt).toLocaleDateString("ru-RU", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </span>
+            </div>
+            {props.children}
+          </div>
+          {props.entity?.description && (
+            <div className={styled.SingleWrapSection__Description}>
+              <h4>описание</h4>
+              <p>{props.entity?.description}</p>
+            </div>
+          )}
       </div>
     </section>
   )

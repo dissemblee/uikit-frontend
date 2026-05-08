@@ -24,6 +24,7 @@ export default [
     ]),
     ...prefix("builds", [
       route("/", "routes/buildListRoute.tsx"),
+      route("/:buildId", "routes/buildSingleRoute.tsx"),
     ]),
     route("profile/:username", "routes/profileRoute.tsx"),
   ]),

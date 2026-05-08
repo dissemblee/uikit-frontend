@@ -1,3 +1,3 @@
-export { buildsApi, useGetAllBuildsQuery, useGetBuildByIdQuery, useStartBuildMutation, useGetBuildLogsQuery } from "./build.api";
-export type { BuildDto, BuildCursorResultDto, BuildResultDto, BuildLogsCursorResultDto, BuildUpdateEventDto } from "./build.dto";
+export { buildsApi, useGetRepoBuildsQuery, useGetBuildByIdQuery, useGetUserBuildsQuery, useGetBuildLogsQuery } from "./build.api";
+export type { BuildDto, BuildLogsResponse, BuildWithRepoDto, BuildsListResponse, BuildsPaginatedResponse, PaginationParams, StartBuildRequest } from "./build.dto";
 export { BuildStatus } from "./build.dto"
