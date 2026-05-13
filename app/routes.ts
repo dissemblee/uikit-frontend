@@ -7,10 +7,22 @@ export default [
   route("registration", "routes/registrationRoute.tsx"),
 
   ...prefix("repositories", [
-    route("/", "routes/repositoryListRoute.tsx"),
+    index("routes/repositoryListRoute.tsx", {
+      id: "repository-list",
+    }),
+
+    route(":username", "routes/repositoryListRoute.tsx", {
+      id: "repository-user-list",
+    }),
   ]),
   ...prefix("components", [
-    route("/", "routes/componentListRoute.tsx"),
+    index("routes/componentListRoute.tsx", {
+      id: "component-list",
+    }),
+
+    route(":username", "routes/componentListRoute.tsx", {
+      id: "component-user-list",
+    }),
   ]),
 
   layout("provider/ProtectedRoute.tsx", [

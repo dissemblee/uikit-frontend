@@ -21,6 +21,8 @@ export const RepositoryList = () => {
       isEmpty={repositories.length === 0 && !isLoading}
       emptyMessage="Репозиториев пока нет"
       errorMessage="Не удалось загрузить репозитории"
+      totalCount={repositories.length}
+      loadTime={performance.now()}
     >
       {repositories.map((repo, i) => (
         <RepositoryCard repo={repo} key={repo.id} index={i} />

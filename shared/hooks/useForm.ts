@@ -89,7 +89,10 @@ export const useForm = <T extends Record<string, any>>(options: UseFormOptions<T
           err?.data?.error?.message ||
           err?.error?.data?.error?.message ||
           err?.message ||
+          err?.data?.message ||
           "Что-то пошло не так. Попробуйте ещё раз."
+
+        console.error("Form submission error:", err)
         setSubmitError(message)
       } finally {
         setSubmitting(false)

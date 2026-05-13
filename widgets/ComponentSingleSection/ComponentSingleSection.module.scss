@@ -30,3 +30,64 @@
   color: $subtitle-color;
   word-break: break-word;
 }
+
+.ComponentSingleSection__Surface {
+  margin-top: $value-6;
+  border: 1px solid $border-color;
+  border-radius: $rounded-lg;
+}
+
+.ComponentSingleSection__Tabs {
+  display: flex;
+  align-items: center;
+  gap: $value-2;
+  padding: $value-3;
+  @include divider;
+}
+
+.ComponentSingleSection__Tab,
+.ComponentSingleSection__TabActive {
+  display: flex;
+  align-items: center;
+  gap: $value-2;
+  padding: $value-2_5 $value-4;
+  border-radius: $rounded-md;
+  font-size: $value-3;
+  transition: all .2s ease;
+}
+
+.ComponentSingleSection__Tab {
+  background: transparent;
+  color: $subtitle-color;
+
+  &:hover {
+    background: rgba(127, 119, 221, 0.08);
+    color: $title-color;
+  }
+}
+
+.ComponentSingleSection__TabActive {
+  background: $accent;
+  color: white;
+}
+
+.ComponentSingleSection__Body {
+  padding: $value-5;
+}
+
+.ComponentSingleSection__PreviewWrap {
+  background: #FAFAFD;
+  border: 1px solid $border-color;
+  border-radius: $rounded-lg;
+  padding: $value-5;
+}
+
+.ComponentSingleSection__Preview {
+  width: 100%;
+  min-height: 500px;
+  border: none;
+  border-radius: $rounded-md;
+  background: white;
+  box-shadow:
+    0 8px 24px rgba(20, 20, 40, 0.06);
+}

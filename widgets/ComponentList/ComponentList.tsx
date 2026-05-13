@@ -1,26 +1,60 @@
-import { Link } from "react-router";
+import { Link, useParams } from "react-router";
+import { useState } from "react";
+
 import { ComponentCard } from "@features/ComponentCard";
-import { useGetAllComponentsQuery } from "@entities/component";
+
 import { ListWrapSection } from "@shared/ui/ListWrapSection";
 import { ButtonCreate } from "@shared/ui/ButtonCreate";
 import { Button } from "@shared/ui/Button";
-import { useState } from "react";
+import { useGetAllComponentsQuery, useGetComponentsByUserQuery } from "@entities/component";
 
 export const ComponentList = () => {
   const [currentSkip, setCurrentSkip] = useState(0);
-  const limit = 10;
-  
-  const { data, isLoading, isError, isFetching } = useGetAllComponentsQuery({ 
-    skip: currentSkip,
-    limit,
-  });
+  const limit = 5;
+
+  const { username } = useParams();
+
+  const allComponentsQuery = useGetAllComponentsQuery(
+    {
+      skip: currentSkip,
+      limit,
+    },
+    {
+      skip: Boolean(username),
+    },
+  );
+
+  const userComponentsQuery = useGetComponentsByUserQuery(
+    {
+      username: String(username),
+      skip: currentSkip,
+      limit,
+    },
+    {
+      skip: !username,
+    },
+  );
+
+  const activeQuery = username
+    ? userComponentsQuery
+    : allComponentsQuery;
+
+  const {
+    data,
+    isLoading,
+    isError,
+    isFetching,
+  } = activeQuery;
 
   const components = data?.result?.data || [];
   const itemsLeft = data?.result?.itemsLeft || 0;
+
   const hasMore = itemsLeft > 0;
 
   const loadMore = () => {
-    const nextSkip = data?.result?.skipWithCurrentTimestamp;
+    const nextSkip =
+      data?.result?.skipWithCurrentTimestamp;
+
     if (nextSkip) {
       setCurrentSkip(nextSkip);
     }
@@ -28,7 +62,11 @@ export const ComponentList = () => {
 
   return (
     <ListWrapSection
-      title="обзор компонентов"
+      title={
+        username
+          ? `компоненты ${username}`
+          : "обзор компонентов"
+      }
       action={
         <Link to="/components/create">
           <ButtonCreate />
@@ -42,21 +80,28 @@ export const ComponentList = () => {
       totalCount={components.length}
       loadTime={performance.now()}
     >
-      {components.map(comp => (
-        <ComponentCard component={comp} key={comp.id} />
+      {components.map((comp) => (
+        <ComponentCard
+          component={comp}
+          key={comp.id}
+        />
       ))}
-      
+
       {hasMore && (
-        <div style={{ textAlign: "center", marginTop: "24px" }}>
-          <Button 
-            onClick={loadMore} 
+        <div
+          style={{
+            textAlign: "center",
+            marginTop: "24px",
+          }}
+        >
+          <Button
+            onClick={loadMore}
             disabled={isFetching}
             variant="secondary"
           >
-            {isFetching   
-              ? "Загрузка..." 
-              : `Показать еще (осталось ${itemsLeft})`
-            }
+            {isFetching
+              ? "Загрузка..."
+              : `Показать еще (осталось ${itemsLeft})`}
           </Button>
         </div>
       )}

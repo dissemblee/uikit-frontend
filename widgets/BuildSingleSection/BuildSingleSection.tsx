@@ -119,34 +119,34 @@ export const BuildSingleSection = () => {
 
             <pre className={styled.BuildSingleSection__Logs}>
               <code>
-{build?.logs
-  ?.split("\n")
-  .filter(Boolean)
-  .map((line, index) => {
-    const level =
-      line.includes("[ERROR]") ? "error"
-      : line.includes("[WARN]") ? "warn"
-      : line.includes("[DEBUG]") ? "debug"
-      : line.includes("[SUCCESS]") ? "success"
-      : "info";
+                {build?.logs
+                  ?.split("\n")
+                  .filter(Boolean)
+                  .map((line, index) => {
+                    const level =
+                      line.includes("[ERROR]") ? "error"
+                      : line.includes("[WARN]") ? "warn"
+                      : line.includes("[DEBUG]") ? "debug"
+                      : line.includes("[SUCCESS]") ? "success"
+                      : "info";
 
-    const className =
-      level === "error"
-        ? styled["BuildSingleSection__Logs--error"]
-        : level === "warn"
-        ? styled["BuildSingleSection__Logs--warn"]
-        : level === "success"
-        ? styled["BuildSingleSection__Logs--success"]
-        : level === "debug"
-        ? styled["BuildSingleSection__Logs--debug"]
-        : "";
+                    const className =
+                      level === "error"
+                        ? styled["BuildSingleSection__Logs--error"]
+                        : level === "warn"
+                        ? styled["BuildSingleSection__Logs--warn"]
+                        : level === "success"
+                        ? styled["BuildSingleSection__Logs--success"]
+                        : level === "debug"
+                        ? styled["BuildSingleSection__Logs--debug"]
+                        : "";
 
-    return (
-      <div key={index} className={className}>
-        {line}
-      </div>
-    );
-  })}
+                    return (
+                      <div key={index} className={className}>
+                        {line}
+                      </div>
+                    );
+                  })}
               </code>
             </pre>
           </div>

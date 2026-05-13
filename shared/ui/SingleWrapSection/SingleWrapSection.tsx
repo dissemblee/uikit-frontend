@@ -6,6 +6,7 @@ interface BaseProps {
   icon?: React.ReactNode;
   extraActions?: React.ReactNode;
   username?: string;
+  extraChildren?: React.ReactNode;
 }
 
 interface LoadingProps extends BaseProps {
@@ -109,6 +110,11 @@ export const SingleWrapSection = (props: SingleWrapSectionProps) => {
               <h4>описание</h4>
               <p>{props.entity?.description}</p>
             </div>
+          )}
+          {props.extraChildren && (
+            <>
+              {props.extraChildren}
+            </>
           )}
       </div>
     </section>

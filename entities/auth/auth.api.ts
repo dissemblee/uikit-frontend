@@ -67,7 +67,7 @@ export const authApi = baseApi.injectEndpoints({
     }),
 
     changePassword: builder.mutation<
-      { result: { success: boolean } },
+      { success: boolean },
       UserChangePasswordDto
     >({
       query: (body) => ({

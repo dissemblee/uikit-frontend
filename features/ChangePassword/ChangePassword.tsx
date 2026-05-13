@@ -28,6 +28,8 @@ export const ChangePassword = () => {
         newPassword: values.newPassword
       });
 
+      console.log("Change password result:", result.data?.success)
+
       if ('error' in result) {
         throw result.error
       }

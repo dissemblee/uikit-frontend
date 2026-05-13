@@ -10,7 +10,7 @@ interface ComponentCardProps {
 export const ComponentCard = ({ component, index = 0 }: ComponentCardProps) => {
   return (
     <BaseCard
-      to={`/components/${component.id}`}
+      to={`/components/${component.username}/${component.name}`}
       index={index}
       icon="🧩"
       name={component.name}

@@ -6,7 +6,7 @@ import type {
   ComponentResultDto,
 } from "./component.dto";
 
-const ENDPOINT = "components";
+const ENDPOINT = "component";
 
 export const componentsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -60,19 +60,30 @@ export const componentsApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [{ type: "Components", id: "LIST" }],
     }),
-    getComponentSource: builder.query<{ source: string; language: string; fileName: string }, { username: string; name: string }>({
-      query: ({ username, name }) => ({
-        url: `${ENDPOINT}/source/${username}/${name}`,
-        method: "GET",
-        service: "components"
-      }),
-    }),
     getComponentPackage: builder.query<Blob, { username: string; name: string }>({
       query: ({ username, name }) => ({
         url: `${ENDPOINT}/package/${username}/${name}`,
         method: "GET",
         service: "components",
         responseHandler: (response: { blob: () => any; }) => response.blob(),
+      }),
+    }),
+    getComponentPreview: builder.query<
+      { url: string },
+      { username: string; name: string }
+    >({
+      query: ({ username, name }) => ({
+        url: `${ENDPOINT}/preview/${username}/${name}`,
+        method: "GET",
+        service: "components",
+      }),
+    }),
+    getComponentSource: builder.query<string, { id: string }>({
+      query: ({ id }) => ({
+        url: `${ENDPOINT}/source/text/${id}`,
+        method: "GET",
+        service: "components",
+        responseHandler: (response: any) => response.text(),
       }),
     }),
   }),
@@ -84,5 +95,6 @@ export const {
   useGetComponentByIdQuery,
   useGetComponentsByUserQuery,
   useLazyGetComponentPackageQuery,
+  useGetComponentPreviewQuery,
   useGetComponentSourceQuery,
 } = componentsApi;

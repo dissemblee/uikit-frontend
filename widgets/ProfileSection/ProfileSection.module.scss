@@ -164,7 +164,23 @@
   margin-bottom: 24px;
 }
 
-.ProfileSection__Repositories,
-.ProfileSection__Components {
-  // стили для списков
+.ProfileSection__Links {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ProfileSection__Link {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 14px;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
 }

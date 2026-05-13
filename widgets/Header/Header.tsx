@@ -3,6 +3,7 @@ import styles from "./Header.module.scss"
 import { FiArrowRight } from "react-icons/fi";
 import { tokenStore } from "@shared/tokenStore";
 import { Prompt } from "@shared/ui/Prompt/Prompt";
+import { useUserInfo } from "@shared/hooks/useUserInfo";
 
 export const Header = () => {
   const location = useLocation();
@@ -22,34 +23,8 @@ export const Header = () => {
     }
     return `~${path}`;
   };
-
-  const getDisplayName = () => {
-    const token = tokenStore.get();
-    if (!token) return "";
-    
-    try {
-      const parts = token.split('.');
-      if (parts.length === 3) {
-        const payload = JSON.parse(atob(parts[1]));
-        let rawUsername = payload.username || payload.userId || "User";
-        
-        try {
-          const fixed = decodeURIComponent(escape(rawUsername));
-          rawUsername = fixed;
-        } catch (e) {}
-        
-        if (rawUsername.includes('Ð') || rawUsername.length > 20) {
-          return "User";
-        }
-        return rawUsername;
-      }
-    } catch (error) {
-      console.error("Failed to decode token:", error);
-    }
-    return "User";
-  };
   
-  const displayName = getDisplayName(); 
+  const { displayName } = useUserInfo();
 
   const navItems = [
     { path: "/components", label: "компоненты", command: "cd компоненты" },

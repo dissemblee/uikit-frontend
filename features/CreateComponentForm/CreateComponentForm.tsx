@@ -18,6 +18,7 @@ export const CreateComponentForm = () => {
       description: "",
       framework: "react" as const,
       fileExtension: "tsx" as const,
+      version: "0.0.0.0"
     },
 
     validate(values) {
@@ -47,6 +48,7 @@ export const CreateComponentForm = () => {
 
       const formData = new FormData()
       formData.append("file", file)
+      formData.append("version", values.version)
       formData.append("name", values.name)
       formData.append("description", values.description)
       formData.append("framework", values.framework)

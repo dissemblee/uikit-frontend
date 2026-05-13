@@ -7,6 +7,7 @@ export interface ComponentDto extends EntityDto {
   tags?: string[];
   framework: string;
   type?: string;
+  username: string;
 }
 
 export interface ComponentCreateDto {
