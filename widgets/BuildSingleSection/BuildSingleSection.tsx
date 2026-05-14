@@ -41,13 +41,18 @@ const getDuration = (startedAt: string, completedAt?: string | null): string => 
 };
 
 export const BuildSingleSection = () => {
-  const { buildId } = useParams<{ buildId: string }>();
+  const { service, buildId } = useParams<{ service: string; buildId: string }>();
 
-  if (!buildId) {
+  if (!buildId || !service) {
     return <div>Build id not found</div>;
   }
+  
+  let serviceType: 'repo' | 'components';
 
-  const { data: build, isLoading: buildLoading } = useGetBuildByIdQuery(buildId);
+  if (service === "component") serviceType = "components";
+  else if (service === "repo") serviceType = "repo";
+
+  const { data: build, isLoading: buildLoading } = useGetBuildByIdQuery({ buildId, service: serviceType });
 
   if (buildLoading) {
     return <SingleWrapSection state="loading" />;
@@ -67,7 +72,7 @@ export const BuildSingleSection = () => {
       entity={build}
       state="success"
       title={build?.id}
-      path={`${build?.repoId}`}
+      path={serviceType === "components" ? `${build?.username}/${build?.name}` : `${build?.repoId}`}
       icon={<FiCode size={32} />}
     >
       <>
@@ -103,11 +108,11 @@ export const BuildSingleSection = () => {
         </div>
         <div className={styled.BuildSingleSection__InfoRow}>
           <span className={styled.BuildSingleSection__InfoLabel}>
-            <FiPackage size={14} /> Репозиторий
+            <FiPackage size={14} /> {serviceType === "components" ? "Компонент" : "Репозиторий"}
           </span>
           <span className={styled.BuildSingleSection__InfoValue}>
-            <Link to={`/repositories/${build?.repoId}`} className={styled.BuildSingleSection__RepoLink}>
-              {build?.repoId}
+            <Link to={serviceType === "components" ? `/components/${build?.username}/${build?.name}` : `/repositories/${build?.repoId}`} className={styled.BuildSingleSection__RepoLink}>
+              {serviceType === "components" ? `${build?.username}/${build?.name}` : build?.repoId}
             </Link>
           </span>
         </div>

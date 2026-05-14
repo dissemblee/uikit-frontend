@@ -1,33 +1,31 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
-import {
-  useGetComponentByIdQuery,
-} from "@entities/component";
-import {
-  useGetComponentPreviewQuery,
-  useGetComponentSourceQuery,
-} from "@entities/component";
-import {
-  FiCode,
-  FiEye,
-  FiPackage,
-} from "react-icons/fi";
+import { useGetComponentByIdQuery } from "@entities/component";
+import { useGetComponentSourceQuery } from "@entities/component";
+import { FiCode, FiPackage } from "react-icons/fi";
 import styled from "./ComponentSingleSection.module.scss";
 import { SingleWrapSection } from "@shared/ui/SingleWrapSection";
 import { DownloadMenu } from "@shared/ui/DownloadMenu";
 import ShikiHighlighter from "react-shiki";
+// import MyButton from "shawarma"
 
 export const ComponentSingleSection = () => {
   const [tab, setTab] = useState<"preview" | "code">("code");
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MessageEvent) => {
+      if (e.data?.type === 'resize' && iframeRef.current) {
+        iframeRef.current.style.height = `${e.data.height + 40}px`;
+      }
+    };
+    window.addEventListener('message', handler);
+    return () => window.removeEventListener('message', handler);
+  }, []);
 
   const { username, name } = useParams<{ username: string; name: string }>();
 
   const { data: component, isLoading } = useGetComponentByIdQuery({
-    username: username!,
-    name: name!,
-  });
-
-  const { data: preview } = useGetComponentPreviewQuery({
     username: username!,
     name: name!,
   });
@@ -56,7 +54,7 @@ export const ComponentSingleSection = () => {
       username={username}
       extraActions={
         <DownloadMenu
-          downloadUrl={`http://localhost:8080/api/component/package/${packageId}`}
+          downloadUrl={`http://localhost:8080/api/components/main/package/${packageId}`}
         />
       }
       extraChildren={
@@ -87,11 +85,13 @@ export const ComponentSingleSection = () => {
           <div className={styled.ComponentSingleSection__Body}>
             {tab === "preview" && (
               <div className={styled.ComponentSingleSection__PreviewWrap}>
-                {preview?.url && (
+                {component?.id && (
                   <iframe
-                    src={`http://localhost:8080/api/component/preview-page/${component.id}`}
+                    ref={iframeRef}
+                    src={`http://localhost:8080/api/components/previews/${component.id}/page`}
                     sandbox="allow-scripts"
                     className={styled.ComponentSingleSection__Preview}
+                    style={{ height: 0 }}
                   />
                 )}
               </div>
@@ -115,7 +115,7 @@ export const ComponentSingleSection = () => {
           <FiPackage size={14} />
           framework
         </span>
-
+        {/* <MyButton boolVal={false} /> */}
         <span className={styled.ComponentSingleSection__InfoValue}>
           {component.framework}
         </span>

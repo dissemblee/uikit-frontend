@@ -6,7 +6,7 @@ import type {
   ComponentResultDto,
 } from "./component.dto";
 
-const ENDPOINT = "component";
+const ENDPOINT = "components";
 
 export const componentsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -15,7 +15,7 @@ export const componentsApi = baseApi.injectEndpoints({
       { skip?: number; limit?: number }
     >({
       query: ({ skip = 0, limit = 10 }) => ({
-        url: ENDPOINT,
+        url: `${ENDPOINT}/main`,
         method: "GET",
         params: { skip, limit },
         service: "components"
@@ -31,7 +31,7 @@ export const componentsApi = baseApi.injectEndpoints({
     }),
     getComponentById: builder.query<ComponentResultDto, { username: string; name: string }>({
       query: ({ username, name }) => ({
-        url: `${ENDPOINT}/${username}/${name}`,
+        url: `${ENDPOINT}/main/${username}/${name}`,
         method: "GET",
         service: "components"
       }),
@@ -44,7 +44,7 @@ export const componentsApi = baseApi.injectEndpoints({
       { username: string; skip?: number; limit?: number; startDate?: string }
     >({
       query: ({ username, skip = 0, limit = 10, startDate }) => ({
-        url: `${ENDPOINT}/${username}`,
+        url: `${ENDPOINT}/main/${username}`,
         method: "GET",
         params: { skip, limit, startDate },
         service: "components"
@@ -52,7 +52,7 @@ export const componentsApi = baseApi.injectEndpoints({
     }),
     createComponent: builder.mutation<ComponentCreateResultDto, FormData>({
       query: (formData) => ({
-        url: `${ENDPOINT}/upload`,
+        url: `${ENDPOINT}/main/upload`,
         method: "POST",
         body: formData,
         service: "components",
@@ -62,20 +62,10 @@ export const componentsApi = baseApi.injectEndpoints({
     }),
     getComponentPackage: builder.query<Blob, { username: string; name: string }>({
       query: ({ username, name }) => ({
-        url: `${ENDPOINT}/package/${username}/${name}`,
+        url: `${ENDPOINT}/main/package/${username}/${name}`,
         method: "GET",
         service: "components",
         responseHandler: (response: { blob: () => any; }) => response.blob(),
-      }),
-    }),
-    getComponentPreview: builder.query<
-      { url: string },
-      { username: string; name: string }
-    >({
-      query: ({ username, name }) => ({
-        url: `${ENDPOINT}/preview/${username}/${name}`,
-        method: "GET",
-        service: "components",
       }),
     }),
     getComponentSource: builder.query<string, { id: string }>({
@@ -95,6 +85,5 @@ export const {
   useGetComponentByIdQuery,
   useGetComponentsByUserQuery,
   useLazyGetComponentPackageQuery,
-  useGetComponentPreviewQuery,
   useGetComponentSourceQuery,
 } = componentsApi;

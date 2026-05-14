@@ -43,7 +43,7 @@ export const BuildCard = ({ build, index = 0 }: { build: BuildDto; index?: numbe
 
   return (
     <BaseCard
-      to={`/builds/${build.id}`}
+      to={`/builds/${build.type}/${build.id}`}
       index={index}
       icon={
         <>

@@ -5,6 +5,8 @@ import styled from "./DownloadMenu.module.scss";
 export const DownloadMenu = ({downloadUrl}: {downloadUrl: string;}) => {
   const [open, setOpen] = useState(false);
   const npmCommand = `npm i ${downloadUrl}`;
+  const packageId = downloadUrl.split("/").pop();
+
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(npmCommand);
     setOpen(false);
@@ -25,6 +27,7 @@ export const DownloadMenu = ({downloadUrl}: {downloadUrl: string;}) => {
             href={downloadUrl}
             target="_blank"
             rel="noopener noreferrer"
+            download={`${packageId}.tar.gz`}
             className={styled.DownloadMenu__MenuItem}
           >
             <FiDownload />

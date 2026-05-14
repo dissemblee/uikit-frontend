@@ -24,7 +24,10 @@
     "react-redux": "^9.2.0",
     "react-router": "^7.9.2",
     "react-shiki": "^0.10.0",
-    "shiki": "^4.0.2"
+    "shawarma": "http://localhost:8080/api/components/main/package/davidAdmin/shawarma",
+    "shawarmaRepo": "http://localhost:8082/api/repo/package/davidAdmin/shawarmaRepo-0.0.0.0",
+    "shiki": "^4.0.2",
+    "WorkButton": "http://localhost:8080/api/components/main/package/davidAdmin/WorkButton"
   },
   "devDependencies": {
     "@react-router/dev": "^7.9.2",

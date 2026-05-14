@@ -80,6 +80,8 @@ export const CreateRepositoryForm = () => {
       if ('error' in result) {
         throw result.error
       }
+
+      navigate('/repositories')
     }
   })
 

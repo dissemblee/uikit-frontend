@@ -30,7 +30,7 @@ export const LoginForm = () => {
         username: values.login,
         password: values.password
       });
-      navigate("/repositories")
+      navigate("/")
     },
   });
 

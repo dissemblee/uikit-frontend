@@ -6,6 +6,13 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
+  optimizeDeps: {
+    exclude: [
+      "WorkButton",
+      "shawarma",
+    ],
+    force: true
+  },
   resolve: {
     alias: {
       "@app": path.resolve(__dirname, "app"),
