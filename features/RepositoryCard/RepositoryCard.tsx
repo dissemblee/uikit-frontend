@@ -14,7 +14,7 @@ export const RepositoryCard = ({ repo, index = 0 }: { repo: RepositoryDto; index
       name={repo.id}
       sub={repo.description}
       meta={repo.meta}
-      date={repo.updatedAt}
+      date={repo.updatedAt && repo.createdAt}
       right={
         <span className={`${styles.RepositoryCard__Badge} ${styles[isPublic ? 'RepositoryCard__Badge--public' : 'RepositoryCard__Badge--private']}`}>
           {isPublic ? <FiUnlock /> : <FiLock />}

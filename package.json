@@ -27,6 +27,9 @@
     "shawarma": "http://localhost:8080/api/components/main/package/davidAdmin/shawarma",
     "shawarmaRepo": "http://localhost:8082/api/repo/package/davidAdmin/shawarmaRepo-0.0.0.0",
     "shiki": "^4.0.2",
+    "StatCard": "http://localhost:8080/api/components/main/package/davidAdmin/StatCard",
+    "TestComp": "http://localhost:8080/api/components/main/package/davidAdmin/TestComp",
+    "useGetComponentSourceQueryRepo": "http://localhost:8082/api/repo/package/davidAdmin/useGetComponentSourceQueryRepo-0.0.0.0",
     "WorkButton": "http://localhost:8080/api/components/main/package/davidAdmin/WorkButton"
   },
   "devDependencies": {

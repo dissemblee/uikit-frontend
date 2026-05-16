@@ -7,7 +7,9 @@ import styled from "./ComponentSingleSection.module.scss";
 import { SingleWrapSection } from "@shared/ui/SingleWrapSection";
 import { DownloadMenu } from "@shared/ui/DownloadMenu";
 import ShikiHighlighter from "react-shiki";
-// import MyButton from "shawarma"
+// import StatCard from "StatCard" // Пример для компонентов
+// import MyButton from "shawarmaRepo/shawarma.js" // пример для реп
+// import Why from "useGetComponentSourceQueryRepo/EnterprisePricingShowcase.js"
 
 export const ComponentSingleSection = () => {
   const [tab, setTab] = useState<"preview" | "code">("code");
@@ -16,7 +18,7 @@ export const ComponentSingleSection = () => {
   useEffect(() => {
     const handler = (e: MessageEvent) => {
       if (e.data?.type === 'resize' && iframeRef.current) {
-        iframeRef.current.style.height = `${e.data.height + 40}px`;
+        iframeRef.current.style.height = `${e.data.height + 100}px`;
       }
     };
     window.addEventListener('message', handler);
@@ -115,7 +117,7 @@ export const ComponentSingleSection = () => {
           <FiPackage size={14} />
           framework
         </span>
-        {/* <MyButton boolVal={false} /> */}
+        {/* <StatCard /> */}
         <span className={styled.ComponentSingleSection__InfoValue}>
           {component.framework}
         </span>
