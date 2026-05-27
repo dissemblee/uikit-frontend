@@ -7,7 +7,7 @@ export const buildsApi = baseApi.injectEndpoints({
       async queryFn({ username }, _api, _extraOptions, baseQuery) {
         const [repoBuilds, componentBuilds] = await Promise.all([
           baseQuery({ url: `repo/${username}/builds`, service: 'repo' }),
-          baseQuery({ url: `components/${username}/builds`, service: 'components' }),
+          baseQuery({ url: `components/builds/${username}/builds`, service: 'components' }),
         ]);
 
         const result = [
@@ -37,7 +37,7 @@ export const buildsApi = baseApi.injectEndpoints({
 
     getComponentBuilds: builder.query<BuildsListResponse, { username: string; componentName: string }>({
       query: ({ username, componentName }) => ({
-        url: `components/${username}/${componentName}/builds`,
+        url: `components/builds/${username}/${componentName}/builds`,
         method: 'GET',
         service: 'components',
       }),

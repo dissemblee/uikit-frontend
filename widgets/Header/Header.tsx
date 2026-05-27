@@ -24,16 +24,24 @@ export const Header = () => {
     return `~${path}`;
   };
   
-  const { displayName } = useUserInfo();
+  const { displayName, role } = useUserInfo();
+  const isAdmin = role === "ADMIN";
+  const isAuth = !!tokenStore.get();
 
   const navItems = [
     { path: "/components", label: "компоненты", command: "cd компоненты" },
     { path: "/repositories", label: "репозитории", command: "ls репозитории" },
     { path: "/builds", label: "сборки", command: "cat сборки" },
     { path: "/docs", label: "документация", command: "man документация" },
+      ...(isAuth && isAdmin
+    ? [
+        {
+          path: "/admin/users",
+          command: "sudo users",
+        },
+      ]
+    : []),
   ];
-
-  const isAuth = !!tokenStore.get();
 
   return (
     <header className={styles.Header}>

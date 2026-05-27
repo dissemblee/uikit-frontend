@@ -39,4 +39,10 @@ export default [
     ]),
     route("profile/:username", "routes/profileRoute.tsx"),
   ]),
+
+  layout("provider/AdminRoute.tsx", [
+    ...prefix("admin", [
+      route("users", "routes/adminUsersRoute.tsx"),
+    ]),
+  ]),
 ] satisfies RouteConfig;

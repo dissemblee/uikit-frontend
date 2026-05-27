@@ -1,13 +1,49 @@
 import { baseApi, setRefreshFn } from "@shared/api";
-import type { SignInDto, SignInResultDto, SignUpDto, SignUpResultDto } from "./auth.dto";
+import type { SignInDto, SignInResultDto, SignUpDto, SignUpResultDto, UserBanInfoResultDto, UserBanReason, UserPublicCursorResultDto } from "./auth.dto";
 import { tokenStore } from "@shared/tokenStore";
 import { store } from "~/provider/store";
 import type { UserChangePasswordDto } from "@entities/user/user.dto";
+import type { ResultDto } from "@shared/types/api";
 
 const ENDPOINT = "auth";
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    getAllUsers: builder.query<
+      UserPublicCursorResultDto,
+      {
+        skip?: number;
+        limit?: number;
+        search?: string;
+        sort?: "asc" | "desc";
+        startDate?: string;
+      }
+    >({
+      query: ({ skip = 0, limit = 10, search, sort, startDate }) => ({
+        url: ENDPOINT + "/users",
+        method: "GET",
+        params: {
+          skip,
+          limit,
+          ...(search && { query: search }),
+          ...(sort && { sort }),
+          ...(startDate && { startDate }),
+        },
+        service: "auth"
+      }),
+      serializeQueryArgs: ({ queryArgs }) => {
+        return JSON.stringify(queryArgs);
+      },
+      providesTags: (result) => {
+        const users = result?.result?.data;
+        if (!users) return [{ type: "Users", id: "LIST" }];
+        return [
+          ...users.map(({ id }) => ({ type: "Users" as const, id })),
+          { type: "Users", id: "LIST" },
+        ];
+      },
+    }),
+
     register: builder.mutation<SignUpResultDto, SignUpDto>({
       query: (data) => ({
         url: `${ENDPOINT}/sign-up`,
@@ -26,8 +62,6 @@ export const authApi = baseApi.injectEndpoints({
         service: "auth"
       }),
       transformResponse: (response: SignInResultDto) => {
-        console.log('Raw login response:', response);
-        
         const accessToken = response?.result?.token;
         
         if (accessToken) {
@@ -59,7 +93,6 @@ export const authApi = baseApi.injectEndpoints({
         
         if (accessToken) {
           tokenStore.set(accessToken);
-          console.log('Token refreshed and saved');
         }
         
         return response;
@@ -79,16 +112,65 @@ export const authApi = baseApi.injectEndpoints({
 
       invalidatesTags: [],
     }),
+
+    banUser: builder.mutation<
+      ResultDto<unknown>,
+      { userId: string; banReason: UserBanReason }
+    >({
+      query: ({ userId, banReason }) => ({
+        url: `${ENDPOINT}/ban/${userId}`,
+        method: "POST",
+        body: { banReason },
+        service: "auth"
+      }),
+
+      invalidatesTags: (_result, _error, { userId }) => [
+        { type: "Users", id: userId },
+        { type: "Users", id: "LIST" },
+      ],
+    }),
+
+    unbanUser: builder.mutation<
+      ResultDto<unknown>,
+      { userId: string }
+    >({
+      query: ({ userId }) => ({
+        url: `${ENDPOINT}/unban/${userId}`,
+        method: "POST",
+        service: "auth"
+      }),
+
+      invalidatesTags: (_result, _error, { userId }) => [
+        { type: "Users", id: userId },
+        { type: "Users", id: "LIST" },
+      ],
+    }),
+
+    getBanInfo: builder.query<UserBanInfoResultDto, string>({
+      query: (userId) => ({
+        url: `${ENDPOINT}/ban-info/${userId}`,
+        method: "GET",
+        service: "auth"
+      }),
+
+      providesTags: (_result, _error) => [
+        { type: "Users", id: _result?.result?.userId },
+      ],
+    }),
   }),
   overrideExisting: false,
 });
 
 export const {
+  useGetAllUsersQuery,
   useRegisterMutation,
   useLoginMutation,
   useLogoutMutation,
   useRefreshMutation,
-  useChangePasswordMutation
+  useChangePasswordMutation,
+  useBanUserMutation,
+  useUnbanUserMutation,
+  useGetBanInfoQuery,
 } = authApi;
 
 export const initAuthInterceptor = () => {

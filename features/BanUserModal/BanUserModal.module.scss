@@ -1,0 +1,76 @@
+@use '../../shared/styles/variables' as *;
+@use '../../shared/styles/mixins' as *;
+
+.BanUserModal__Overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 20, 60, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.15s ease both;
+}
+
+.BanUserModal {
+  @include baseCard;
+  @include flexColumn;
+  width: 100%;
+  max-width: 420px;
+  gap: $value-5;
+  animation: slideUp 0.2s ease both;
+}
+
+.BanUserModal__Header {
+  @include divider;
+}
+
+.BanUserModal__Title {
+  font-size: $value-4;
+  color: $title-color;
+  display: flex;
+  align-items: center;
+  gap: $value-2;
+  flex-wrap: wrap;
+}
+
+.BanUserModal__Comment {
+  color: $subtitle-color;
+}
+
+.BanUserModal__UserId {
+  color: $accent;
+  font-weight: 600;
+}
+
+.BanUserModal__Body {
+  @include flexColumn;
+  gap: $value-3;
+}
+
+.BanUserModal__Error {
+  font-size: $value-3_5;
+  color: #e53e3e;
+  padding: $value-2 $value-3;
+  background: rgba(229, 62, 62, 0.08);
+  border-radius: $rounded-md;
+  border: 1px solid rgba(229, 62, 62, 0.25);
+}
+
+.BanUserModal__Actions {
+  display: flex;
+  gap: $value-3;
+  justify-content: flex-end;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY($value-4); }
+  to   { opacity: 1; transform: translateY(0); }
+}

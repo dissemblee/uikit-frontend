@@ -1,5 +1,7 @@
 import { FiCalendar, FiUser } from 'react-icons/fi';
 import styled from './SingleWrapSection.module.scss'
+import { Link } from 'react-router';
+import { InfoRow } from '../InfoRow';
 
 interface BaseProps {
   path?: string;
@@ -7,6 +9,7 @@ interface BaseProps {
   extraActions?: React.ReactNode;
   username?: string;
   extraChildren?: React.ReactNode;
+  extraSide?: React.ReactNode;
 }
 
 interface LoadingProps extends BaseProps {
@@ -34,11 +37,21 @@ export const SingleWrapSection = (props: SingleWrapSectionProps) => {
   if (props.state === "loading") {
     return (
       <section className={styled.SingleWrapSection}>
-        <div className={styled.SingleWrapSection__Card}>
-          <div className={styled.SingleWrapSection__SkeletonWrap}>
+        <div className={styled.SingleWrapSection__SkeletonWrap}>
+          <div className={styled.SingleWrapSection__SkeletonHeader}>
             <div className={styled.SingleWrapSection__SkeletonIcon} />
-            <div className={styled.SingleWrapSection__SkeletonLine} />
-            <div className={styled.SingleWrapSection__SkeletonLine} />
+            <div className={styled.SingleWrapSection__SkeletonInfo}>
+              <div className={styled.SingleWrapSection__SkeletonLine} />
+              <div className={styled.SingleWrapSection__SkeletonLine} />
+            </div>
+          </div>
+          <div className={styled.SingleWrapSection__SkeletonRows}>
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className={styled.SingleWrapSection__SkeletonRow}>
+                <div className={styled.SingleWrapSection__SkeletonRowLabel} />
+                <div className={styled.SingleWrapSection__SkeletonRowValue} />
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -48,74 +61,68 @@ export const SingleWrapSection = (props: SingleWrapSectionProps) => {
   if (props.state === "not_found") {
     return (
       <section className={styled.SingleWrapSection}>
-        <div className={styled.SingleWrapSection__Card}>
-          <div className={styled.SingleWrapSection__NotFound}>
-            {props.icon}
-            <h3>Запись не найдена</h3>
-            <p>{props.path}</p>
-          </div>
+        <div className={styled.SingleWrapSection__NotFound}>
+          {props.icon}
+          <h3>Запись не найдена</h3>
+          {props.path && <p>{props.path}</p>}
         </div>
       </section>
     );
   }
 
+  const hasSidebar = Boolean(props.extraSide);
+
   return (
     <section className={styled.SingleWrapSection}>
-      <div className={styled.SingleWrapSection__Card}>
-        <div className={styled.SingleWrapSection__Header}>
-          <div className={styled.SingleWrapSection__HeaderTitle}>
-            <div className={styled.SingleWrapSection__Icon}>
-              {props.icon}
+      <div className={hasSidebar ? styled.SingleWrapSection__Card : styled['SingleWrapSection__Card--full']}>
+        <div className={styled.SingleWrapSection__CardLeft}>
+          <div className={styled.SingleWrapSection__Header}>
+            <div className={styled.SingleWrapSection__HeaderTitle}>
+              <div className={styled.SingleWrapSection__Icon}>
+                {props.icon}
+              </div>
+              <div>
+                <h2 className={styled.SingleWrapSection__Name}>{props.title}</h2>
+                {props.path && (
+                  <span className={styled.SingleWrapSection__Path}>
+                    {props.path}
+                  </span>
+                )}
+              </div>
             </div>
-            <div>
-              <h2 className={styled.SingleWrapSection__Name}>{props.title}</h2>
-              <span className={styled.SingleWrapSection__Path}>
-                {props.path}
-              </span>
-            </div>
-          </div>
-          {props.extraActions && (
-            <>
-              {props.extraActions}
-            </>
-          )}
-        </div>
-          <div className={styled.SingleWrapSection__Info}>
-            {props.username && (
-              <div className={styled.SingleWrapSection__InfoRow}>
-                <span className={styled.SingleWrapSection__InfoLabel}>
-                  <FiUser size={14} /> автор
-                </span>
-                <span className={styled.SingleWrapSection__InfoValue}>{props.username}</span>
+            {props.extraActions && (
+              <div className={styled.SingleWrapSection__HeaderActions}>
+                {props.extraActions}
               </div>
             )}
-            <div className={styled.SingleWrapSection__InfoRow}>
-              <span className={styled.SingleWrapSection__InfoLabel}>
-                <FiCalendar size={14} /> создан
-              </span>
-              <span className={styled.SingleWrapSection__InfoValue}>
-                {new Date(props.entity?.createdAt || props.entity?.startedAt).toLocaleDateString("ru-RU", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </span>
-            </div>
-            {props.children}
           </div>
+
+          <Link to={`/profile/${props.username}`} className={styled.SingleWrapSection__LinkProfile}>
+            <InfoRow label='автор' icon={<FiUser size={12} />} value={props.username} />
+          </Link>
+          <InfoRow label='создан' icon={<FiCalendar size={12} />} value={props.entity?.createdAt || props.entity?.startedAt} isDate />
+          {props.children}
+
           {props.entity?.description && (
             <div className={styled.SingleWrapSection__Description}>
               <h4>описание</h4>
               <p>{props.entity?.description}</p>
             </div>
           )}
+
           {props.extraChildren && (
-            <>
+            <div className={styled.SingleWrapSection__ExtraChildren}>
               {props.extraChildren}
-            </>
+            </div>
           )}
+        </div>
+
+        {hasSidebar && (
+          <div className={styled.SingleWrapSection__CardRight}>
+            {props.extraSide}
+          </div>
+        )}
+
       </div>
     </section>
   )

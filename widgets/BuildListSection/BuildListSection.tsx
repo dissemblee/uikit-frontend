@@ -5,9 +5,7 @@ import { useUserInfo } from "@shared/hooks/useUserInfo";
 
 export const BuildListSection = () => {
   const { displayName } = useUserInfo();
-  const { data, isLoading, isError } = useGetUserBuildsQuery({ username: displayName });
-  console.log(data)
-  const builds = data
+  const { data: builds, isLoading, isError } = useGetUserBuildsQuery({ username: displayName });
 
   return (
     <ListWrapSection

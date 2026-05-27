@@ -3,14 +3,21 @@
 
 .ListWrapSection {
   @include flexColumn;
-  gap: $value-4;
-  padding: $value-6;
+  gap: $value-3;
   width: 100%;
 }
 
 .ListWrapSection__Header {
   @include flexBetween;
-  @include divider;
+  gap: $value-4;
+  padding: 0 $value-2;
+}
+
+.ListWrapSection__HeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: $value-3;
+  flex-wrap: wrap;
 }
 
 .ListWrapSection__TitleCode {
@@ -18,18 +25,41 @@
   align-items: center;
   gap: $value-2;
   font-size: $value-5;
-  background: #F4F3FB;
-  padding: $value-1_5 $value-3;
-  border-radius: $rounded-lg;
   color: $title-color;
 }
 
 .ListWrapSection__Comment {
-  color: #8A8AAA;
+  color: $accent;
+  opacity: 0.4;
 }
 
 .ListWrapSection__HighlightTitle {
   color: $accent;
+  font-weight: 600;
+}
+
+.ListWrapSection__StatsBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: $value-1_5;
+  font-size: $value-3;
+  padding: $value-1 $value-2_5;
+  background: rgba(127, 119, 221, 0.07);
+  border: 1px solid rgba(127, 119, 221, 0.18);
+  border-radius: $rounded-full;
+  color: $subtitle-color;
+}
+
+.ListWrapSection__StatsDollar {
+  color: rgba(127, 119, 221, 0.55);
+}
+
+.ListWrapSection__StatsCmd {
+  color: #CE9178;
+}
+
+.ListWrapSection__StatsOut {
+  color: #4EC9B0;
   font-weight: 500;
 }
 
@@ -37,88 +67,72 @@
   flex-shrink: 0;
 }
 
+.ListWrapSection__Panel {
+  @include flexColumn;
+  border-radius: $rounded-xl;
+  border: 1px solid $border-color;
+  overflow: hidden;
+  background: #FFFFFF;
+  @include boxShadow;
+  animation: fadeUp 0.2s ease both;
+}
+
+.ListWrapSection__Filters {
+  padding: $value-3 $value-4;
+  background: $accent-background;
+  border-bottom: 1px solid $border-color;
+}
+
 .ListWrapSection__Body {
   @include flexColumn;
-  @include baseCard;
   gap: $value-1;
-  min-height: 800px;
+  padding: $value-2;
+  min-height: 500px;
   position: relative;
-}
-
-.ListWrapSection__StatsLine {
-  display: flex;
-  align-items: center;
-  gap: $value-2;
-  padding: $value-1_5 $value-3;
-  background: #F4F3FB;
-  border-bottom: 1px solid $border-color;
-  font-size: $value-3;
-}
-
-.ListWrapSection__Stats {
-  display: inline-flex;
-  align-items: center;
-  gap: $value-2;
-  flex-wrap: wrap;
-}
-
-.ListWrapSection__StatsPrompt {
-  color: #8A8AAA;
-}
-
-.ListWrapSection__StatsCommand {
-  color: #CE9178;
-}
-
-.ListWrapSection__StatsOutput {
-  color: #4EC9B0;
-}
-
-.ListWrapSection__StatsTime {
-  color: #8A8AAA;
-  font-size: $value-3;
 }
 
 .ListWrapSection__State {
   @include flexCenter;
   @include flexColumn;
-  gap: $value-3;
-  padding: $value-12 $value-5;
+  gap: $value-4;
+  padding: $value-14 $value-5;
+  flex: 1;
   animation: fadeUp 0.3s ease both;
 }
 
 .ListWrapSection__StateIcon {
   font-size: $value-10;
-  filter: grayscale(0.2);
 }
 
 .ListWrapSection__StateMessage {
-  @include flexCenter;
+  display: inline-flex;
+  align-items: center;
   gap: $value-2;
-  font-size: $value-4;
+  font-size: $value-3_5;
   background: #F4F3FB;
   padding: $value-2 $value-4;
   border-radius: $rounded-lg;
+  border: 1px solid $border-color;
   color: $title-color;
 }
 
 .ListWrapSection__ErrorPrompt {
   color: #E5484D;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .ListWrapSection__InfoPrompt {
   color: $accent;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 @keyframes fadeUp {
-  from { 
-    opacity: 0; 
-    transform: translateY($value-2); 
+  from {
+    opacity: 0;
+    transform: translateY($value-2);
   }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

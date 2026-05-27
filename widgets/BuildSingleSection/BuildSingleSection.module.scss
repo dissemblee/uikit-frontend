@@ -1,39 +1,8 @@
 @use '../../shared/styles/variables' as *;
 @use '../../shared/styles/mixins' as *;
 
-.BuildSingleSection__InfoRow {
-  display: flex;
-  align-items: center;
-  gap: $value-4;
-  padding: $value-3_5 $value-5;
-  font-size: $value-4;
-  transition: background 0.2s ease;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.10);
-  }
-}
-
-.BuildSingleSection__InfoLabel {
-  display: flex;
-  align-items: center;
-  gap: $value-2;
-  font-size: $value-3;
-  font-weight: bolder;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: $title-color;
-  min-width: 100px;
-}
-
-.BuildSingleSection__InfoValue {
-  color: $subtitle-color;
-  word-break: break-word;
-}
-
-.BuildSingleSection__DownloadButton {
-  display: flex;
-  gap: $value-2_5;
+.BuildSingleSection__InfoWrapper {
+  padding: $value-3 $value-6;
 }
 
 .BuildSingleSection__Status {
@@ -71,22 +40,13 @@
   color: rgba(160, 30, 30, 0.85);
 }
 
-.BuildSingleSection__RepoLink {
-  text-decoration: underline;
-}
-
-.BuildSingleSection__LogsWrapper {
-  width: 100%;
+.BuildSingleSection__LogsCard {
   border: 1px solid $border-color;
   border-radius: $rounded-xl;
-  background: #F4F3FB;
-  backdrop-filter: blur(12px);
+  background: $accent-background;
 }
 
 .BuildSingleSection__LogsHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: $value-3 $value-4;
   border-bottom: 1px solid $border-color;
 
@@ -99,13 +59,11 @@
 }
 
 .BuildSingleSection__Logs {
-  margin: 0;
   padding: $value-4;
-  max-height: 500px;
   overflow-y: auto;
   overflow-x: hidden;
 
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.7;
 
   color: $subtitle-color;

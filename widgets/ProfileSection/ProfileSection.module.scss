@@ -2,185 +2,120 @@
 @use '../../shared/styles/mixins' as *;
 
 .ProfileSection {
-  @include baseCard;
-  @include flexCenter;
-  min-height: 70vh;
   width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .ProfileSection__Card {
-  @include flexColumn;
-  width: 100%;
-  max-width: 560px;
-  gap: $value-6;
+  background: #fff;
+  border: 1px solid $border-color;
+  border-radius: $rounded-2xl;
+  overflow: hidden;
+  @include boxShadow;
+  animation: fadeUp 0.35s ease both;
 }
 
 .ProfileSection__Header {
-  display: flex;
-  align-items: center;
+  background: $accent-background;
+  border-bottom: 1px solid $border-color;
+  padding: $value-6 $value-7;
+  @include flexColumn;
   gap: $value-5;
-  @include divider;
 }
 
-.ProfileSection__Name {
-  color: $title-color;
-}
-
-.ProfileSection__Email {
-  font-size: $value-3_5;
-  color: $title-color;
-  opacity: 0.8;
-}
-
-.ProfileSection__Info {
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur($value-3);
-  -webkit-backdrop-filter: blur($value-3);
-  border-radius: $rounded-2xl;
-  border: 1px solid rgba(255, 255, 255, 0.32);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.40);
-  overflow: hidden;
-  animation: fadeUp 0.25s ease both;
-}
-
-.ProfileSection__InfoRow {
+.ProfileSection__HeaderTop {
   display: flex;
   align-items: center;
   gap: $value-4;
-  padding: $value-3_5 $value-5;
-  font-size: $value-4;
-  transition: background 0.2s ease;
+}
 
-  &:not(:last-child) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.20);
+.ProfileSection__Sub {
+  font-size: $value-3_5;
+  color: $subtitle-color;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ProfileSection__Nav {
+  display: flex;
+  align-items: center;
+  gap: $value-2;
+  flex-wrap: wrap;
+}
+
+.ProfileSection__NavLink {
+  display: inline-flex;
+  align-items: center;
+  gap: $value-1_5;
+  padding: $value-1_5 $value-3;
+  border-radius: $rounded-lg;
+  font-size: $value-3;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: $subtitle-color;
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+
+  svg {
+    flex-shrink: 0;
+    transition: transform 0.15s ease;
   }
 
   &:hover {
-    background: rgba(255, 255, 255, 0.10);
+    color: $accent;
+    background: rgba(127, 119, 221, 0.08);
+    border-color: rgba(127, 119, 221, 0.22);
+
+    svg {
+      transform: translateY(-1px);
+    }
   }
 }
 
-.ProfileSection__InfoLabel {
-  font-size: $value-3;
-  font-weight: bolder;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: $subtitle-color;
-}
-
-.ProfileSection__InfoValue {
-  color: $title-color;
-  word-break: break-word;
-}
-
-.ProfileSection__Action {
-  display: flex;
-  gap: $value-2_5;
-  animation: fadeUp 0.3s ease both;
-  animation-delay: 0.05s;
-}
-
-.ProfileSection__EditForm {
+.ProfileSection__Body {
   @include flexColumn;
-  animation: fadeUp 0.25s cubic-bezier(0.4, 0, 0.2, 1) both;
-  gap: $value-5;
 }
 
-.ProfileSection__EditHeader {
-  @include flexBetween;
+.ProfileSection__Actions {
+  display: flex;
+  gap: $value-3;
+  padding: $value-5 $value-7;
+  border-top: 1px solid $border-color;
+  flex-wrap: wrap;
 
-  h3 {
-    font-size: $value-4;
-    color: $title-color;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
+  > * {
+    flex: 1;
+    min-width: 140px;
   }
 }
 
-.ProfileSection__SkeletonWrap {
+.ProfileSection__FormSection {
   @include flexColumn;
   gap: $value-4;
-  padding: $value-14 $value-5;
-  width: 100%;
+  padding: $value-5 $value-7;
 }
 
-.ProfileSection__SkeletonAvatar {
-  width: 75px;
-  height: 75px;
-  border-radius: 50%;
-  @include SkeletonEffect;
+.ProfileSection__Stats {
+  padding: $value-5 $value-7 $value-6;
+  border-top: 1px solid $border-color;
 }
 
-.ProfileSection__SkeletonLine {
-  border-radius: $rounded-md;
-  @include SkeletonEffect;
-
-  &:nth-child(2) { width: 100%; height: 45px; animation-delay: 0.1s;}
-  &:nth-child(3) { width: 100%; height: 45px; animation-delay: 0.2s;}
+.ProfileSection__BannedBadge {
+  display: inline-flex;
+  align-items: center;
+  font-size: $value-3;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #b91c1c;
+  background: rgba(239, 68, 68, 0.09);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: $rounded-full;
+  padding: $value-0_5 $value-2_5;
 }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY($value-2); }
-  to   { opacity: 1; transform: translateY(0);   }
-}
-
-.ProfileSection__Tabs {
-  display: flex;
-  gap: 8px;
-  border-bottom: 1px solid #e0e0e0;
-  margin-bottom: 24px;
-  padding-bottom: 0;
-}
-
-.ProfileSection__Tab {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  cursor: pointer;
-  font-family: monospace;
-  font-size: 14px;
-  color: #666;
-  transition: all 0.2s;
-
-  &:hover {
-    color: #7F77DD;
-  }
-
-  &--active {
-    color: #7F77DD;
-    border-bottom-color: #7F77DD;
-  }
-
-  svg {
-    font-size: 16px;
-  }
-}
-
-.ProfileSection__TabContent {
-  margin-bottom: 24px;
-}
-
-.ProfileSection__Links {
-  margin-top: 24px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border-color);
-
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.ProfileSection__Link {
-  color: var(--accent);
-  text-decoration: none;
-  font-size: 14px;
-  transition: opacity 0.2s ease;
-
-  &:hover {
-    opacity: 0.7;
-  }
+  to   { opacity: 1; transform: translateY(0); }
 }

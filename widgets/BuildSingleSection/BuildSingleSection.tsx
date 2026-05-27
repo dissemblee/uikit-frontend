@@ -1,32 +1,42 @@
-import { Button } from "@shared/ui/Button";
 import { SingleWrapSection } from "@shared/ui/SingleWrapSection/SingleWrapSection";
-import { FiCalendar, FiClock, FiCode, FiDownload, FiPackage } from "react-icons/fi";
+import { FiBox, FiCalendar, FiCheckCircle, FiClock, FiCode, FiLoader, FiPackage, FiXCircle } from "react-icons/fi";
 import { Link, useParams } from "react-router";
 import styled from "./BuildSingleSection.module.scss";
 import { useGetBuildByIdQuery } from "@entities/build/build.api";
 import { BuildStatus } from "@entities/build";
 import moment from "moment";
+import { InfoRow } from "@shared/ui/InfoRow";
 
-const statusConfig: Record<BuildStatus, { icon: string; label: string; className: string }> = {
-  [BuildStatus.PENDING]: { 
-    icon: "⏳", 
-    label: "Ожидание", 
-    className: "pending" 
+const statusConfig: Record<
+  BuildStatus,
+  {
+    icon: React.ReactNode;
+    label: string;
+    className: string;
+  }
+> = {
+  [BuildStatus.PENDING]: {
+    icon: <FiClock size={14} />,
+    label: "Ожидание",
+    className: "pending",
   },
-  [BuildStatus.RUNNING]: { 
-    icon: "⚙️", 
-    label: "В процессе", 
-    className: "in_progress" 
+
+  [BuildStatus.RUNNING]: {
+    icon: <FiLoader size={14} />,
+    label: "В процессе",
+    className: "in_progress",
   },
-  [BuildStatus.SUCCESS]: { 
-    icon: "✅", 
-    label: "Завершено", 
-    className: "completed" 
+
+  [BuildStatus.SUCCESS]: {
+    icon: <FiCheckCircle size={14} />,
+    label: "Завершено",
+    className: "completed",
   },
-  [BuildStatus.FAILED]: { 
-    icon: "❌", 
-    label: "Ошибка", 
-    className: "failed" 
+
+  [BuildStatus.FAILED]: {
+    icon: <FiXCircle size={14} />,
+    label: "Ошибка",
+    className: "failed",
   },
 };
 
@@ -47,22 +57,13 @@ export const BuildSingleSection = () => {
     return <div>Build id not found</div>;
   }
   
-  let serviceType: 'repo' | 'components';
-
-  if (service === "component") serviceType = "components";
-  else if (service === "repo") serviceType = "repo";
+  const serviceType: 'repo' | 'components' = service === "repo" ? "repo" : "components";
 
   const { data: build, isLoading: buildLoading } = useGetBuildByIdQuery({ buildId, service: serviceType });
 
-  if (buildLoading) {
-    return <SingleWrapSection state="loading" />;
-  }
+  if (buildLoading) return <SingleWrapSection state="loading" />;
 
-  if (!build) {
-    return (
-      <SingleWrapSection state="not_found" />
-    );
-  }
+  if (!build) return <SingleWrapSection state="not_found" />
 
   const status = statusConfig[build.status];
   const duration = getDuration(build.startedAt, build.finishedAt);
@@ -73,90 +74,68 @@ export const BuildSingleSection = () => {
       state="success"
       title={build?.id}
       path={serviceType === "components" ? `${build?.username}/${build?.name}` : `${build?.repoId}`}
-      icon={<FiCode size={32} />}
+      icon={<FiPackage size={32} />}
     >
-      <>
-        <div className={styled.BuildSingleSection__InfoRow}>
-          <span className={styled.BuildSingleSection__InfoLabel}>
-            <FiCalendar size={14} /> Завершен
-          </span>
-          <span className={styled.BuildSingleSection__InfoValue}>
-            {build?.finishedAt ? new Date(build.finishedAt).toLocaleDateString("ru-RU", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-            }) : "В процессе..."}
-          </span>
-        </div>
-        <div className={styled.BuildSingleSection__InfoRow}>
-          <span className={styled.BuildSingleSection__InfoLabel}>
-            <FiClock size={14} /> Продолжительность
-          </span>
-          <span className={styled.BuildSingleSection__InfoValue}>
-            {duration}
-          </span>
-        </div>
-        <div className={styled.BuildSingleSection__InfoRow}>
-          <span className={styled.BuildSingleSection__InfoLabel}>
-            <FiPackage size={14} /> Статус
-          </span>
-          <span className={`${styled.BuildSingleSection__Status} ${styled[`BuildSingleSection__Status--${status.className}`]}`}>
-            {status.label}
-          </span>
-        </div>
-        <div className={styled.BuildSingleSection__InfoRow}>
-          <span className={styled.BuildSingleSection__InfoLabel}>
-            <FiPackage size={14} /> {serviceType === "components" ? "Компонент" : "Репозиторий"}
-          </span>
-          <span className={styled.BuildSingleSection__InfoValue}>
-            <Link to={serviceType === "components" ? `/components/${build?.username}/${build?.name}` : `/repositories/${build?.repoId}`} className={styled.BuildSingleSection__RepoLink}>
-              {serviceType === "components" ? `${build?.username}/${build?.name}` : build?.repoId}
-            </Link>
-          </span>
-        </div>
-        <div className={styled.BuildSingleSection__InfoRow}>
-          <div className={styled.BuildSingleSection__LogsWrapper}>
-            <div className={styled.BuildSingleSection__LogsHeader}>
-              <span>build.log</span>
-            </div>
+      <InfoRow label="Завершен" value={build.finishedAt} icon={<FiCalendar size={14} />} isDate />
+      <InfoRow label="Продолжительность" value={duration} icon={<FiClock size={14} />} />
+      <InfoRow
+        label="Статус"
+        value={status.label}
+        icon={status.icon}
+        className={`${styled.BuildSingleSection__Status} ${
+          styled[
+            `BuildSingleSection__Status--${status.className}`
+          ]
+        }`}
+      />
+      <Link to={serviceType === "components" ? `/components/${build?.component.username}/${build?.component.name}` : `/repositories/${build?.repoId}`} className={styled.SingleWrapSection__LinkProfile}>
+        <InfoRow
+          label={serviceType === "components" ? "Компонент" : "Репозиторий"}
+          value={serviceType === "components" ? `${build?.component.username}/${build?.component.name}` : build?.component.repoId}
+          icon={serviceType === "components" ? <FiCode size={14} /> : <FiBox size={14} />}
+        />
+      </Link>
 
-            <pre className={styled.BuildSingleSection__Logs}>
-              <code>
-                {build?.logs
-                  ?.split("\n")
-                  .filter(Boolean)
-                  .map((line, index) => {
-                    const level =
-                      line.includes("[ERROR]") ? "error"
-                      : line.includes("[WARN]") ? "warn"
-                      : line.includes("[DEBUG]") ? "debug"
-                      : line.includes("[SUCCESS]") ? "success"
-                      : "info";
-
-                    const className =
-                      level === "error"
-                        ? styled["BuildSingleSection__Logs--error"]
-                        : level === "warn"
-                        ? styled["BuildSingleSection__Logs--warn"]
-                        : level === "success"
-                        ? styled["BuildSingleSection__Logs--success"]
-                        : level === "debug"
-                        ? styled["BuildSingleSection__Logs--debug"]
-                        : "";
-
-                    return (
-                      <div key={index} className={className}>
-                        {line}
-                      </div>
-                    );
-                  })}
-              </code>
-            </pre>
+      <div className={styled.BuildSingleSection__InfoWrapper}>
+        <div className={styled.BuildSingleSection__LogsCard}>
+          <div className={styled.BuildSingleSection__LogsHeader}>
+            <span>build.log</span>
           </div>
+
+          <pre className={styled.BuildSingleSection__Logs}>
+            <code>
+              {build?.logs
+                ?.split("\n")
+                .filter(Boolean)
+                .map((line, index) => {
+                  const level =
+                    line.includes("[ERROR]") ? "error"
+                    : line.includes("[WARN]") ? "warn"
+                    : line.includes("[DEBUG]") ? "debug"
+                    : line.includes("[SUCCESS]") ? "success"
+                    : "info";
+
+                  const className =
+                    level === "error"
+                      ? styled["BuildSingleSection__Logs--error"]
+                      : level === "warn"
+                      ? styled["BuildSingleSection__Logs--warn"]
+                      : level === "success"
+                      ? styled["BuildSingleSection__Logs--success"]
+                      : level === "debug"
+                      ? styled["BuildSingleSection__Logs--debug"]
+                      : "";
+
+                  return (
+                    <div key={index} className={className}>
+                      {line}
+                    </div>
+                  );
+                })}
+            </code>
+          </pre>
         </div>
-      </>
+      </div>
     </SingleWrapSection>
   );
 }

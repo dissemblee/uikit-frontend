@@ -7,6 +7,8 @@ import styled from "./ComponentSingleSection.module.scss";
 import { SingleWrapSection } from "@shared/ui/SingleWrapSection";
 import { DownloadMenu } from "@shared/ui/DownloadMenu";
 import ShikiHighlighter from "react-shiki";
+import { ComponentStat } from "@features/ComponentStat";
+import { InfoRow } from "@shared/ui/InfoRow";
 // import StatCard from "StatCard" // Пример для компонентов
 // import MyButton from "shawarmaRepo/shawarma.js" // пример для реп
 // import Why from "useGetComponentSourceQueryRepo/EnterprisePricingShowcase.js"
@@ -14,6 +16,7 @@ import ShikiHighlighter from "react-shiki";
 export const ComponentSingleSection = () => {
   const [tab, setTab] = useState<"preview" | "code">("code");
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const handler = (e: MessageEvent) => {
@@ -36,15 +39,11 @@ export const ComponentSingleSection = () => {
     id: component?.id!,
   });
 
-  if (isLoading) {
-    return <SingleWrapSection state="loading" />;
-  }
+  if (isLoading) return <SingleWrapSection state="loading" />;
 
-  if (!component) {
-    return <SingleWrapSection state="not_found" />;
-  }
+  if (!component) return <SingleWrapSection state="not_found" />;
 
-  const packageId = `${username}/${name}`;
+  const packageId = `${username}/${name}/${component.version}`;
 
   return (
     <SingleWrapSection
@@ -56,72 +55,69 @@ export const ComponentSingleSection = () => {
       username={username}
       extraActions={
         <DownloadMenu
-          downloadUrl={`http://localhost:8080/api/components/main/package/${packageId}`}
+          downloadUrl={`http://localhost:8080/api/components/load/${packageId}`}
         />
       }
+      extraSide={<ComponentStat id={component.id} />}
       extraChildren={
-        <div className={styled.ComponentSingleSection__Surface}>
-          <div className={styled.ComponentSingleSection__Tabs}>
-            <span
-              className={
-                tab === "code"
-                  ? styled.ComponentSingleSection__TabActive
-                  : styled.ComponentSingleSection__Tab
-              }
-              onClick={() => setTab("code")}
-            >
-              $ view --исходный код
+        <div className={styled.ComponentSingleSection}>
+          <div
+            className={styled.ComponentSingleSection__Tabs}
+            onClick={() => setIsOpen((v) => !v)}
+            style={{ cursor: "pointer" }}
+          >
+            <span className={styled.ComponentSingleSection__Toggle}>
+              {isOpen ? "▾" : "▸"}
             </span>
-            <span
-              className={
-                tab === "preview"
-                  ? styled.ComponentSingleSection__TabActive
-                  : styled.ComponentSingleSection__Tab
-              }
-              onClick={() => setTab("preview")}
-            >
-              $ view --предпросмотр
-            </span>
-          </div>
-
-          <div className={styled.ComponentSingleSection__Body}>
-            {tab === "preview" && (
-              <div className={styled.ComponentSingleSection__PreviewWrap}>
-                {component?.id && (
-                  <iframe
-                    ref={iframeRef}
-                    src={`http://localhost:8080/api/components/previews/${component.id}/page`}
-                    sandbox="allow-scripts"
-                    className={styled.ComponentSingleSection__Preview}
-                    style={{ height: 0 }}
-                  />
-                )}
-              </div>
+            {isOpen && (
+              <>
+                <span
+                  className={tab === "code" ? styled.ComponentSingleSection__TabActive : styled.ComponentSingleSection__Tab}
+                  onClick={(e) => { e.stopPropagation(); setTab("code"); }}
+                >
+                  $ view --исходный код
+                </span>
+                <span
+                  className={tab === "preview" ? styled.ComponentSingleSection__TabActive : styled.ComponentSingleSection__Tab}
+                  onClick={(e) => { e.stopPropagation(); setTab("preview"); }}
+                >
+                  $ view --предпросмотр
+                </span>
+              </>
             )}
-
-            {tab === "code" && (
-              <ShikiHighlighter
-                language={"ts"}
-                theme="github-light"
-                showLineNumbers
-              >
-                {text || "Source code not available"}
-              </ShikiHighlighter>
+            {!isOpen && (
+              <span className={styled.ComponentSingleSection__Tab}>
+                $ view --исходный код / предпросмотр
+              </span>
             )}
           </div>
+
+          {isOpen && (
+            <div className={styled.ComponentSingleSection__Body}>
+              {tab === "preview" && (
+                <>
+                  {component?.id && (
+                    <iframe
+                      ref={iframeRef}
+                      src={`http://localhost:8080/api/components/previews/${component.id}/page`}
+                      sandbox="allow-scripts"
+                      className={styled.ComponentSingleSection__Preview}
+                      style={{ height: 0 }}
+                    />
+                  )}
+                </>
+              )}
+              {tab === "code" && (
+                <ShikiHighlighter language={"ts"} theme="github-light" showLineNumbers>
+                  {text || "Source code not available"}
+                </ShikiHighlighter>
+              )}
+            </div>
+          )}
         </div>
       }
     >
-      <div className={styled.ComponentSingleSection__InfoRow}>
-        <span className={styled.ComponentSingleSection__InfoLabel}>
-          <FiPackage size={14} />
-          framework
-        </span>
-        {/* <StatCard /> */}
-        <span className={styled.ComponentSingleSection__InfoValue}>
-          {component.framework}
-        </span>
-      </div>
+      <InfoRow label="framework" value={component.framework} icon={<FiPackage size={14} />} />
     </SingleWrapSection>
   );
 };

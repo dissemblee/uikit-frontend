@@ -1,3 +1,6 @@
+@use '../../shared/styles/variables' as *;
+@use '../../shared/styles/mixins' as *;
+
 .ComponentSearch {
   position: relative;
   
@@ -47,7 +50,6 @@
     max-height: 300px;
     overflow-y: auto;
     z-index: 10;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
   
   &__Result {

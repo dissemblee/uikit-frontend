@@ -12,14 +12,31 @@ export const componentsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllComponents: builder.query<
       ComponentCursorResultDto,
-      { skip?: number; limit?: number }
+      {
+        skip?: number;
+        limit?: number;
+        search?: string;
+        framework?: string;
+        sort?: "asc" | "desc";
+        startDate?: string;
+      }
     >({
-      query: ({ skip = 0, limit = 10 }) => ({
+      query: ({ skip = 0, limit = 10, search, framework, sort, startDate }) => ({
         url: `${ENDPOINT}/main`,
         method: "GET",
-        params: { skip, limit },
+        params: {
+          skip,
+          limit,
+          ...(search && { query: search }),
+          ...(framework && { framework }),
+          ...(sort && { sort }),
+          ...(startDate && { startDate }),
+        },
         service: "components"
       }),
+      serializeQueryArgs: ({ queryArgs }) => {
+        return JSON.stringify(queryArgs);
+      },
       providesTags: (result) => {
         const components = result?.result?.data;
         if (!components) return [{ type: "Components", id: "LIST" }];
@@ -76,6 +93,20 @@ export const componentsApi = baseApi.injectEndpoints({
         responseHandler: (response: any) => response.text(),
       }),
     }),
+    getComponentStat: builder.query<any, { id: string }>({
+      query: ({ id }) => ({
+        url: `${ENDPOINT}/stat/components/${id}`,
+        method: "GET",
+        service: "components",
+      }),
+    }),
+    getUserStat: builder.query<any, { username: string }>({
+      query: ({ username }) => ({
+        url: `${ENDPOINT}/stat/users/${username}`,
+        method: "GET",
+        service: "components",
+      }),
+    }),
   }),
 });
 
@@ -86,4 +117,6 @@ export const {
   useGetComponentsByUserQuery,
   useLazyGetComponentPackageQuery,
   useGetComponentSourceQuery,
+  useGetComponentStatQuery,
+  useGetUserStatQuery,
 } = componentsApi;

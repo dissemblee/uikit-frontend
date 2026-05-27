@@ -1,37 +1,7 @@
 @use '../../shared/styles/variables' as *;
 @use '../../shared/styles/mixins' as *;
 
-.ComponentSingleSection__InfoRow {
-  display: flex;
-  align-items: center;
-  gap: $value-4;
-  padding: $value-3_5 $value-5;
-  font-size: $value-4;
-  transition: background 0.2s ease;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.10);
-  }
-}
-
-.ComponentSingleSection__InfoLabel {
-  display: flex;
-  align-items: center;
-  gap: $value-2;
-  font-size: $value-3;
-  font-weight: bolder;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: $title-color;
-  min-width: 100px;
-}
-
-.ComponentSingleSection__InfoValue {
-  color: $subtitle-color;
-  word-break: break-word;
-}
-
-.ComponentSingleSection__Surface {
+.ComponentSingleSection {
   margin-top: $value-6;
   border: 1px solid $border-color;
   border-radius: $rounded-lg;
@@ -42,7 +12,6 @@
   align-items: center;
   gap: $value-2;
   padding: $value-3;
-  @include divider;
 }
 
 .ComponentSingleSection__Tab,
@@ -75,18 +44,16 @@
   padding: $value-5;
 }
 
-.ComponentSingleSection__PreviewWrap {
-  background: #FAFAFD;
-  border: 1px solid $border-color;
-  border-radius: $rounded-lg;
-  padding: $value-5;
-}
-
 .ComponentSingleSection__Preview {
   width: 100%;
   border: none;
   border-radius: $rounded-md;
-  background: white;
-  box-shadow:
-    0 8px 24px rgba(20, 20, 40, 0.06);
+  @include boxShadow;
+}
+
+.ComponentSingleSection__Toggle {
+  font-size: $value-4;
+  color: $subtitle-color;
+  margin-right: $value-1;
+  transition: transform 0.2s ease;
 }

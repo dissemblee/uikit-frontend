@@ -1,11 +1,16 @@
-import type { UserDto } from "@entities/user"
-import { FaUser } from "react-icons/fa"
 import styled from "./UserIcon.module.scss"
 
-export const UserIcon = ({user}: {user?: UserDto}) => {
+type Props = {
+  username?: string;
+  size?: "sm" | "md" | "lg";
+}
+
+export const UserIcon = ({ username, size = "md" }: Props) => {
+  const initial = username ? username[0].toUpperCase() : "?";
+
   return (
-    <article className={styled.UserIcon}>
-      <FaUser />
-    </article>
-  )
+    <div className={`${styled.UserIcon} ${size !== "md" ? styled[`UserIcon--${size}`] : ""}`}>
+      {initial}
+    </div>
+  );
 }

@@ -59,7 +59,7 @@ $input-transition:   all 0.18s ease;
   &:focus {
     background: $input-bg-focus;
     border-color: $accent;
-    box-shadow: 0 0 0 3px rgba(127, 119, 221, 0.12);
+    @include boxShadow;
 
     &::placeholder {
       opacity: 0;
@@ -196,7 +196,7 @@ $input-transition:   all 0.18s ease;
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(127, 119, 221, 0.12);
+    @include boxShadow;
   }
 }
 
@@ -226,7 +226,7 @@ $input-transition:   all 0.18s ease;
 .FileInput--dragging .FileInput__Dropzone {
   background: #EEEDFE;
   border-color: $accent;
-  box-shadow: 0 0 0 3px rgba(127, 119, 221, 0.12);
+  @include boxShadow;
 }
 
 .FileInput--error .FileInput__Dropzone {

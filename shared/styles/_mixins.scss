@@ -20,13 +20,13 @@
 @mixin SkeletonEffect {
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.15) 0%,
-    rgba(255, 255, 255, 0.30) 50%,
-    rgba(255, 255, 255, 0.15) 100%
+    #e8e8e8 0%,
+    #f5f5f5 50%,
+    #e8e8e8 100%
   );
   background-size: 200% 100%;
-  animation: shimmerBg 1.6s ease-in-out infinite;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  animation: shimmer 1.6s ease-in-out infinite;
+  border: 1px solid #e0e0e0;
 }
 
 @mixin divider {
@@ -66,6 +66,13 @@
   transition: all 0.5s ease;
   background: #FFFFFF;
   border: 1px solid $border-color;
+}
+
+@mixin boxShadow {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.85) inset,
+    0 4px 24px rgba(127, 119, 221, 0.09),
+    0 1px 4px rgba(127, 119, 221, 0.05);
 }
 
 @keyframes shimmer {

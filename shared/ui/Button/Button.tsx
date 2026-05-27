@@ -1,29 +1,39 @@
 import React, { type ButtonHTMLAttributes } from 'react';
 import styles from './Button.module.scss';
 
+type ButtonVariant = 'primary' | 'secondary' | 'cancel' | 'danger';
+type ButtonSize    = 'sm' | 'md' | 'lg';
+
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   onClick?: () => void;
-  variant?: 'primary' | 'secondary' | 'cancel';
-  className?: string;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   nonBlock?: boolean;
   loading?: boolean;
   loadingText?: string;
+  iconLeft?: React.ReactNode;
+  iconRight?: React.ReactNode;
+  className?: string;
 }
 
 export const Button = ({
   children,
   onClick,
-  variant = 'primary',
-  className = '',
+  variant  = 'primary',
+  size     = 'md',
   nonBlock = false,
+  loading  = false,
   loadingText = 'Загрузка...',
-  loading,
+  iconLeft,
+  iconRight,
+  className = '',
   ...props
 }: ButtonProps) => {
   const classes = [
     styles.Button,
     styles[`Button--${variant}`],
+    styles[`Button--${size}`],
     loading && styles['Button--loading'],
     className,
   ].filter(Boolean).join(' ');
@@ -37,12 +47,16 @@ export const Button = ({
       {...props}
     >
       {loading ? (
-        <span className={styles.Button__loadingInner}>
+        <span className={styles.Button__inner}>
           <span className={styles.Button__spinner} />
-          {loadingText}
+          <span>{loadingText}</span>
         </span>
       ) : (
-        children
+        <span className={styles.Button__inner}>
+          {iconLeft  && <span className={styles.Button__icon}>{iconLeft}</span>}
+          {children}
+          {iconRight && <span className={styles.Button__icon}>{iconRight}</span>}
+        </span>
       )}
     </button>
   );

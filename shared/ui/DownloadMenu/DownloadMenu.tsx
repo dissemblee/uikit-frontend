@@ -5,7 +5,10 @@ import styled from "./DownloadMenu.module.scss";
 export const DownloadMenu = ({downloadUrl}: {downloadUrl: string;}) => {
   const [open, setOpen] = useState(false);
   const npmCommand = `npm i ${downloadUrl}`;
-  const packageId = downloadUrl.split("/").pop();
+  const parts = downloadUrl.split("/");
+  const version = parts[parts.length - 1];
+  const name = parts[parts.length - 2];
+  const filename = `${name}-${version}.tar.gz`;
 
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(npmCommand);
@@ -27,7 +30,7 @@ export const DownloadMenu = ({downloadUrl}: {downloadUrl: string;}) => {
             href={downloadUrl}
             target="_blank"
             rel="noopener noreferrer"
-            download={`${packageId}.tar.gz`}
+            download={filename}
             className={styled.DownloadMenu__MenuItem}
           >
             <FiDownload />

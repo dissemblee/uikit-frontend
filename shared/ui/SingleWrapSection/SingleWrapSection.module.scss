@@ -2,155 +2,254 @@
 @use '../../styles/variables' as *;
 
 .SingleWrapSection {
-  @include baseCard;
-  @include flexCenter;
-  min-height: 70vh;
   width: 100%;
+  border-radius: $rounded-xl;
+  overflow: hidden;
+  border: 1px solid $border-color;
+  background: #FFFFFF;
+  @include boxShadow;
+  animation: fadeUp 0.2s ease both;
 }
 
 .SingleWrapSection__Card {
-  @include flexColumn;
+  display: grid;
+  grid-template-columns: 1fr 25%;
+  align-items: start;
   width: 100%;
-  max-width: 680px;
-  gap: $value-6;
+}
+
+.SingleWrapSection__Card--full {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
+
+.SingleWrapSection__CardLeft {
+  @include flexColumn;
+  min-width: 0;
+  border-right: 1px solid $border-color;
+
+  .SingleWrapSection__Card--full & {
+    border-right: none;
+  }
+}
+
+.SingleWrapSection__CardRight {
+  position: sticky;
+  top: $value-6;
+  padding: $value-5;
 }
 
 .SingleWrapSection__Header {
-  display: flex;
-  align-items: center;
   @include flexBetween;
-  @include divider;
+  gap: $value-4;
+  padding: $value-5 $value-6;
+  background: $accent-background;
+  border-bottom: 1px solid $border-color;
 }
 
 .SingleWrapSection__HeaderTitle {
   display: flex;
   align-items: center;
-  gap: $value-5;
+  gap: $value-4;
+  min-width: 0;
+}
+
+.SingleWrapSection__HeaderActions {
+  flex-shrink: 0;
 }
 
 .SingleWrapSection__Icon {
   @include flexCenter;
-  width: $value-16;
-  height: $value-16;
-  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%);
-  border-radius: $rounded-2xl;
-  color: $title-color;
-}
-
-.SingleWrapSection__Info {
-  overflow: hidden;
-  animation: fadeUp 0.25s ease both;
-}
-
-.SingleWrapSection__InfoRow {
-  display: flex;
-  align-items: center;
-  gap: $value-4;
-  padding: $value-3_5 $value-5;
-  font-size: $value-4;
-  transition: background 0.2s ease;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.10);
-  }
-}
-
-.SingleWrapSection__InfoLabel {
-  display: flex;
-  align-items: center;
-  gap: $value-2;
-  font-size: $value-3;
-  font-weight: bolder;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: $title-color;
-  min-width: 100px;
-}
-
-.SingleWrapSection__InfoValue {
-  color: $subtitle-color;
-  word-break: break-word;
+  width: $value-14;
+  height: $value-14;
+  background: linear-gradient(135deg, rgba(127, 119, 221, 0.12) 0%, rgba(127, 119, 221, 0.04) 100%);
+  border: 1px solid rgba(127, 119, 221, 0.15);
+  border-radius: $rounded-xl;
+  color: $accent;
+  flex-shrink: 0;
 }
 
 .SingleWrapSection__Name {
   color: $title-color;
   font-size: $value-6;
+  font-weight: 600;
   margin-bottom: $value-1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .SingleWrapSection__Path {
   font-size: $value-3;
   color: $subtitle-color;
+
+  &::before {
+    content: "~/";
+    color: $accent;
+    opacity: 0.55;
+    font-weight: 600;
+  }
+}
+
+.SingleWrapSection__Description {
+  @include flexColumn;
+  gap: $value-3;
+  padding: $value-5 $value-6;
+  border-bottom: 1px solid $border-color;
+  animation: fadeUp 0.3s ease both;
+  animation-delay: 0.05s;
+
+  h4 {
+    font-size: $value-3;
+    color: $accent;
+    opacity: 0.65;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 700;
+  }
+
+  p {
+    color: $subtitle-color;
+    line-height: 1.65;
+    font-size: $value-3_5;
+    padding: $value-3_5 $value-5;
+    border-radius: $rounded-lg;
+    border-left: 2px solid $accent;
+    background: rgba(127, 119, 221, 0.04);
+  }
+}
+
+.SingleWrapSection__ExtraChildren {
+  @include flexColumn;
+  padding: $value-5 $value-6;
+  gap: $value-4;
+  animation: fadeUp 0.3s ease both;
+  animation-delay: 0.08s;
+}
+
+.SingleWrapSection__LinkProfile {
+  span {
+    color: $accent;
+    transition: opacity 0.15s ease;
+
+    &:hover {
+      opacity: 0.75;
+      text-decoration: underline;
+    }
+  }
 }
 
 .SingleWrapSection__NotFound {
   @include flexColumn;
   align-items: center;
+  justify-content: center;
   text-align: center;
   gap: $value-4;
-  padding: $value-14 $value-5;
-  color: $subtitle-color;
+  padding: $value-20 $value-5;
+  min-height: 50vh;
 
   svg {
-    opacity: 0.5;
+    opacity: 0.25;
+    color: $accent;
   }
 
   h3 {
-    color: $title-color;
     font-size: $value-5;
+    color: $title-color;
   }
 
   p {
     font-size: $value-3_5;
+    background: #F4F3FB;
+    padding: $value-2 $value-4;
+    border-radius: $rounded-lg;
+    border: 1px solid $border-color;
+    color: $subtitle-color;
+
+    &::before {
+      content: "[404] ";
+      color: #E5484D;
+      font-weight: 600;
+    }
   }
 }
 
 .SingleWrapSection__SkeletonWrap {
   @include flexColumn;
-  gap: $value-4;
-  padding: $value-14 $value-5;
+  gap: 0;
   width: 100%;
 }
 
+.SingleWrapSection__SkeletonHeader {
+  display: flex;
+  align-items: center;
+  gap: $value-4;
+  padding: $value-5 $value-6;
+  background: $accent-background;
+  border-bottom: 1px solid $border-color;
+}
+
 .SingleWrapSection__SkeletonIcon {
-  width: 64px;
-  height: 64px;
-  border-radius: $rounded-2xl;
+  width: $value-14;
+  height: $value-14;
+  border-radius: $rounded-xl;
   @include SkeletonEffect;
+  flex-shrink: 0;
+}
+
+.SingleWrapSection__SkeletonInfo {
+  @include flexColumn;
+  gap: $value-2_5;
+  flex: 1;
 }
 
 .SingleWrapSection__SkeletonLine {
   border-radius: $rounded-md;
   @include SkeletonEffect;
 
-  &:nth-child(2) { width: 60%; height: 32px; animation-delay: 0.1s; }
-  &:nth-child(3) { width: 80%; height: 20px; animation-delay: 0.2s; }
-  &:nth-child(4) { width: 100%; height: 60px; animation-delay: 0.3s; }
+  &:nth-child(1) { width: 40%; height: $value-6; animation-delay: 0.05s; }
+  &:nth-child(2) { width: 22%; height: $value-4; animation-delay: 0.1s; }
+}
+
+.SingleWrapSection__SkeletonRows {
+  @include flexColumn;
+  padding: $value-2 $value-6 $value-5;
+}
+
+.SingleWrapSection__SkeletonRow {
+  display: flex;
+  align-items: center;
+  gap: $value-4;
+  padding: $value-3_5 0;
+  border-bottom: 1px solid rgba(206, 203, 246, 0.35);
+
+  &:last-child { border-bottom: none; }
+}
+
+.SingleWrapSection__SkeletonRowLabel {
+  width: 90px;
+  height: $value-3_5;
+  border-radius: $rounded-sm;
+  @include SkeletonEffect;
+  flex-shrink: 0;
+  animation-delay: 0.12s;
+}
+
+.SingleWrapSection__SkeletonRowValue {
+  height: $value-3_5;
+  border-radius: $rounded-sm;
+  @include SkeletonEffect;
+  width: 45%;
+  animation-delay: 0.18s;
+
+  .SingleWrapSection__SkeletonRow:nth-child(1) & { width: 30%; }
+  .SingleWrapSection__SkeletonRow:nth-child(2) & { width: 55%; }
+  .SingleWrapSection__SkeletonRow:nth-child(3) & { width: 20%; }
+  .SingleWrapSection__SkeletonRow:nth-child(4) & { width: 45%; }
 }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY($value-2); }
-  to   { opacity: 1; transform: translateY(0);   }
-}
-
-.SingleWrapSection__Description {
-  @include flexColumn;
-  gap: $value-3;
-  animation: fadeUp 0.3s ease both;
-  animation-delay: 0.05s;
-
-  h4 {
-    font-size: $value-3_5;
-    color: $title-color;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  p {
-    color: $subtitle-color;
-    line-height: 1.5;
-    padding: $value-4;
-    border-radius: $rounded-lg;
-    border-left: 3px solid $border-color;
-  }
+  to   { opacity: 1; transform: translateY(0); }
 }

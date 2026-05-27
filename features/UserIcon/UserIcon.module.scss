@@ -5,12 +5,32 @@
   width: $value-16;
   height: $value-16;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur($value-2_5);
-  border: 2px solid white;
-  @include flexColumn;
+  background: linear-gradient(
+    135deg,
+    rgba(127, 119, 221, 0.24) 0%,
+    rgba(127, 119, 221, 0.10) 100%
+  );
+  border: 2px solid rgba(127, 119, 221, 0.28);
   @include flexCenter;
-  font-size: 2.5rem;
-  color: $title-color;
-  box-shadow: 0 $value-2 $value-5 rgba(0,30,50,0.2);
+  font-size: $value-8;
+  font-weight: 700;
+  color: $accent;
+  flex-shrink: 0;
+  user-select: none;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.UserIcon--sm {
+  width: $value-10;
+  height: $value-10;
+  font-size: $value-5;
+  border-width: 1.5px;
+}
+
+.UserIcon--lg {
+  width: $value-20;
+  height: $value-20;
+  font-size: $value-10;
 }

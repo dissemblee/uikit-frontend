@@ -27,7 +27,7 @@ export const BentoSection = () => {
       <div className={styled.BentoSection__2}>
         <BentoCard 
           icon={
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v14M2 9h14" stroke="#7F77DD" stroke-width="1.5" stroke-linecap="round"></path></svg>
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v14M2 9h14" stroke="#7F77DD" strokeWidth="1.5" strokeLinecap="round"></path></svg>
           }
           domain={"публикация"}
           title={"загрузите ваш компонент"}
@@ -43,7 +43,7 @@ export const BentoSection = () => {
       <div className={styled.BentoSection__3}>
         <BentoCard 
           icon={
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="6" stroke="#1D9E75" stroke-width="1.2"></circle><path d="M6 9l2 2 4-4" stroke="#1D9E75" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="6" stroke="#1D9E75" strokeWidth="1.2"></circle><path d="M6 9l2 2 4-4" stroke="#1D9E75" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"></path></svg>
           }
           domain={"сборка"}
           title={"мониторинг сборок"}
@@ -81,7 +81,7 @@ export const BentoSection = () => {
       <div className={styled.BentoSection__4}>
         <BentoCard 
           icon={
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="3" width="14" height="12" rx="2" stroke="#7F77DD" stroke-width="1.2"></rect><path d="M2 7h14" stroke="#7F77DD" stroke-width="1.2"></path><path d="M6 11h6" stroke="#7F77DD" stroke-width="1.2" stroke-linecap="round"></path></svg>
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="3" width="14" height="12" rx="2" stroke="#7F77DD" strokeWidth="1.2"></rect><path d="M2 7h14" stroke="#7F77DD" strokeWidth="1.2"></path><path d="M6 11h6" stroke="#7F77DD" strokeWidth="1.2" strokeLinecap="round"></path></svg>
           }
           domain={"репозитории"}
           title={"собирайте компоненты в сборки"}
@@ -96,7 +96,7 @@ export const BentoSection = () => {
       <div className={styled.BentoSection__5}>
         <BentoCard 
           icon={
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3" stroke="#7F77DD" stroke-width="1.2"></circle><path d="M3 15c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="#7F77DD" stroke-width="1.2" stroke-linecap="round"></path></svg>
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3" stroke="#7F77DD" strokeWidth="1.2"></circle><path d="M3 15c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="#7F77DD" strokeWidth="1.2" strokeLinecap="round"></path></svg>
           }
           domain={"мои компоненты"}
           title={"управление опубликованным"}
@@ -108,7 +108,7 @@ export const BentoSection = () => {
       <div className={styled.BentoSection__6}>
         <BentoCard 
           icon={
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L11.5 7H16L12.5 10.5L14 15.5L9 12.5L4 15.5L5.5 10.5L2 7H6.5L9 2Z" stroke="#BA7517" stroke-width="1.2" stroke-linejoin="round"></path></svg>
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L11.5 7H16L12.5 10.5L14 15.5L9 12.5L4 15.5L5.5 10.5L2 7H6.5L9 2Z" stroke="#BA7517" strokeWidth="1.2" strokeLinejoin="round"></path></svg>
           }
           domain={"популярное"}
           title={"самые скачиваемые за неделю"}
@@ -143,7 +143,7 @@ export const BentoSection = () => {
       <div className={styled.BentoSection__7}>
         <BentoCard 
           icon={
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 4h10M4 8h7M4 12h5" stroke="#7F77DD" stroke-width="1.3" stroke-linecap="round"></path></svg>
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 4h10M4 8h7M4 12h5" stroke="#7F77DD" strokeWidth="1.3" strokeLinecap="round"></path></svg>
           }
           domain={"документация"}
           title={"документация по платформе"}
@@ -155,7 +155,7 @@ export const BentoSection = () => {
       <div className={styled.BentoSection__8}>
         <BentoCard 
           icon={
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 9l3 3 5-5" stroke="#7F77DD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 9l3 3 5-5" stroke="#7F77DD" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path></svg>
           }
           domain={"начните работу"}
           title={"впервые здесь?"}

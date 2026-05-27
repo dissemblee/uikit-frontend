@@ -35,7 +35,7 @@ export const FormWrapSection = (props: FormWrapSectionProps) => {
   return (
     <section className={styled.FormWrapSection}>
       <div className={styled.FormWrapSection__Header}>
-        <Button variant="cancel" nonBlock onClick={() => navigate(-1)}>
+        <Button variant="cancel" nonBlock size="sm" onClick={() => navigate(-1)}>
           <FiArrowLeft /> назад
         </Button>
 

@@ -1,0 +1,78 @@
+@use '../../shared/styles/variables' as *;
+@use '../../shared/styles/mixins' as *;
+
+.UserStat {
+  @include flexColumn;
+  gap: $value-4;
+  animation: fadeUp 0.3s ease both;
+  animation-delay: 0.1s;
+}
+
+.UserStat__StatGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $value-3;
+}
+
+.UserStat__StatCard {
+  @include flexColumn;
+  gap: $value-1;
+  background: #F8F7FE;
+  border: 1px solid $border-color;
+  border-radius: $rounded-lg;
+  padding: $value-3 $value-4;
+  transition: background 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    background: rgba(127, 119, 221, 0.06);
+    border-color: rgba(127, 119, 221, 0.35);
+  }
+}
+
+.UserStat__StatLabel {
+  font-size: $value-3;
+  color: $subtitle-color;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.UserStat__StatValue {
+  font-size: $value-6;
+  font-weight: 700;
+  color: $title-color;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.UserStat__StatBar {
+  @include flexColumn;
+  gap: $value-2;
+}
+
+.UserStat__StatBarHeader {
+  @include flexBetween;
+  font-size: $value-3;
+  color: $subtitle-color;
+  font-weight: 500;
+}
+
+.UserStat__StatBarTrack {
+  width: 100%;
+  height: 5px;
+  background: rgba(127, 119, 221, 0.12);
+  border-radius: $rounded-full;
+  overflow: hidden;
+}
+
+.UserStat__StatBarFill {
+  height: 100%;
+  border-radius: $rounded-full;
+  background: linear-gradient(90deg, $accent 0%, #9990e8 100%);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(0.5rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}

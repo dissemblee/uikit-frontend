@@ -1,0 +1,36 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+
+.InfoRow {
+  display: flex;
+  align-items: center;
+  gap: $value-4;
+  padding: $value-3 $value-6;
+  font-size: $value-3_5;
+  border-bottom: 1px solid rgba(206, 203, 246, 0.35);
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: rgba(127, 119, 221, 0.04);
+  }
+}
+
+.InfoRow__Label {
+  display: flex;
+  align-items: center;
+  gap: $value-1_5;
+  font-size: $value-3;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: $accent;
+  opacity: 0.65;
+  min-width: 110px;
+  flex-shrink: 0;
+}
+
+.InfoRow__Value {
+  color: $title-color;
+  word-break: break-word;
+  font-size: $value-3_5;
+}

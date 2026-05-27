@@ -1,0 +1,122 @@
+@use '../../shared/styles/variables' as *;
+@use '../../shared/styles/mixins' as *;
+
+.AdminUserList__Table {
+  @include flexColumn;
+  width: 100%;
+  border: 1px solid $border-color;
+  border-radius: $rounded-lg;
+  overflow: hidden;
+}
+
+.AdminUserList__TableHead {
+  display: grid;
+  grid-template-columns: 1.5fr 0.8fr 1.5fr 1fr 1.2fr 0.8fr;
+  background: rgba(127, 119, 221, 0.07);
+  border-bottom: 1px solid $border-color;
+  padding: $value-3 $value-4;
+  gap: $value-3;
+
+  .AdminUserList__Cell {
+    font-size: $value-3;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $subtitle-color;
+  }
+}
+
+.AdminUserList__TableRow {
+  display: grid;
+  grid-template-columns: 1.5fr 0.8fr 1.5fr 1fr 1.2fr 0.8fr;
+  align-items: center;
+  padding: $value-3 $value-4;
+  gap: $value-3;
+  border-bottom: 1px solid rgba($border-color, 0.5);
+  transition: background 0.15s ease;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: rgba(127, 119, 221, 0.04);
+  }
+
+  &--banned {
+    background: rgba(229, 62, 62, 0.03);
+
+    &:hover {
+      background: rgba(229, 62, 62, 0.06);
+    }
+  }
+}
+
+.AdminUserList__Cell {
+  font-size: $value-3_5;
+  color: $title-color;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.AdminUserList__UserLink {
+  color: $accent;
+  text-decoration: none;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.AdminUserList__Muted {
+  color: $subtitle-color;
+  font-size: $value-3_5;
+}
+
+.AdminUserList__BadgeBanned {
+  display: inline-block;
+  font-size: $value-3;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #c53030;
+  background: rgba(229, 62, 62, 0.12);
+  border: 1px solid rgba(229, 62, 62, 0.3);
+  border-radius: $rounded-full;
+  padding: $value-0_5 $value-2;
+}
+
+.AdminUserList__BadgeActive {
+  display: inline-block;
+  font-size: $value-3;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #276749;
+  background: rgba(39, 103, 73, 0.10);
+  border: 1px solid rgba(39, 103, 73, 0.25);
+  border-radius: $rounded-full;
+  padding: $value-0_5 $value-2;
+}
+
+.AdminUserList__ActionBtn {
+  font-size: $value-3 !important;
+  padding: $value-1 $value-2_5 !important;
+}
+
+.AdminUserList__Pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $value-4;
+  margin-top: $value-5;
+}
+
+.AdminUserList__PageInfo {
+  font-size: $value-3_5;
+  color: $subtitle-color;
+  min-width: 60px;
+  text-align: center;
+}

@@ -1,10 +1,9 @@
 import { useCallback, useEffect } from "react";
 import { useLoginMutation, useLogoutMutation, useRefreshMutation } from "@entities/auth";
 import { useRegisterMutation } from "@entities/auth";
-import { useGetUserByIdQuery } from "@entities/user";
 import { useCookies } from "react-cookie";
 import { tokenStore } from "@shared/tokenStore";
-import { useGetMeQuery } from "@entities/user/user.api";
+import { useGetMeQuery } from "@entities/user";
 
 export const useAuth = () => {
   const [cookies] = useCookies(["isAuth"]);
