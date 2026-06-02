@@ -1,4 +1,4 @@
-import styled from "./UserIcon.module.scss"
+import styles from "./UserIcon.module.scss"
 
 type Props = {
   username?: string;
@@ -9,7 +9,7 @@ export const UserIcon = ({ username, size = "md" }: Props) => {
   const initial = username ? username[0].toUpperCase() : "?";
 
   return (
-    <div className={`${styled.UserIcon} ${size !== "md" ? styled[`UserIcon--${size}`] : ""}`}>
+    <div className={`${styles.UserIcon} ${size !== "md" ? styles[`UserIcon--${size}`] : ""}`}>
       {initial}
     </div>
   );

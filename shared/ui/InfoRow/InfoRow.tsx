@@ -1,4 +1,4 @@
-import styled from "./InfoRow.module.scss";
+import styles from "./InfoRow.module.scss";
 import type { ReactNode } from "react";
 
 type Props = {
@@ -40,12 +40,12 @@ export const InfoRow = ({
   }
 
   return (
-    <div className={styled.InfoRow}>
-      <span className={styled.InfoRow__Label}>
+    <div className={styles.InfoRow}>
+      <span className={styles.InfoRow__Label}>
         {icon && icon}{label}
       </span>
 
-      <span className={className ?? styled.InfoRow__Value}>
+      <span className={className ?? styles.InfoRow__Value}>
         {isDate && typeof value === "string"
           ? formatDate(value)
           : value}

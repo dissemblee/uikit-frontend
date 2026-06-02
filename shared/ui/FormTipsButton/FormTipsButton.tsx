@@ -1,5 +1,5 @@
 import { FiInfo } from "react-icons/fi";
-import styled from "./FormTipsButton.module.scss"
+import styles from "./FormTipsButton.module.scss"
 
 interface FormTipsButtonProps {
   onClick: () => void;
@@ -10,7 +10,7 @@ interface FormTipsButtonProps {
 export const FormTipsButton = ({ onClick, active }: FormTipsButtonProps) => {
   return (
     <button
-      className={`${styled.FormTipsButton} ${active ? styled["FormTipsButton--active"] : ""}`}
+      className={`${styles.FormTipsButton} ${active ? styles["FormTipsButton--active"] : ""}`}
       onClick={onClick}
       title={active ? "Скрыть подсказки" : "Показать подсказки"}
     >

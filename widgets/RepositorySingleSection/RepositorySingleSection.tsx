@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import { FiBox, FiFolder, FiGitCommit } from "react-icons/fi";
-import styled from "./RepositorySingleSection.module.scss";
+import styles from "./RepositorySingleSection.module.scss";
 import { SingleWrapSection } from "@shared/ui/SingleWrapSection";
 import { useGetRepositoryByIdQuery } from "@entities/repository/repository.api";
 import { DownloadMenu } from "@shared/ui/DownloadMenu";
@@ -32,8 +32,8 @@ export const RepositorySingleSection = () => {
       extraActions={<DownloadMenu downloadUrl={downloadUrl} />}
       extraChildren={
         components.length > 0 ? (
-          <div className={styled.FileTree}>
-            <div className={styled.FileTree__Header}>
+          <div className={styles.FileTree}>
+            <div className={styles.FileTree__Header}>
               <FiGitCommit size={14} />
               <span>
                 {components.length} компонент
@@ -41,13 +41,13 @@ export const RepositorySingleSection = () => {
               </span>
             </div>
 
-            <div className={styled.FileTree__Root}>
-              <div className={styled.FileTree__RootRow}>
-                <FiFolder size={14} className={styled.FileTree__FolderIcon} />
-                <span className={styled.FileTree__RootName}>{name}</span>
+            <div className={styles.FileTree__Root}>
+              <div className={styles.FileTree__RootRow}>
+                <FiFolder size={14} className={styles.FileTree__FolderIcon} />
+                <span className={styles.FileTree__RootName}>{name}</span>
               </div>
 
-              <div className={styled.FileTree__Files}>
+              <div className={styles.FileTree__Files}>
                 {components.map((componentPath) => (
                   <FileTree
                     key={componentPath}

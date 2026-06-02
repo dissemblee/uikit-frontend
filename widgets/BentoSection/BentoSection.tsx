@@ -1,10 +1,10 @@
 import { BentoCard } from "@shared/ui/BentoCard"
-import styled from "./BentoSection.module.scss"
+import styles from "./BentoSection.module.scss"
 
 export const BentoSection = () => {
   return (
-    <section className={styled.BentoSection}>
-      <div className={styled.BentoSection__1}>
+    <section className={styles.BentoSection}>
+      <div className={styles.BentoSection__1}>
         <BentoCard 
           icon={
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="6" height="6" rx="1.5" fill="#7F77DD"></rect><rect x="10" y="2" width="6" height="6" rx="1.5" fill="#7F77DD" opacity="0.4"></rect><rect x="2" y="10" width="6" height="6" rx="1.5" fill="#7F77DD" opacity="0.4"></rect><rect x="10" y="10" width="6" height="6" rx="1.5" fill="#7F77DD" opacity="0.2"></rect></svg>
@@ -15,16 +15,16 @@ export const BentoSection = () => {
           linkText={"перейти к компонентам"}
           linkTo={"/components"}
           extra={
-            <div className={styled.BentoSection__TagContainer}>
-              <span className={styled.BentoSection__Tag}>React</span>
-              <span className={styled.BentoSection__Tag}>Vue</span>
-              <span className={styled.BentoSection__Tag}>Angular</span>
+            <div className={styles.BentoSection__TagContainer}>
+              <span className={styles.BentoSection__Tag}>React</span>
+              <span className={styles.BentoSection__Tag}>Vue</span>
+              <span className={styles.BentoSection__Tag}>Angular</span>
             </div>
           }
         />
       </div>
 
-      <div className={styled.BentoSection__2}>
+      <div className={styles.BentoSection__2}>
         <BentoCard 
           icon={
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v14M2 9h14" stroke="#7F77DD" strokeWidth="1.5" strokeLinecap="round"></path></svg>
@@ -40,7 +40,7 @@ export const BentoSection = () => {
         />
       </div>
 
-      <div className={styled.BentoSection__3}>
+      <div className={styles.BentoSection__3}>
         <BentoCard 
           icon={
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="6" stroke="#1D9E75" strokeWidth="1.2"></circle><path d="M6 9l2 2 4-4" stroke="#1D9E75" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"></path></svg>
@@ -51,24 +51,24 @@ export const BentoSection = () => {
           linkTo={"/builds"}
           backgroundIconColor="#EAF3DE"
           extra={
-            <div className={styled.BentoSection__TagContainer} style={{flexDirection: "column" }}>
-              <div className={`${styled.BentoSection__Tag} ${styled.BentoSection__BuildRow}`}>
-                <span className={styled.BentoSection__Title}>
-                  <div className={`${styled.BentoSection__BuildDot} ${styled[`BentoSection__BuildDot--gray`]}`} />
+            <div className={styles.BentoSection__TagContainer} style={{flexDirection: "column" }}>
+              <div className={`${styles.BentoSection__Tag} ${styles.BentoSection__BuildRow}`}>
+                <span className={styles.BentoSection__Title}>
+                  <div className={`${styles.BentoSection__BuildDot} ${styles[`BentoSection__BuildDot--gray`]}`} />
                   datepicker v2.1
                 </span>
                 <span style={{color: "#B4B2A9"}}>pending</span>
               </div>
-              <div className={`${styled.BentoSection__Tag} ${styled.BentoSection__BuildRow}`}>
-                <span className={styled.BentoSection__Title}>
-                  <div className={`${styled.BentoSection__BuildDot} ${styled[`BentoSection__BuildDot--yellow`]}`} />
+              <div className={`${styles.BentoSection__Tag} ${styles.BentoSection__BuildRow}`}>
+                <span className={styles.BentoSection__Title}>
+                  <div className={`${styles.BentoSection__BuildDot} ${styles[`BentoSection__BuildDot--yellow`]}`} />
                   toast v0.3
                 </span>
                 <span style={{color: "#EF9F27"}}>in_progress</span>
               </div>
-              <div className={`${styled.BentoSection__Tag} ${styled.BentoSection__BuildRow}`}>
-                <span className={styled.BentoSection__Title}>
-                  <div className={`${styled.BentoSection__BuildDot} ${styled[`BentoSection__BuildDot--green`]}`} />
+              <div className={`${styles.BentoSection__Tag} ${styles.BentoSection__BuildRow}`}>
+                <span className={styles.BentoSection__Title}>
+                  <div className={`${styles.BentoSection__BuildDot} ${styles[`BentoSection__BuildDot--green`]}`} />
                   button v11.7
                 </span>
                 <span style={{color: "#1D9E75"}}>completed</span>
@@ -78,7 +78,7 @@ export const BentoSection = () => {
         />
       </div>
 
-      <div className={styled.BentoSection__4}>
+      <div className={styles.BentoSection__4}>
         <BentoCard 
           icon={
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="3" width="14" height="12" rx="2" stroke="#7F77DD" strokeWidth="1.2"></rect><path d="M2 7h14" stroke="#7F77DD" strokeWidth="1.2"></path><path d="M6 11h6" stroke="#7F77DD" strokeWidth="1.2" strokeLinecap="round"></path></svg>
@@ -93,7 +93,7 @@ export const BentoSection = () => {
         />
       </div>
 
-      <div className={styled.BentoSection__5}>
+      <div className={styles.BentoSection__5}>
         <BentoCard 
           icon={
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3" stroke="#7F77DD" strokeWidth="1.2"></circle><path d="M3 15c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="#7F77DD" strokeWidth="1.2" strokeLinecap="round"></path></svg>
@@ -105,7 +105,7 @@ export const BentoSection = () => {
         />
       </div>
 
-      <div className={styled.BentoSection__6}>
+      <div className={styles.BentoSection__6}>
         <BentoCard 
           icon={
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L11.5 7H16L12.5 10.5L14 15.5L9 12.5L4 15.5L5.5 10.5L2 7H6.5L9 2Z" stroke="#BA7517" strokeWidth="1.2" strokeLinejoin="round"></path></svg>
@@ -116,22 +116,22 @@ export const BentoSection = () => {
           linkTo={"/components"}
           backgroundIconColor="#FAEEDA"
           extra={
-            <div className={styled.BentoSection__TagContainer} style={{flexDirection: "column" }}>
-              <div className={`${styled.BentoSection__Tag} ${styled.BentoSection__BuildRow}`}>
-                <span className={styled.BentoSection__Title}>
-                  <div className={`${styled.BentoSection__BuildDot} ${styled[`BentoSection__BuildDot--gray`]}`} />
+            <div className={styles.BentoSection__TagContainer} style={{flexDirection: "column" }}>
+              <div className={`${styles.BentoSection__Tag} ${styles.BentoSection__BuildRow}`}>
+                <span className={styles.BentoSection__Title}>
+                  <div className={`${styles.BentoSection__BuildDot} ${styles[`BentoSection__BuildDot--gray`]}`} />
                   CommandMenu
                 </span>
               </div>
-              <div className={`${styled.BentoSection__Tag} ${styled.BentoSection__BuildRow}`}>
-                <span className={styled.BentoSection__Title}>
-                  <div className={`${styled.BentoSection__BuildDot} ${styled[`BentoSection__BuildDot--gray`]}`} />
+              <div className={`${styles.BentoSection__Tag} ${styles.BentoSection__BuildRow}`}>
+                <span className={styles.BentoSection__Title}>
+                  <div className={`${styles.BentoSection__BuildDot} ${styles[`BentoSection__BuildDot--gray`]}`} />
                   Modal
                 </span>
               </div>
-              <div className={`${styled.BentoSection__Tag} ${styled.BentoSection__BuildRow}`}>
-                <span className={styled.BentoSection__Title}>
-                  <div className={`${styled.BentoSection__BuildDot} ${styled[`BentoSection__BuildDot--gray`]}`} />
+              <div className={`${styles.BentoSection__Tag} ${styles.BentoSection__BuildRow}`}>
+                <span className={styles.BentoSection__Title}>
+                  <div className={`${styles.BentoSection__BuildDot} ${styles[`BentoSection__BuildDot--gray`]}`} />
                   Form
                 </span>
               </div>
@@ -140,7 +140,7 @@ export const BentoSection = () => {
         />
       </div>
 
-      <div className={styled.BentoSection__7}>
+      <div className={styles.BentoSection__7}>
         <BentoCard 
           icon={
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 4h10M4 8h7M4 12h5" stroke="#7F77DD" strokeWidth="1.3" strokeLinecap="round"></path></svg>
@@ -152,7 +152,7 @@ export const BentoSection = () => {
         />
       </div>
 
-      <div className={styled.BentoSection__8}>
+      <div className={styles.BentoSection__8}>
         <BentoCard 
           icon={
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 9l3 3 5-5" stroke="#7F77DD" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path></svg>

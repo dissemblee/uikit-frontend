@@ -1,5 +1,5 @@
 import { FiArrowLeft } from "react-icons/fi"
-import styled from "./FormWrapSection.module.scss"
+import styles from "./FormWrapSection.module.scss"
 import { useState, type ReactNode } from "react";
 import { FormTipsButton } from "@shared/ui/FormTipsButton";
 import { FormTipsPanel } from "@shared/ui/FormTipsPanel";
@@ -28,13 +28,13 @@ export const FormWrapSection = (props: FormWrapSectionProps) => {
     const restText = words.join(" ")
 
     return (
-      <span>// {restText} <span className={styled.FormWrapSection__HighlightTitle}>{lastWord}</span> </span>
+      <span>// {restText} <span className={styles.FormWrapSection__HighlightTitle}>{lastWord}</span> </span>
     )
   }
 
   return (
-    <section className={styled.FormWrapSection}>
-      <div className={styled.FormWrapSection__Header}>
+    <section className={styles.FormWrapSection}>
+      <div className={styles.FormWrapSection__Header}>
         <Button variant="cancel" nonBlock size="sm" onClick={() => navigate(-1)}>
           <FiArrowLeft /> назад
         </Button>

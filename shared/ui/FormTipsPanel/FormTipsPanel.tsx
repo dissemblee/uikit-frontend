@@ -1,4 +1,4 @@
-import styled from "./FormTipsPanel.module.scss"
+import styles from "./FormTipsPanel.module.scss"
 import { FaLightbulb } from "react-icons/fa";
 
 interface FormTipsPanelProps {
@@ -9,14 +9,14 @@ interface FormTipsPanelProps {
 
 export const FormTipsPanel = ({ show, title, tips }: FormTipsPanelProps) => {
   return (
-    <div className={`${styled.FormTipsPanel} ${show ? styled["FormTipsPanel--show"] : styled["FormTipsPanel--hide"]}`}>
-      <div className={styled.FormTipsPanel__Title}>
-        <FaLightbulb className={styled.FormTipsPanel__Icon} />
+    <div className={`${styles.FormTipsPanel} ${show ? styles["FormTipsPanel--show"] : styles["FormTipsPanel--hide"]}`}>
+      <div className={styles.FormTipsPanel__Title}>
+        <FaLightbulb className={styles.FormTipsPanel__Icon} />
         {title}
       </div>
-      <ul className={styled.FormTipsPanel__List}>
+      <ul className={styles.FormTipsPanel__List}>
         {tips.map((tip, index) => (
-          <li key={index} className={styled.FormTipsPanel__Item}>{tip}</li>
+          <li key={index} className={styles.FormTipsPanel__Item}>{tip}</li>
         ))}
       </ul>
     </div>

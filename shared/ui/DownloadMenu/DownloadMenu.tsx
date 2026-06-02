@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FiCopy, FiDownload, FiMoreVertical } from "react-icons/fi"
-import styled from "./DownloadMenu.module.scss";
+import styles from "./DownloadMenu.module.scss";
 
 export const DownloadMenu = ({downloadUrl}: {downloadUrl: string;}) => {
   const [open, setOpen] = useState(false);
@@ -16,22 +16,22 @@ export const DownloadMenu = ({downloadUrl}: {downloadUrl: string;}) => {
   };
 
   return (
-    <div className={styled.DownloadMenu}>
+    <div className={styles.DownloadMenu}>
       <button
-        className={styled.DownloadMenu__MenuButton}
+        className={styles.DownloadMenu__MenuButton}
         onClick={() => setOpen((v) => !v)}
       >
         <FiMoreVertical />
       </button>
 
       {open && (
-        <div className={styled.DownloadMenu__MenuDropdown}>
+        <div className={styles.DownloadMenu__MenuDropdown}>
           <a
             href={downloadUrl}
             target="_blank"
             rel="noopener noreferrer"
             download={filename}
-            className={styled.DownloadMenu__MenuItem}
+            className={styles.DownloadMenu__MenuItem}
           >
             <FiDownload />
             Установить архив
@@ -39,13 +39,13 @@ export const DownloadMenu = ({downloadUrl}: {downloadUrl: string;}) => {
 
           <button
             onClick={copyToClipboard}
-            className={styled.DownloadMenu__MenuItem}
+            className={styles.DownloadMenu__MenuItem}
           >
             <FiCopy />
             Установить через npm
           </button>
 
-          <div className={styled.DownloadMenu__MenuCode}>
+          <div className={styles.DownloadMenu__MenuCode}>
             {npmCommand}
           </div>
         </div>

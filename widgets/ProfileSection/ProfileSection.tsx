@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router";
-import styled from "./ProfileSection.module.scss";
+import styles from "./ProfileSection.module.scss";
 import { useGetUserByIdQuery } from "@entities/user";
 import { Button } from "@shared/ui/Button";
 import { FiEdit2, FiLock, FiArrowLeft, FiGitBranch, FiBox, FiLogOut } from "react-icons/fi";
@@ -35,32 +35,32 @@ export const OwnProfile = () => {
   if (isLoading) return <ProfileSkeleton />;
 
   return (
-    <section className={styled.ProfileSection}>
-      <div className={styled.ProfileSection__Card}>
+    <section className={styles.ProfileSection}>
+      <div className={styles.ProfileSection__Card}>
 
-        <div className={styled.ProfileSection__Header}>
-          <div className={styled.ProfileSection__HeaderTop}>
+        <div className={styles.ProfileSection__Header}>
+          <div className={styles.ProfileSection__HeaderTop}>
             <UserIcon username={user?.username} />
-            <div className={styled.ProfileSection__Identity}>
-              <h2 className={styled.ProfileSection__Name}>{user?.username}</h2>
-              <span className={styled.ProfileSection__Sub}>{user?.email}</span>
+            <div className={styles.ProfileSection__Identity}>
+              <h2 className={styles.ProfileSection__Name}>{user?.username}</h2>
+              <span className={styles.ProfileSection__Sub}>{user?.email}</span>
             </div>
           </div>
-          <nav className={styled.ProfileSection__Nav}>
-            <Link to={`/repositories/${user?.username}`} className={styled.ProfileSection__NavLink}>
+          <nav className={styles.ProfileSection__Nav}>
+            <Link to={`/repositories/${user?.username}`} className={styles.ProfileSection__NavLink}>
               <FiGitBranch size={12} /> репозитории
             </Link>
-            <Link to={`/components/${user?.username}`} className={styled.ProfileSection__NavLink}>
+            <Link to={`/components/${user?.username}`} className={styles.ProfileSection__NavLink}>
               <FiBox size={12} /> компоненты
             </Link>
           </nav>
         </div>
 
         {mode === "view" && (
-          <div className={styled.ProfileSection__Body}>
+          <div className={styles.ProfileSection__Body}>
             <InfoRow label="логин" value={user?.username} />
             <InfoRow label="почта" value={user?.email} />
-            <div className={styled.ProfileSection__Actions}>
+            <div className={styles.ProfileSection__Actions}>
               <Button variant="primary" iconLeft={<FiEdit2 size={14} />} nonBlock onClick={() => setMode("edit")}>
                 сменить почту
               </Button>
@@ -75,7 +75,7 @@ export const OwnProfile = () => {
         )}
 
         {mode === "edit" && (
-          <div className={styled.ProfileSection__FormSection}>
+          <div className={styles.ProfileSection__FormSection}>
             <Button variant="cancel" size="sm" iconLeft={<FiArrowLeft size={13} />} nonBlock onClick={() => setMode("view")}>
               назад
             </Button>
@@ -84,7 +84,7 @@ export const OwnProfile = () => {
         )}
 
         {mode === "password" && (
-          <div className={styled.ProfileSection__FormSection}>
+          <div className={styles.ProfileSection__FormSection}>
             <Button variant="cancel" size="sm" iconLeft={<FiArrowLeft size={13} />} nonBlock onClick={() => setMode("view")}>
               назад
             </Button>
@@ -93,7 +93,7 @@ export const OwnProfile = () => {
         )}
 
         {user?.username && (
-          <div className={styled.ProfileSection__Stats}>
+          <div className={styles.ProfileSection__Stats}>
             <UserStat username={user.username} />
           </div>
         )}
@@ -121,28 +121,28 @@ export const PublicProfile = ({ username }: { username: string }) => {
   if (isLoading) return <ProfileSkeleton />;
 
   return (
-    <section className={styled.ProfileSection}>
-      <div className={styled.ProfileSection__Card}>
+    <section className={styles.ProfileSection}>
+      <div className={styles.ProfileSection__Card}>
 
-        <div className={styled.ProfileSection__Header}>
-          <div className={styled.ProfileSection__HeaderTop}>
+        <div className={styles.ProfileSection__Header}>
+          <div className={styles.ProfileSection__HeaderTop}>
             <UserIcon username={username} />
             <h2>{username}</h2>
             {userBanInfo?.isBanned && (
-              <span className={styled.ProfileSection__BannedBadge}>забанен</span>
+              <span className={styles.ProfileSection__BannedBadge}>забанен</span>
             )}
           </div>
-          <nav className={styled.ProfileSection__Nav}>
-            <Link to={`/repositories/${username}`} className={styled.ProfileSection__NavLink}>
+          <nav className={styles.ProfileSection__Nav}>
+            <Link to={`/repositories/${username}`} className={styles.ProfileSection__NavLink}>
               <FiGitBranch size={12} /> репозитории
             </Link>
-            <Link to={`/components/${username}`} className={styled.ProfileSection__NavLink}>
+            <Link to={`/components/${username}`} className={styles.ProfileSection__NavLink}>
               <FiBox size={12} /> компоненты
             </Link>
           </nav>
         </div>
 
-        <div className={styled.ProfileSection__Body}>
+        <div className={styles.ProfileSection__Body}>
           <InfoRow label="логин" value={username} />
           {userBanInfo?.isBanned && (
             <>
@@ -154,7 +154,7 @@ export const PublicProfile = ({ username }: { username: string }) => {
             </>
           )}
           {isAdmin && (
-            <div className={styled.ProfileSection__Actions}>
+            <div className={styles.ProfileSection__Actions}>
               {userBanInfo?.isBanned ? (
                 <Button variant="secondary" iconLeft={undefined} nonBlock onClick={handleUnban} loading={isUnbanning} loadingText="Разбаниваем...">
                   разбанить
@@ -168,7 +168,7 @@ export const PublicProfile = ({ username }: { username: string }) => {
           )}
         </div>
 
-        <div className={styled.ProfileSection__Stats}>
+        <div className={styles.ProfileSection__Stats}>
           <UserStat username={username} />
         </div>
 

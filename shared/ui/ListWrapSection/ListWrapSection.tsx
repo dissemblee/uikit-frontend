@@ -1,5 +1,5 @@
 import type { ReactNode } from "react"
-import styled from "./ListWrapSection.module.scss"
+import styles from "./ListWrapSection.module.scss"
 import { CardSkeleton } from "../CardSkeleton"
 
 interface ListWrapSectionProps {
@@ -47,8 +47,8 @@ export const ListWrapSection = ({
 
     if (words.length === 1) {
       return (
-        <code className={styled.ListWrapSection__TitleCode}>
-          <span className={styled.ListWrapSection__Comment}>//</span>
+        <code className={styles.ListWrapSection__TitleCode}>
+          <span className={styles.ListWrapSection__Comment}>//</span>
           <span>{titleText}</span>
         </code>
       )
@@ -58,10 +58,10 @@ export const ListWrapSection = ({
     const restText = words.join(" ")
 
     return (
-      <code className={styled.ListWrapSection__TitleCode}>
-        <span className={styled.ListWrapSection__Comment}>//</span>
+      <code className={styles.ListWrapSection__TitleCode}>
+        <span className={styles.ListWrapSection__Comment}>//</span>
         <span>{restText} </span>
-        <span className={styled.ListWrapSection__HighlightTitle}>{lastWord}</span>
+        <span className={styles.ListWrapSection__HighlightTitle}>{lastWord}</span>
       </code>
     )
   }
@@ -76,52 +76,52 @@ export const ListWrapSection = ({
   const shouldShowStats = totalCount !== undefined
 
   return (
-    <section className={styled.ListWrapSection}>
-      <div className={styled.ListWrapSection__Header}>
-        <div className={styled.ListWrapSection__HeaderLeft}>
+    <section className={styles.ListWrapSection}>
+      <div className={styles.ListWrapSection__Header}>
+        <div className={styles.ListWrapSection__HeaderLeft}>
           {formatTitle(title)}
           {shouldShowStats && (
-            <code className={styled.ListWrapSection__StatsBadge}>
-              <span className={styled.ListWrapSection__StatsDollar}>$</span>
-              <span className={styled.ListWrapSection__StatsCmd}>ls</span>
-              <span className={styled.ListWrapSection__StatsOut}>{getItemsCountText()}</span>
+            <code className={styles.ListWrapSection__StatsBadge}>
+              <span className={styles.ListWrapSection__StatsDollar}>$</span>
+              <span className={styles.ListWrapSection__StatsCmd}>ls</span>
+              <span className={styles.ListWrapSection__StatsOut}>{getItemsCountText()}</span>
             </code>
           )}
         </div>
         {action && (
-          <div className={styled.ListWrapSection__Action}>
+          <div className={styles.ListWrapSection__Action}>
             {action}
           </div>
         )}
       </div>
 
-      <div className={styled.ListWrapSection__Panel}>
+      <div className={styles.ListWrapSection__Panel}>
 
         {filters && (
-          <div className={styled.ListWrapSection__Filters}>
+          <div className={styles.ListWrapSection__Filters}>
             {filters}
           </div>
         )}
 
-        <div className={styled.ListWrapSection__Body}>
+        <div className={styles.ListWrapSection__Body}>
 
           {isLoading && renderSkeletons()}
 
           {isError && !isLoading && (
-            <div className={styled.ListWrapSection__State}>
-              <span className={styled.ListWrapSection__StateIcon}>{errorIcon}</span>
-              <code className={styled.ListWrapSection__StateMessage}>
-                <span className={styled.ListWrapSection__ErrorPrompt}>[ERROR]</span>
+            <div className={styles.ListWrapSection__State}>
+              <span className={styles.ListWrapSection__StateIcon}>{errorIcon}</span>
+              <code className={styles.ListWrapSection__StateMessage}>
+                <span className={styles.ListWrapSection__ErrorPrompt}>[ERROR]</span>
                 {errorMessage}
               </code>
             </div>
           )}
 
           {!isLoading && !isError && isEmpty && (
-            <div className={styled.ListWrapSection__State}>
-              <span className={styled.ListWrapSection__StateIcon}>{emptyIcon}</span>
-              <code className={styled.ListWrapSection__StateMessage}>
-                <span className={styled.ListWrapSection__InfoPrompt}>[INFO]</span>
+            <div className={styles.ListWrapSection__State}>
+              <span className={styles.ListWrapSection__StateIcon}>{emptyIcon}</span>
+              <code className={styles.ListWrapSection__StateMessage}>
+                <span className={styles.ListWrapSection__InfoPrompt}>[INFO]</span>
                 {emptyMessage}
               </code>
             </div>

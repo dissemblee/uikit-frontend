@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { useGetComponentByIdQuery } from "@entities/component";
 import { useGetComponentSourceQuery } from "@entities/component";
 import { FiCode, FiGitBranch, FiPackage, FiTag } from "react-icons/fi";
-import styled from "./ComponentSingleSection.module.scss";
+import styles from "./ComponentSingleSection.module.scss";
 import { SingleWrapSection } from "@shared/ui/SingleWrapSection";
 import { DownloadMenu } from "@shared/ui/DownloadMenu";
 import ShikiHighlighter from "react-shiki";
@@ -61,25 +61,25 @@ export const ComponentSingleSection = () => {
       }
       extraSide={<ComponentStat id={component.result!.id} />}
       extraChildren={
-        <div className={styled.ComponentSingleSection}>
+        <div className={styles.ComponentSingleSection}>
           <div
-            className={styled.ComponentSingleSection__Tabs}
+            className={styles.ComponentSingleSection__Tabs}
             onClick={() => setIsOpen((v) => !v)}
             style={{ cursor: "pointer" }}
           >
-            <span className={styled.ComponentSingleSection__Toggle}>
+            <span className={styles.ComponentSingleSection__Toggle}>
               {isOpen ? "▾" : "▸"}
             </span>
             {isOpen && (
               <>
                 <span
-                  className={tab === "code" ? styled.ComponentSingleSection__TabActive : styled.ComponentSingleSection__Tab}
+                  className={tab === "code" ? styles.ComponentSingleSection__TabActive : styles.ComponentSingleSection__Tab}
                   onClick={(e) => { e.stopPropagation(); setTab("code"); }}
                 >
                   $ view --исходный код
                 </span>
                 <span
-                  className={tab === "preview" ? styled.ComponentSingleSection__TabActive : styled.ComponentSingleSection__Tab}
+                  className={tab === "preview" ? styles.ComponentSingleSection__TabActive : styles.ComponentSingleSection__Tab}
                   onClick={(e) => { e.stopPropagation(); setTab("preview"); }}
                 >
                   $ view --предпросмотр
@@ -87,14 +87,14 @@ export const ComponentSingleSection = () => {
               </>
             )}
             {!isOpen && (
-              <span className={styled.ComponentSingleSection__Tab}>
+              <span className={styles.ComponentSingleSection__Tab}>
                 $ view --исходный код / предпросмотр
               </span>
             )}
           </div>
 
           {isOpen && (
-            <div className={styled.ComponentSingleSection__Body}>
+            <div className={styles.ComponentSingleSection__Body}>
               {tab === "preview" && (
                 <>
                   {component?.result?.id && (
@@ -102,7 +102,7 @@ export const ComponentSingleSection = () => {
                       ref={iframeRef}
                       src={`http://localhost:8080/api/components/previews/${component.result!.id}/page`}
                       sandbox="allow-scripts"
-                      className={styled.ComponentSingleSection__Preview}
+                      className={styles.ComponentSingleSection__Preview}
                       style={{ height: 0 }}
                     />
                   )}

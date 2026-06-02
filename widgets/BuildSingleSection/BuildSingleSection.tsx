@@ -1,7 +1,7 @@
 import { SingleWrapSection } from "@shared/ui/SingleWrapSection/SingleWrapSection";
 import { FiBox, FiCalendar, FiCheckCircle, FiClock, FiCode, FiLoader, FiPackage, FiXCircle } from "react-icons/fi";
 import { Link, useParams } from "react-router";
-import styled from "./BuildSingleSection.module.scss";
+import styles from "./BuildSingleSection.module.scss";
 import { useGetBuildByIdQuery } from "@entities/build/build.api";
 import { BuildStatus } from "@entities/build";
 import moment from "moment";
@@ -50,13 +50,13 @@ export const BuildSingleSection = () => {
         label="Статус"
         value={status.label}
         icon={status.icon}
-        className={`${styled.BuildSingleSection__Status} ${
-          styled[
+        className={`${styles.BuildSingleSection__Status} ${
+          styles[
             `BuildSingleSection__Status--${status.className}`
           ]
         }`}
       />
-      <Link to={serviceType === "components" ? `/components/${build?.component.username}/${build?.component.name}` : `/repositories/${build?.repoId}`} className={styled.SingleWrapSection__LinkProfile}>
+      <Link to={serviceType === "components" ? `/components/${build?.component.username}/${build?.component.name}` : `/repositories/${build?.repoId}`} className={styles.SingleWrapSection__LinkProfile}>
         <InfoRow
           label={serviceType === "components" ? "Компонент" : "Репозиторий"}
           value={serviceType === "components" ? `${build?.component.username}/${build?.component.name}` : build?.component.repoId}
@@ -64,13 +64,13 @@ export const BuildSingleSection = () => {
         />
       </Link>
 
-      <div className={styled.BuildSingleSection__InfoWrapper}>
-        <div className={styled.BuildSingleSection__LogsCard}>
-          <div className={styled.BuildSingleSection__LogsHeader}>
+      <div className={styles.BuildSingleSection__InfoWrapper}>
+        <div className={styles.BuildSingleSection__LogsCard}>
+          <div className={styles.BuildSingleSection__LogsHeader}>
             <span>build.log</span>
           </div>
 
-          <pre className={styled.BuildSingleSection__Logs}>
+          <pre className={styles.BuildSingleSection__Logs}>
             <code>
               {build?.logs
                 ?.split("\n")
@@ -85,13 +85,13 @@ export const BuildSingleSection = () => {
 
                   const className =
                     level === "error"
-                      ? styled["BuildSingleSection__Logs--error"]
+                      ? styles["BuildSingleSection__Logs--error"]
                       : level === "warn"
-                      ? styled["BuildSingleSection__Logs--warn"]
+                      ? styles["BuildSingleSection__Logs--warn"]
                       : level === "success"
-                      ? styled["BuildSingleSection__Logs--success"]
+                      ? styles["BuildSingleSection__Logs--success"]
                       : level === "debug"
-                      ? styled["BuildSingleSection__Logs--debug"]
+                      ? styles["BuildSingleSection__Logs--debug"]
                       : "";
 
                   return (
