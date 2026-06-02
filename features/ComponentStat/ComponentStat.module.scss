@@ -16,14 +16,14 @@
 
 .ComponentStat__Grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: $value-3;
 }
 
 .ComponentStat__Card {
   @include flexColumn;
   gap: $value-1;
-  background: #F8F7FE;
+  background: $accent-background;
   border: 1px solid $border-color;
   border-radius: $rounded-lg;
   padding: $value-3 $value-4;
@@ -44,66 +44,6 @@
   color: $title-color;
   letter-spacing: -0.02em;
   line-height: 1.1;
-}
-
-.ComponentStat__Chart {
-  border: 1px solid $border-color;
-  border-radius: $rounded-lg;
-  overflow: hidden;
-  background: #F8F7FE;
-}
-
-.ComponentStat__ChartHeader {
-  padding: $value-2_5 $value-4;
-  font-size: $value-3;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: $subtitle-color;
-  @include divider;
-}
-
-.ComponentStat__ChartBody {
-  padding: $value-4;
-  @include flexColumn;
-  gap: $value-3;
-}
-
-.ComponentStat__BarRow {
-  display: flex;
-  align-items: center;
-  gap: $value-3;
-}
-
-.ComponentStat__BarLabel {
-  font-size: $value-3;
-  color: $subtitle-color;
-  font-weight: 500;
-  min-width: 54px;
-}
-
-.ComponentStat__BarTrack {
-  flex: 1;
-  height: 5px;
-  background: rgba(127, 119, 221, 0.12);
-  border-radius: $rounded-full;
-  overflow: hidden;
-}
-
-.ComponentStat__BarFill {
-  height: 100%;
-  border-radius: $rounded-full;
-  background: linear-gradient(90deg, $accent 0%, #9990e8 100%);
-  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  min-width: 4px;
-}
-
-.ComponentStat__BarCount {
-  font-size: $value-3;
-  font-weight: 600;
-  color: $title-color;
-  min-width: 28px;
-  text-align: right;
 }
 
 @keyframes fadeUp {

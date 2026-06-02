@@ -1,0 +1,59 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+
+.AreaChartStat {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid $border-color;
+  border-radius: $rounded-lg;
+  overflow: hidden;
+}
+
+.AreaChartStat__Header {
+  padding: $value-2_5 $value-4;
+  font-size: $value-3;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: $subtitle-color;
+  @include divider;
+}
+
+.AreaChartStat__AxisTick {
+  font-size: 11px;
+  fill: $subtitle-color;
+}
+
+.AreaChartStat__Grid {
+  :global(.recharts-cartesian-grid-horizontal line) {
+    stroke: rgba(127, 119, 221, 0.1);
+  }
+}
+
+.AreaChartStat__TooltipWrapper {
+  :global(.recharts-tooltip-wrapper) {
+    outline: none;
+  }
+
+  :global(.recharts-default-tooltip) {
+    background: #fff !important;
+    border: 1px solid #CECBF6 !important;
+    border-radius: $rounded-md !important;
+    box-shadow: 0 4px 16px rgba(127, 119, 221, 0.12);
+    padding: $value-1_5 $value-2_5 !important;
+  }
+
+  :global(.recharts-tooltip-label) {
+    color: $subtitle-color !important;
+    font-weight: 500;
+    font-size: $value-3;
+    margin-bottom: 2px !important;
+  }
+
+  :global(.recharts-tooltip-item) {
+    color: #3C3489 !important;
+    font-weight: 600;
+    font-size: $value-3;
+  }
+}

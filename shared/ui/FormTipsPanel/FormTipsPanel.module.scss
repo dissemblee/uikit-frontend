@@ -4,7 +4,7 @@
 .FormTipsPanel {
   border: 1px solid $border-color;
   border-radius: $rounded-lg;
-  background: #F8F7FE;
+  background: $accent-background;
   overflow: hidden;
   transition:
     max-height 0.32s cubic-bezier(0.4, 0, 0.2, 1),

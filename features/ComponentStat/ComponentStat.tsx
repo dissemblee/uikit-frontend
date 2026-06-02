@@ -1,5 +1,11 @@
 import { useGetComponentStatQuery } from "@entities/component";
 import styles from "./ComponentStat.module.scss";
+import { AreaChartStat } from "@shared/ui/AreaChart";
+
+const formatDay = (iso: string) => {
+  const [, m, d] = iso.split("-");
+  return `${d}.${m}`;
+};
 
 export const ComponentStat = ({ id }: { id: string }) => {
   const { data, isLoading } = useGetComponentStatQuery({ id });
@@ -16,7 +22,11 @@ export const ComponentStat = ({ id }: { id: string }) => {
     { label: "за сутки", value: stat.loadsForDay },
   ];
 
-  const maxDaily = Math.max(...stat.dailyChart.map((d) => d.count), 1);
+  const chartData = stat.dailyChart.map((d: { date: string; count: any; }) => ({
+    date: formatDay(d.date),
+    fullDate: d.date,
+    count: d.count,
+  }));
 
   return (
     <div className={styles.ComponentStat}>
@@ -29,25 +39,7 @@ export const ComponentStat = ({ id }: { id: string }) => {
         ))}
       </div>
 
-      <div className={styles.ComponentStat__Chart}>
-        <div className={styles.ComponentStat__ChartHeader}>
-          динамика загрузок за 30 дней (всего: {stat.loadsTotal})
-        </div>
-        <div className={styles.ComponentStat__ChartBody}>
-          {stat.dailyChart.map((day) => (
-            <div key={day.date} className={styles.ComponentStat__BarRow}>
-              <span className={styles.ComponentStat__BarLabel}>{day.date.slice(5)}</span>
-              <div className={styles.ComponentStat__BarTrack}>
-                <div
-                  className={styles.ComponentStat__BarFill}
-                  style={{ width: `${Math.round((day.count / maxDaily) * 100)}%` }}
-                />
-              </div>
-              <span className={styles.ComponentStat__BarCount}>{day.count}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+      <AreaChartStat chartData={chartData} loadsTotal={stat.loadsTotal} />
     </div>
   );
 };

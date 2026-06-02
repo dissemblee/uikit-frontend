@@ -1,21 +1,21 @@
-@use '../../shared/styles/variables' as *;
-@use '../../shared/styles/mixins' as *;
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
 
-.ComponentSingleSection {
+.ComponentPlayground {
   margin-top: $value-6;
   border: 1px solid $border-color;
   border-radius: $rounded-lg;
 }
 
-.ComponentSingleSection__Tabs {
+.ComponentPlayground__Tabs {
   display: flex;
   align-items: center;
   gap: $value-2;
   padding: $value-3;
 }
 
-.ComponentSingleSection__Tab,
-.ComponentSingleSection__TabActive {
+.ComponentPlayground__Tab,
+.ComponentPlayground__TabActive {
   display: flex;
   align-items: center;
   gap: $value-2;
@@ -25,7 +25,7 @@
   transition: all .2s ease;
 }
 
-.ComponentSingleSection__Tab {
+.ComponentPlayground__Tab {
   background: transparent;
   color: $subtitle-color;
 
@@ -35,23 +35,23 @@
   }
 }
 
-.ComponentSingleSection__TabActive {
+.ComponentPlayground__TabActive {
   background: $accent;
   color: white;
 }
 
-.ComponentSingleSection__Body {
+.ComponentPlayground__Body {
   padding: $value-5;
 }
 
-.ComponentSingleSection__Preview {
+.ComponentPlayground__Preview {
   width: 100%;
   border: none;
   border-radius: $rounded-md;
   @include boxShadow;
 }
 
-.ComponentSingleSection__Toggle {
+.ComponentPlayground__Toggle {
   font-size: $value-4;
   color: $subtitle-color;
   margin-right: $value-1;

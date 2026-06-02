@@ -17,7 +17,7 @@
 .UserStat__StatCard {
   @include flexColumn;
   gap: $value-1;
-  background: #F8F7FE;
+  background: $accent-background;
   border: 1px solid $border-color;
   border-radius: $rounded-lg;
   padding: $value-3 $value-4;
