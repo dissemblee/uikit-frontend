@@ -4,8 +4,6 @@ export const ProfileSkeleton = () => {
   return (
     <section className={styled.ProfileSkeleton}>
       <div className={styled.ProfileSkeleton__Card}>
-
-        {/* Шапка */}
         <div className={styled.ProfileSkeleton__Header}>
           <div className={styled.ProfileSkeleton__HeaderTop}>
             <div className={styled.ProfileSkeleton__Avatar} />
@@ -17,7 +15,6 @@ export const ProfileSkeleton = () => {
           <div className={`${styled.ProfileSkeleton__Line} ${styled["ProfileSkeleton__Line--nav"]}`} />
         </div>
 
-        {/* Строки */}
         <div className={styled.ProfileSkeleton__Body}>
           {[0, 1].map(i => (
             <div key={i} className={styled.ProfileSkeleton__Row}>
@@ -27,7 +24,6 @@ export const ProfileSkeleton = () => {
           ))}
         </div>
 
-        {/* Статистика */}
         <div className={styled.ProfileSkeleton__Stats}>
           <div className={styled.ProfileSkeleton__Grid}>
             {[0, 1, 2, 3].map(i => (

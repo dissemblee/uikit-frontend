@@ -19,8 +19,8 @@ export interface ResultDto<T> {
 export interface CursorDto<T> {
   itemsLeft: number;
   data: T[];
-  nextItemTimestamp: string;
-  skipWithCurrentTimestamp: number;
+  itemsSkipped: number;
+  startDate: string;
 }
 
 export interface CursorResultDto<T> extends ResultDto<CursorDto<T>> {}

@@ -3,85 +3,57 @@ import { useState } from "react";
 import { ComponentCard } from "@features/ComponentCard";
 import { ListWrapSection } from "@shared/ui/ListWrapSection";
 import { ButtonCreate } from "@shared/ui/ButtonCreate";
-import { Button } from "@shared/ui/Button";
-import { useGetAllComponentsQuery, useGetComponentsByUserQuery, type ComponentDto } from "@entities/component";
+import {
+  Framework,
+  useGetAllComponentsQuery,
+  type ComponentDto,
+} from "@entities/component";
 import { Input, Select } from "@shared/ui/Inputs";
+import { useCursorPagination } from "@shared/hooks/useCursorPagination";
+import { LoadMoreButton } from "@shared/ui/LoadMoreButton/LoadMoreButton";
 
 type SortType = "asc" | "desc";
 
 export const ComponentList = () => {
-  const [currentSkip, setCurrentSkip] = useState(0);
-  const [search, setSearch] = useState("");
-  const [framework, setFramework] = useState("");
-  const [sort, setSort] = useState<SortType>("desc");
+  const { username } = useParams();
   const limit = 10;
 
-  const { username } = useParams();
+  const [search, setSearch] = useState("");
+  const [framework, setFramework] = useState<Framework | "">("");
+  const [sort, setSort] = useState<SortType>("desc");
 
-  const allComponentsQuery = useGetAllComponentsQuery(
-    {
-      skip: currentSkip,
-      limit,
-      search: search || undefined,
-      framework: framework || undefined,
-      sort,
-    },
-    {
-      skip: Boolean(username),
-    },
-  );
+  const { cursor, loadMore, isFirstPage } = useCursorPagination({
+    limit,
+    resetOn: [search, framework, sort, username],
+  });
 
-  const userComponentsQuery = useGetComponentsByUserQuery(
-    {
-      username: String(username),
-      skip: currentSkip,
-      limit,
-    },
-    {
-      skip: !username,
-    },
-  );
+  const { data, isLoading, isError, isFetching } = useGetAllComponentsQuery({
+    skip: cursor.skip,
+    limit,
+    startDate: cursor.startDate,
+    sort,
+    ...(username
+      ? { username }
+      : {
+          query: search || undefined,
+          framework: framework || undefined,
+        }),
+  });
 
-  const activeQuery = username ? userComponentsQuery : allComponentsQuery;
-
-  const { data, isLoading, isError, isFetching } = activeQuery;
-
-  const components = data?.data || [];
-  const itemsLeft = data?.itemsLeft || 0;
-  console.log(data)
-  const hasMore = itemsLeft > 0;
-
-  const loadMore = () => {
-    const nextSkip = data?.skipWithCurrentTimestamp;
-    if (nextSkip) setCurrentSkip(nextSkip);
-  };
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-    setCurrentSkip(0);
-  };
-
-  const handleFrameworkChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFramework(e.target.value);
-    setCurrentSkip(0);
-  };
-
-  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSort(e.target.value as SortType);
-    setCurrentSkip(0);
-  };
+  const items = data?.result?.data ?? [];
+  const itemsLeft = data?.result?.itemsLeft ?? 0;
 
   const frameworkOptions = [
     { value: "", label: "Все фреймворки" },
     { value: "react", label: "React" },
     { value: "vue", label: "Vue" },
     { value: "svelte", label: "Svelte" },
-  ]
+  ];
 
   const descOptions = [
     { value: "desc", label: "Сначала новые" },
     { value: "asc", label: "Сначала старые" },
-  ]
+  ];
 
   return (
     <ListWrapSection
@@ -91,12 +63,12 @@ export const ComponentList = () => {
           <ButtonCreate />
         </Link>
       }
-      isLoading={isLoading && currentSkip === 0}
+      isLoading={isLoading && isFirstPage}
       isError={isError}
-      isEmpty={components.length === 0 && !isLoading}
+      isEmpty={items.length === 0 && !isLoading}
       emptyMessage="Компонентов пока нет"
       errorMessage="Не удалось загрузить компоненты"
-      totalCount={components.length}
+      totalCount={items.length}
       filters={
         !username && (
           <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
@@ -104,24 +76,35 @@ export const ComponentList = () => {
               type="text"
               placeholder="Поиск..."
               value={search}
-              onChange={handleSearchChange} label={"Поиск по имени"}
+              onChange={(e) => setSearch(e.target.value)}
+              label="Поиск по имени"
             />
-            <Select value={framework} onChange={handleFrameworkChange} options={frameworkOptions} label={"Фреймворки"} />
-            <Select value={sort} onChange={handleSortChange} options={descOptions} label={"Сортировка по времени"} />
+            <Select
+              value={framework}
+              onChange={(e) => setFramework(e.target.value as Framework | "")}
+              options={frameworkOptions}
+              label="Фреймворки"
+            />
+            <Select
+              value={sort}
+              onChange={(e) => setSort(e.target.value as SortType)}
+              options={descOptions}
+              label="Сортировка по времени"
+            />
           </div>
         )
       }
     >
-      {components.map((comp: ComponentDto) => (
+      {items.map((comp: ComponentDto) => (
         <ComponentCard component={comp} key={comp.id} />
       ))}
 
-      {hasMore && (
-        <div style={{ textAlign: "center", marginTop: "24px" }}>
-          <Button onClick={loadMore} disabled={isFetching} variant="secondary">
-            {isFetching ? "Загрузка..." : `Показать еще (осталось ${itemsLeft})`}
-          </Button>
-        </div>
+      {itemsLeft > 0 && (
+        <LoadMoreButton
+          itemsLeft={itemsLeft}
+          isFetching={isFetching}
+          onClick={() => loadMore(data?.result)}
+        />
       )}
     </ListWrapSection>
   );

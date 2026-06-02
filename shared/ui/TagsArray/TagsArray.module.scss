@@ -1,0 +1,67 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+
+.TagsArray__Row {
+  display: flex;
+  align-items: flex-start;
+  gap: $value-4;
+  padding: $value-3 $value-6;
+  font-size: $value-3_5;
+  border-bottom: 1px solid rgba(206, 203, 246, 0.35);
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: rgba(127, 119, 221, 0.04);
+  }
+}
+
+.TagsArray__Label {
+  display: flex;
+  align-items: center;
+  gap: $value-1_5;
+  font-size: $value-3;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: $accent;
+  opacity: 0.65;
+  min-width: 110px;
+  flex-shrink: 0;
+  padding-top: $value-0_5;
+}
+
+.TagsArray__Tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $value-1_5;
+}
+
+.TagsArray__Tag {
+  display: inline-flex;
+  align-items: center;
+  padding: $value-0_5 $value-2;
+  border-radius: $rounded-full;
+  font-size: $value-3;
+  background: $accent-background;
+  color: $accent;
+  border: 1px solid rgba(127, 119, 221, 0.3);
+  white-space: nowrap;
+}
+
+.TagsArray__Toggle {
+  display: inline-flex;
+  align-items: center;
+  padding: $value-0_5 $value-2;
+  border-radius: $rounded-full;
+  font-size: $value-3;
+  background: transparent;
+  color: $accent;
+  border: 1px dashed rgba(127, 119, 221, 0.5);
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: rgba(127, 119, 221, 0.08);
+    border-style: solid;
+  }
+}

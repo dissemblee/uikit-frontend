@@ -6,39 +6,7 @@ import { useGetBuildByIdQuery } from "@entities/build/build.api";
 import { BuildStatus } from "@entities/build";
 import moment from "moment";
 import { InfoRow } from "@shared/ui/InfoRow";
-
-const statusConfig: Record<
-  BuildStatus,
-  {
-    icon: React.ReactNode;
-    label: string;
-    className: string;
-  }
-> = {
-  [BuildStatus.PENDING]: {
-    icon: <FiClock size={14} />,
-    label: "Ожидание",
-    className: "pending",
-  },
-
-  [BuildStatus.RUNNING]: {
-    icon: <FiLoader size={14} />,
-    label: "В процессе",
-    className: "in_progress",
-  },
-
-  [BuildStatus.SUCCESS]: {
-    icon: <FiCheckCircle size={14} />,
-    label: "Завершено",
-    className: "completed",
-  },
-
-  [BuildStatus.FAILED]: {
-    icon: <FiXCircle size={14} />,
-    label: "Ошибка",
-    className: "failed",
-  },
-};
+import { buildStatusConfig } from "@shared/ui/BuildStatusConfig";
 
 const getDuration = (startedAt: string, completedAt?: string | null): string => {
   const start = moment(startedAt);
@@ -65,7 +33,7 @@ export const BuildSingleSection = () => {
 
   if (!build) return <SingleWrapSection state="not_found" />
 
-  const status = statusConfig[build.status];
+  const status = buildStatusConfig[build.status];
   const duration = getDuration(build.startedAt, build.finishedAt);
 
   return (

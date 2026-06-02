@@ -1,8 +1,8 @@
 import { useForm } from "@shared/hooks/useForm"
 import { Button } from "@shared/ui/Button"
-import { FileInput, Input, Select, Textarea } from "@shared/ui/Inputs"
-import { FiCode, FiFileText, FiPackage, FiUpload } from "react-icons/fi"
-import { useCreateComponentMutation } from "@entities/component"
+import { FileInput, Input, Select, Textarea, MultiSelect } from "@shared/ui/Inputs"
+import { FiCode, FiFileText, FiPackage, FiTag, FiUpload } from "react-icons/fi"
+import { useCreateComponentMutation, Framework, ComponentTag } from "@entities/component"
 import { useState } from "react"
 import { FormError } from "@shared/ui/FormError"
 import { useNavigate } from "react-router"
@@ -16,9 +16,8 @@ export const CreateComponentForm = () => {
     initialValues: {
       name: "",
       description: "",
-      framework: "react" as const,
-      fileExtension: "tsx" as const,
-      version: "0.0.0.0"
+      framework: Framework.REACT,
+      tags: [] as ComponentTag[],
     },
 
     validate(values) {
@@ -26,20 +25,10 @@ export const CreateComponentForm = () => {
       if (!values.name) errors.name = "Введите имя"
       if (!values.description) errors.description = "Введите описание"
       if (!values.framework) errors.framework = "Укажите фреймворк"
-      if (!values.fileExtension) errors.fileExtension = "Укажите расширение файла"
       if (!file) errors.file = "Выберите файл компонента"
-      
-      if (file) {
-        const fileExt = file.name.split('.').pop()
-        if (fileExt !== values.fileExtension) {
-          errors.file = `Расширение файла (.${fileExt}) не соответствует выбранному (.${values.fileExtension})`
-        }
-      }
-      
       if (values.description.length >= 300) {
         errors.description = "Слишком длинное описание, максимум 300 символов"
       }
-      
       return errors
     },
 
@@ -48,34 +37,30 @@ export const CreateComponentForm = () => {
 
       const formData = new FormData()
       formData.append("file", file)
-      formData.append("version", values.version)
       formData.append("name", values.name)
       formData.append("description", values.description)
       formData.append("framework", values.framework)
-      formData.append("fileExtension", values.fileExtension)
-      formData.append("css", JSON.stringify("css"))
-      formData.append("dependencies", JSON.stringify({"axios": "^1.13.6"}))
+      formData.append("dependencies", JSON.stringify({ axios: "^1.13.6" }))
+      formData.append("tags", JSON.stringify(values.tags))
 
       const result = await create(formData)
-      if ('error' in result) {
+      if ("error" in result) {
         throw result.error
       }
-      
-      navigate('/components')
+
+      navigate("/components")
     },
   })
 
   const frameworkOptions = [
-    { value: "react", label: "⚛️ React" },
-    { value: "vanilla", label: "🍦 Vanilla" },
+    { value: Framework.REACT, label: "⚛️ React" },
+    { value: Framework.VANILLA, label: "🍦 Vanilla" },
   ]
 
-  const extensionOptions = [
-    { value: "ts", label: "TypeScript (.ts)" },
-    { value: "tsx", label: "TypeScript React (.tsx)" },
-    { value: "js", label: "JavaScript (.js)" },
-    { value: "jsx", label: "JavaScript React (.jsx)" },
-  ]
+  const tagOptions = Object.values(ComponentTag).map((tag) => ({
+    value: tag,
+    label: tag,
+  }))
 
   return (
     <form onSubmit={form.handleSubmit}>
@@ -85,28 +70,32 @@ export const CreateComponentForm = () => {
         icon={<FiCode />}
         placeholder="Button"
       />
-      
+
       <Select
         label="Фреймворк"
         options={frameworkOptions}
         {...form.field("framework")}
         icon={<FiPackage />}
       />
-      
-      <Select
-        label="Расширение файла"
-        options={extensionOptions}
-        {...form.field("fileExtension")}
-        icon={<FiCode />}
-      />
-      
+
       <Textarea
         label="Описание"
         {...form.field("description")}
         icon={<FiFileText />}
         placeholder="Кнопка для отправки форм"
       />
-      
+
+      <MultiSelect
+        label="Теги"
+        options={tagOptions}
+        value={form.values.tags}
+        onChange={(tags) => form.setValues((prev) => ({
+          ...prev,
+          tags: tags as ComponentTag[],
+        }))}
+        icon={<FiTag />}
+      />
+
       <FileInput
         label="Файл компонента"
         icon={<FiUpload />}
@@ -115,7 +104,7 @@ export const CreateComponentForm = () => {
           setFile(newFile)
           if (form.submitError) form.setSubmitError(null)
         }}
-        acceptedFileTypes={['.ts', '.tsx', '.js', '.jsx']}
+        acceptedFileTypes={[".ts", ".tsx", ".js", ".jsx"]}
         maxSize={1024 * 1024}
       />
 

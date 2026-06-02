@@ -343,3 +343,91 @@ $input-transition:   all 0.18s ease;
 .Input__Error {
   animation: errorSlide 0.15s ease;
 }
+
+.MultiSelect__List {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $value-2;
+  padding: $value-2;
+  background: $input-bg;
+  border: 0.5px solid $input-border;
+  border-radius: $input-radius;
+  transition: $input-transition;
+
+  &:hover {
+    border-color: $input-border-hover;
+  }
+}
+
+.MultiSelect__List--error {
+  border-color: $input-border-error;
+  background: rgba(226, 75, 74, 0.04);
+
+  &:hover {
+    border-color: $input-border-error;
+  }
+}
+
+.MultiSelect__Item {
+  display: inline-flex;
+  align-items: center;
+  gap: $value-2;
+  padding: $value-1_5 $value-3;
+  font-size: $value-3;
+  font-family: 'Geist Mono', monospace;
+  color: $title-color;
+  background: #ffffff;
+  border: 0.5px solid $input-border;
+  border-radius: $rounded-md;
+  cursor: pointer;
+  user-select: none;
+  transition: $input-transition;
+
+  &:hover {
+    border-color: $accent;
+    background: #EEEDFE;
+  }
+}
+
+.MultiSelect__Item--checked {
+  background: #EEEDFE;
+  border-color: $accent;
+  color: $accent;
+}
+
+.MultiSelect__Checkbox {
+  width: $value-4;
+  height: $value-4;
+  min-width: $value-4;
+  border-radius: $rounded-md;
+  border: 0.5px solid $input-border;
+  background: $input-bg;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  margin: 0;
+  transition: $input-transition;
+
+  &:checked {
+    background: $accent;
+    border-color: $accent;
+  }
+
+  &:checked::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 3px;
+    height: 7px;
+    border: solid white;
+    border-width: 0 1.5px 1.5px 0;
+    transform: rotate(45deg);
+  }
+
+  &:focus {
+    outline: none;
+    @include boxShadow;
+  }
+}

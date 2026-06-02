@@ -5,52 +5,45 @@ export const ComponentStat = ({ id }: { id: string }) => {
   const { data, isLoading } = useGetComponentStatQuery({ id });
 
   if (isLoading) return <div className={styled.ComponentStat__Loading}>загрузка статистики...</div>;
-  if (!data) return null;
+  if (!data?.result) return null;
 
-  const max = Math.max(data.loadsForYear, 1);
-  const rows = [
-    { label: "Год", value: data.loadsForYear },
-    { label: "Месяц", value: data.loadsByMonth },
-    { label: "Неделя", value: data.loadsByWeek },
-    { label: "Сутки", value: data.loadsByDay },
+  const stat = data.result;
+
+  const cards = [
+    { label: "за год", value: stat.loadsForYear },
+    { label: "за месяц", value: stat.loadsForMonth },
+    { label: "за неделю", value: stat.loadsForWeek },
+    { label: "за сутки", value: stat.loadsForDay },
   ];
+
+  const maxDaily = Math.max(...stat.dailyChart.map((d) => d.count), 1);
 
   return (
     <div className={styled.ComponentStat}>
       <div className={styled.ComponentStat__Grid}>
-        <div className={styled.ComponentStat__Card}>
-          <span className={styled.ComponentStat__CardLabel}>за год</span>
-          <span className={styled.ComponentStat__CardValue}>{data.loadsForYear}</span>
-        </div>
-        <div className={styled.ComponentStat__Card}>
-          <span className={styled.ComponentStat__CardLabel}>за месяц</span>
-          <span className={styled.ComponentStat__CardValue}>{data.loadsByMonth}</span>
-        </div>
-        <div className={styled.ComponentStat__Card}>
-          <span className={styled.ComponentStat__CardLabel}>за неделю</span>
-          <span className={styled.ComponentStat__CardValue}>{data.loadsByWeek}</span>
-        </div>
-        <div className={styled.ComponentStat__Card}>
-          <span className={styled.ComponentStat__CardLabel}>за сутки</span>
-          <span className={styled.ComponentStat__CardValue}>{data.loadsByDay}</span>
-        </div>
+        {cards.map((card) => (
+          <div key={card.label} className={styled.ComponentStat__Card}>
+            <span className={styled.ComponentStat__CardLabel}>{card.label}</span>
+            <span className={styled.ComponentStat__CardValue}>{card.value}</span>
+          </div>
+        ))}
       </div>
 
       <div className={styled.ComponentStat__Chart}>
         <div className={styled.ComponentStat__ChartHeader}>
-          динамика загрузок
+          динамика загрузок за 30 дней (всего: {stat.loadsTotal})
         </div>
         <div className={styled.ComponentStat__ChartBody}>
-          {rows.map((row) => (
-            <div key={row.label} className={styled.ComponentStat__BarRow}>
-              <span className={styled.ComponentStat__BarLabel}>{row.label}</span>
+          {stat.dailyChart.map((day) => (
+            <div key={day.date} className={styled.ComponentStat__BarRow}>
+              <span className={styled.ComponentStat__BarLabel}>{day.date.slice(5)}</span>
               <div className={styled.ComponentStat__BarTrack}>
                 <div
                   className={styled.ComponentStat__BarFill}
-                  style={{ width: `${Math.round((row.value / max) * 100)}%` }}
+                  style={{ width: `${Math.round((day.count / maxDaily) * 100)}%` }}
                 />
               </div>
-              <span className={styled.ComponentStat__BarCount}>{row.value}</span>
+              <span className={styled.ComponentStat__BarCount}>{day.count}</span>
             </div>
           ))}
         </div>

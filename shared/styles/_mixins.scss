@@ -68,6 +68,21 @@
   border: 1px solid $border-color;
 }
 
+@mixin badgeBase {
+  display: inline-flex;
+  align-items: center;
+  padding: $value-0_5 $value-2_5;
+  border-radius: $rounded-md;
+  font-size: $value-3;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  background: rgba(127, 119, 221, 0.06);
+  border: 1px solid $border-color;
+  color: $accent;
+  margin: 0 2px;
+}
+
 @mixin boxShadow {
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.85) inset,

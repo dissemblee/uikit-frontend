@@ -17,8 +17,6 @@
   animation: fadeUp 0.3s ease both;
 }
 
-// ─── Шапка ────────────────────────────────────────────────────────────────────
-
 .ProfileSkeleton__Header {
   background: linear-gradient(
     150deg,
@@ -51,8 +49,6 @@
   @include SkeletonEffect;
 }
 
-// ─── Строка-заглушка ─────────────────────────────────────────────────────────
-
 .ProfileSkeleton__Line {
   border-radius: $rounded-md;
   @include SkeletonEffect;
@@ -63,8 +59,6 @@
 .ProfileSkeleton__Line--nav   { width: 200px; height: $value-6; animation-delay: 0.15s; }
 .ProfileSkeleton__Line--label { width: 80px;  height: $value-4; animation-delay: 0.05s; }
 .ProfileSkeleton__Line--value { width: 160px; height: $value-4; animation-delay: 0.10s; }
-
-// ─── Строки с данными ─────────────────────────────────────────────────────────
 
 .ProfileSkeleton__Body {
   @include flexColumn;
@@ -77,8 +71,6 @@
   padding: $value-3 $value-7;
   border-bottom: 1px solid rgba(206, 203, 246, 0.35);
 }
-
-// ─── Статистика ───────────────────────────────────────────────────────────────
 
 .ProfileSkeleton__Stats {
   padding: $value-5 $value-7 $value-6;

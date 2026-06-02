@@ -2,52 +2,71 @@
 @use '../../styles/mixins' as *;
 
 .FormTipsPanel {
+  border: 1px solid $border-color;
   border-radius: $rounded-lg;
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #F8F7FE;
   overflow: hidden;
-  padding: $value-4 $value-5;
-  background-color: #FAFAFA;
+  transition:
+    max-height 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity    0.22s ease,
+    padding    0.32s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.22s ease;
 }
 
-.FormTipsPanel__Hide {
+.FormTipsPanel--hide {
   max-height: 0;
   opacity: 0;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-bottom: 0;
-  pointer-events: none;
+  padding: 0 $value-5;
   border-color: transparent;
-  box-shadow: none;
+  pointer-events: none;
 }
 
-.FormTipsPanel__Show {
+.FormTipsPanel--show {
   max-height: 400px;
   opacity: 1;
   padding: $value-4 $value-5;
-  margin-bottom: $value-5;
+}
+
+.FormTipsPanel__Title {
+  display: flex;
+  align-items: center;
+  gap: $value-2;
+  font-size: $value-3_5;
+  font-weight: 700;
+  color: $title-color;
+  letter-spacing: 0.01em;
+  margin-bottom: $value-3;
+}
+
+.FormTipsPanel__Icon {
+  color: $accent;
+  font-size: $value-4;
+  flex-shrink: 0;
 }
 
 .FormTipsPanel__List {
-  padding-left: $value-3;
-  margin: 0;
+  @include flexColumn;
+  gap: $value-2;
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .FormTipsPanel__Item {
-  line-height: 1.5;
-  font-size: 0.88rem;
-  color: #4a4a5a;
-  padding-left: $value-4;
-  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: $value-2_5;
+  font-size: $value-3_5;
+  color: $subtitle-color;
+  line-height: 1.55;
 
   &::before {
     content: '';
-    position: absolute;
-    left: 0;
-    top: $value-2;
     width: 5px;
     height: 5px;
     border-radius: 50%;
     background: $accent;
+    flex-shrink: 0;
+    margin-top: 6px;
   }
 }

@@ -28,11 +28,6 @@
   border-radius: $rounded-lg;
   padding: $value-3 $value-4;
   transition: background 0.15s ease, border-color 0.15s ease;
-
-  &:hover {
-    background: rgba(127, 119, 221, 0.06);
-    border-color: rgba(127, 119, 221, 0.35);
-  }
 }
 
 .ComponentStat__CardLabel {

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router"
+import { Link } from "react-router"
 import moment from "moment"
 import styles from "./BaseCard.module.scss"
 import type { ReactNode } from "react"
@@ -10,10 +10,11 @@ interface BaseCardProps {
   icon: ReactNode
   name: ReactNode
   sub?: string
-  meta?: Record<string, string> | string;
-  extra?: ReactNode;
-  date: string
+  meta?: string
+  extra?: ReactNode
+  date?: string | null | false
   right?: ReactNode
+  username?: string
 }
 
 export const BaseCard = ({
@@ -27,37 +28,34 @@ export const BaseCard = ({
   extra,
   date,
   right,
+  username
 }: BaseCardProps) => {
-  const navigate = useNavigate()
 
   const formatDate = (dateStr: string) => {
-    const d = moment(dateStr)
+    const d   = moment(dateStr)
     const now = moment()
-    if (d.isSame(now, 'day')) {
-      return `сегодня ${d.format('HH:mm')}`
-    }
-    if (d.isSame(now.subtract(1, 'day'), 'day')) {
-      return `вчера ${d.format('HH:mm')}`
-    }
-    return d.format('DD MMM HH:mm')
+    if (d.isSame(now, "day")) return `сегодня ${d.format("HH:mm")}`
+    if (d.isSame(now.clone().subtract(1, "day"), "day")) return `вчера ${d.format("HH:mm")}`
+    return d.format("DD MMM HH:mm")
   }
 
-  const truncateText = (text: string, maxLength: number = 60) => {
-    if (text.length <= maxLength) return text
-    return text.slice(0, maxLength).trim() + '...'
-  }
+  const truncate = (text: string, max = 60) =>
+    text.length <= max ? text : text.slice(0, max).trim() + "…"
 
   return (
-    <article
+    <Link
+      to={to}
       className={`${styles.BaseCard}${className ? ` ${className}` : ""}`}
       style={{ animationDelay: `${index * 30}ms` }}
-      onDoubleClick={() => navigate(to)}
     >
-      <code className={styles.BaseCard__Line}>
+      <div className={styles.BaseCard__Line}>
         <span className={styles.BaseCard__Prompt}>$</span>
-        <span className={styles.BaseCard__Command}>cat {name}</span>
-      </code>
-      
+        <span className={styles.BaseCard__Command}>
+          <span className={styles.BaseCard__CommandSlash}>./</span>
+          <span className={styles.BaseCard__CommandName}>{name}</span>
+        </span>
+      </div>
+
       <div className={styles.BaseCard__Content}>
         <div className={styles.BaseCard__Left}>
           <div className={styles.BaseCard__Icon}>{icon}</div>
@@ -66,50 +64,30 @@ export const BaseCard = ({
             {sub && (
               <span className={styles.BaseCard__Sub}>
                 <span className={styles.BaseCard__Comment}>#</span>
-                <span className={styles.BaseCard__SubText}>
-                  {truncateText(sub, 50)}
-                </span>
+                <span className={styles.BaseCard__SubText}>{truncate(sub, 50)}</span>
               </span>
             )}
           </div>
         </div>
 
         <div className={styles.BaseCard__Meta}>
-          {extra && (
-            <span className={styles.BaseCard__Extra}>
-              {extra}
-            </span>
-          )}
+          {extra && <span className={styles.BaseCard__Tag}>{extra}</span>}
+          {username ? <span className={styles.BaseCard__Tag}><Link to={`/profile/${username}`}>@{username}</Link></span> : null}
           {meta && (
-            <div className={styles.BaseCard__Tags}>
-              {typeof meta === 'string' ? (
-                <span className={styles.BaseCard__Tag}>
-                  <span className={styles.BaseCard__TagValue}>{truncateText(meta, 30)}</span>
-                </span>
-              ) : (
-                Object.entries(meta).map(([key, value]) => (
-                  <span key={key} className={styles.BaseCard__Tag}>
-                    <span className={styles.BaseCard__TagKey}>{key}:</span>
-                    <span className={styles.BaseCard__TagValue}>{truncateText(value, 20)}</span>
-                  </span>
-                ))
-              )}
-            </div>
+            <span className={styles.BaseCard__Tag}>{meta}</span>
           )}
         </div>
 
         <div className={styles.BaseCard__Right}>
-          {right && (
-            <span className={styles.BaseCard__RightContent}>
-              {right}
+          {right && <span className={styles.BaseCard__RightContent}>{right}</span>}
+          {date && (
+            <span className={styles.BaseCard__Date}>
+              <span className={styles.BaseCard__DateIcon}>⏱</span>
+              <span>{formatDate(date)}</span>
             </span>
           )}
-          <span className={styles.BaseCard__Date}>
-            <span className={styles.BaseCard__DateIcon}>⏱</span>
-            <span>{formatDate(date)}</span>
-          </span>
         </div>
       </div>
-    </article>
+    </Link>
   )
 }

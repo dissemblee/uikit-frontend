@@ -2,29 +2,7 @@ import moment from "moment"
 import styles from "./BuildCard.module.scss"
 import { BuildStatus, type BuildDto } from "@entities/build"
 import { BaseCard } from "@shared/ui/BaseCard"
-
-const statusConfig: Record<BuildStatus, { icon: string; label: string; className: string }> = {
-  [BuildStatus.PENDING]: { 
-    icon: "⏳", 
-    label: "Ожидание", 
-    className: "pending" 
-  },
-  [BuildStatus.RUNNING]: { 
-    icon: "⚙️", 
-    label: "В процессе", 
-    className: "in_progress" 
-  },
-  [BuildStatus.SUCCESS]: { 
-    icon: "✅", 
-    label: "Завершено", 
-    className: "completed" 
-  },
-  [BuildStatus.FAILED]: { 
-    icon: "❌", 
-    label: "Ошибка", 
-    className: "failed" 
-  },
-};
+import { buildStatusConfig } from "@shared/ui/BuildStatusConfig";
 
 const getDuration = (startedAt: string, completedAt?: string | null): string => {
   const start = moment(startedAt);
@@ -37,7 +15,7 @@ const getDuration = (startedAt: string, completedAt?: string | null): string => 
 };
 
 export const BuildCard = ({ build, index = 0 }: { build: BuildDto; index?: number }) => {
-  const status = statusConfig[build.status];
+  const status = buildStatusConfig[build.status];
   const isRunning = build.status === BuildStatus.RUNNING;
   const duration = getDuration(build.startedAt, build.finishedAt);
 
@@ -46,14 +24,12 @@ export const BuildCard = ({ build, index = 0 }: { build: BuildDto; index?: numbe
       to={`/builds/${build.type}/${build.id}`}
       index={index}
       icon={
-        <>
-          <div className={`${styles.BuildCard__Icon} ${isRunning ? styles['BuildCard__Icon--spinning'] : ''}`}>
-            {status.icon}
-          </div>
-        </>
+        <div className={`${styles.BuildCard__Icon} ${styles[`BuildCard__Icon--${status.className}`]} ${isRunning ? styles['BuildCard__Icon--spinning'] : ''}`}>
+          {status.icon}
+        </div>
       }
-      name={build.name}
-      sub={`v${build.version}`}
+      name={build.id}
+      sub={`${build.component.name}-${build.component.version}`}
       extra={
         <span className={`${styles.BuildCard__Status} ${styles[`BuildCard__Status--${status.className}`]}`}>
           {status.label}
@@ -61,11 +37,9 @@ export const BuildCard = ({ build, index = 0 }: { build: BuildDto; index?: numbe
       }
       date={build.startedAt}
       right={
-        <>
-          <span className={styles.BuildCard__Duration}>
-            ⏱ {duration}
-          </span>
-        </>
+        <span className={`${styles.BuildCard__Duration} ${isRunning ? styles["BuildCard__Duration--running"] : ""}`}>
+          ⏱ {duration}
+        </span>
       }
     />
   );

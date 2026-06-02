@@ -1,2 +1,11 @@
 export type { ComponentDto, ComponentCursorResultDto, ComponentResultDto } from "./component.dto";
-export { componentsApi, useGetComponentByIdQuery, useGetAllComponentsQuery, useCreateComponentMutation, useGetComponentsByUserQuery, useGetComponentSourceQuery, useLazyGetComponentPackageQuery, useGetComponentStatQuery, useGetUserStatQuery } from "./component.api";
+export { Framework, ComponentTag } from "./component.dto";
+export {
+  componentsApi,
+  useGetComponentByIdQuery,
+  useGetAllComponentsQuery,
+  useCreateComponentMutation,
+  useGetComponentSourceQuery,
+  useGetComponentStatQuery,
+  useGetUserStatQuery
+} from "./component.api";

@@ -12,62 +12,63 @@
 .BuildCard__Status {
   display: inline-flex;
   align-items: center;
-  padding: $value-1 $value-2_5;
-  border-radius: $rounded-lg;
+  gap: $value-1_5;
+  padding: $value-0_5 $value-2_5;
+  border-radius: $rounded-md;
   font-size: $value-3;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  @include boxShadow;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 
 .BuildCard__Status--pending {
-  background: rgba(200, 170, 40, 0.12);
-  border: 1px solid rgba(200, 170, 40, 0.30);
-  color: rgba(140, 110, 10, 0.85);
+  background: rgba(234, 179, 8, 0.10);
+  border: 1px solid rgba(234, 179, 8, 0.30);
+  color: #854d0e;
 }
 
 .BuildCard__Status--in_progress {
-  background: rgba(60, 130, 230, 0.12);
-  border: 1px solid rgba(60, 130, 230, 0.30);
-  color: rgba(20, 70, 180, 0.85);
+  background: rgba(59, 130, 246, 0.10);
+  border: 1px solid rgba(59, 130, 246, 0.28);
+  color: #1e40af;
 }
 
 .BuildCard__Status--completed {
-  background: rgba(40, 180, 100, 0.12);
-  border: 1px solid rgba(40, 180, 100, 0.30);
-  color: rgba(20, 120, 60, 0.85);
+  background: rgba(34, 197, 94, 0.10);
+  border: 1px solid rgba(34, 197, 94, 0.28);
+  color: #166534;
 }
 
 .BuildCard__Status--failed {
-  background: rgba(220, 60, 60, 0.10);
-  border: 1px solid rgba(220, 60, 60, 0.30);
-  color: rgba(160, 30, 30, 0.85);
+  background: rgba(239, 68, 68, 0.09);
+  border: 1px solid rgba(239, 68, 68, 0.28);
+  color: #991b1b;
 }
+
+.BuildCard__Icon--pending   { color: #854d0e; }
+.BuildCard__Icon--in_progress { color: #1e40af; }
+.BuildCard__Icon--completed { color: #166534; }
+.BuildCard__Icon--failed    { color: #991b1b; }
 
 .BuildCard__Duration {
   font-size: $value-3;
-  font-weight: 700;
+  font-weight: 600;
   color: $subtitle-color;
   white-space: nowrap;
-  transition: color 0.2s ease;
+  font-family: 'Geist Mono', 'JetBrains Mono', Menlo, monospace;
+  transition: color 0.18s ease;
 }
 
 .BuildCard__Duration--running {
-  color: rgba(20, 70, 180, 0.80);
+  color: #1e40af;
   animation: pulse 1.5s ease-in-out infinite;
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
 @keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
 }

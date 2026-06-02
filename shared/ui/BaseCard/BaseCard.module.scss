@@ -4,36 +4,61 @@
 .BaseCard {
   display: flex;
   flex-direction: column;
+  background: #fff;
   border: 1px solid $border-color;
   border-radius: $rounded-lg;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  animation: cardIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+  text-decoration: none;
+  color: inherit;
   overflow: hidden;
   min-width: 0;
+  cursor: pointer;
+  transition:
+    border-color 0.18s ease,
+    box-shadow   0.18s ease,
+    transform    0.15s ease;
+  animation: cardIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
 
   &:hover {
-    border-color: $accent;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow:
+      0 4px 20px rgba(127, 119, 221, 0.12),
+      0 1px 6px  rgba(127, 119, 221, 0.07);
   }
 }
 
 .BaseCard__Line {
   display: flex;
   align-items: center;
-  gap: $value-2;
-  padding: $value-1_5 $value-3;
+  gap: $value-1_5;
+  padding: $value-1_5 $value-3_5;
   background: #F4F3FB;
   border-bottom: 1px solid $border-color;
   font-size: $value-3;
+  font-family: 'Geist Mono', 'JetBrains Mono', Menlo, monospace;
+  transition: background 0.18s ease;
+  min-width: 0;
 }
 
 .BaseCard__Prompt {
+  color: $accent;
+  flex-shrink: 0;
+  opacity: 0.75;
+  font-weight: 700;
+}
+
+.BaseCard__Command {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.BaseCard__CommandSlash {
   color: #8A8AAA;
   flex-shrink: 0;
 }
 
-.BaseCard__Command {
+.BaseCard__CommandName {
   color: #CE9178;
   white-space: nowrap;
   overflow: hidden;
@@ -41,7 +66,8 @@
 }
 
 .BaseCard__Content {
-  @include flexCenter;
+  display: flex;
+  align-items: center;
   gap: $value-4;
   padding: $value-3 $value-3_5;
   flex: 1;
@@ -60,15 +86,13 @@
   @include flexCenter;
   width: $value-8;
   height: $value-8;
-  border-radius: $rounded;
-  font-size: $value-5;
-  background: #F4F3FB;
-  transition: all 0.2s ease;
+  border-radius: $rounded-md;
+  font-size: $value-4;
+  background: #F8F7FE;
+  border: 1px solid $border-color;
   flex-shrink: 0;
-
-  .BaseCard:hover & {
-    background: #F0EEFF;
-  }
+  color: $subtitle-color;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
 .BaseCard__Info {
@@ -79,13 +103,18 @@
 }
 
 .BaseCard__Name {
-  font-size: $value-4;
+  font-size: $value-3_5;
   font-weight: 600;
   color: $title-color;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   font-family: 'Geist Mono', 'JetBrains Mono', Menlo, monospace;
+  transition: color 0.18s ease;
+
+  .BaseCard:hover & {
+    color: $accent;
+  }
 }
 
 .BaseCard__Sub {
@@ -117,43 +146,8 @@
   min-width: 0;
 }
 
-.BaseCard__Extra {
-  display: inline-flex;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.BaseCard__Tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: $value-1;
-  min-width: 0;
-}
-
 .BaseCard__Tag {
-  display: inline-flex;
-  align-items: center;
-  border-radius: $rounded;
-  overflow: hidden;
-  font-size: $value-3;
-  background: #F4F3FB;
-  max-width: 150px;
-}
-
-.BaseCard__TagKey {
-  padding: $value-0_5 $value-1_5;
-  background: #E8E6FF;
-  color: $title-color;
-  font-weight: 500;
-  flex-shrink: 0;
-}
-
-.BaseCard__TagValue {
-  padding: $value-0_5 $value-1_5;
-  color: $title-color;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  @include badgeBase;
 }
 
 .BaseCard__Right {
@@ -177,20 +171,10 @@
   color: $subtitle-color;
   font-family: 'Geist Mono', 'JetBrains Mono', Menlo, monospace;
   white-space: nowrap;
+  opacity: 0.8;
 }
 
 .BaseCard__DateIcon {
   font-size: $value-3;
-  opacity: 0.7;
-}
-
-@keyframes cardIn {
-  from {
-    opacity: 0;
-    transform: translateY($value-2);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  opacity: 0.65;
 }

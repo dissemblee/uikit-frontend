@@ -345,3 +345,69 @@ export const FileInput = ({
     </div>
   )
 }
+
+interface MultiSelectOption {
+  value: string
+  label: string
+}
+
+interface MultiSelectProps extends BaseInputProps {
+  options: MultiSelectOption[]
+  value: string[]
+  onChange: (value: string[]) => void
+  className?: string
+}
+
+export const MultiSelect = ({
+  label,
+  error,
+  options,
+  value,
+  onChange,
+  icon,
+  className,
+}: MultiSelectProps) => {
+  const toggle = (optionValue: string) => {
+    if (value.includes(optionValue)) {
+      onChange(value.filter((v) => v !== optionValue))
+    } else {
+      onChange([...value, optionValue])
+    }
+  }
+
+  const listClasses = [
+    styles.MultiSelect__List,
+    error && styles['MultiSelect__List--error'],
+    className,
+  ].filter(Boolean).join(' ')
+
+  return (
+    <div className={styles.Input}>
+      <label className={styles.Input__Label}>
+        // {label}
+      </label>
+      <div className={listClasses}>
+        {options.map((option) => {
+          const checked = value.includes(option.value)
+          const itemClasses = [
+            styles.MultiSelect__Item,
+            checked && styles['MultiSelect__Item--checked'],
+          ].filter(Boolean).join(' ')
+
+          return (
+            <label key={option.value} className={itemClasses}>
+              <input
+                type="checkbox"
+                className={styles.MultiSelect__Checkbox}
+                checked={checked}
+                onChange={() => toggle(option.value)}
+              />
+              <span>{option.label}</span>
+            </label>
+          )
+        })}
+      </div>
+      {error && <div className={styles.Input__Error}>{error}</div>}
+    </div>
+  )
+}

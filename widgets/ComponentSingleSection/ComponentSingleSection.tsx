@@ -2,18 +2,30 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import { useGetComponentByIdQuery } from "@entities/component";
 import { useGetComponentSourceQuery } from "@entities/component";
-import { FiCode, FiPackage } from "react-icons/fi";
+import { FiCode, FiGitBranch, FiPackage, FiTag } from "react-icons/fi";
 import styled from "./ComponentSingleSection.module.scss";
 import { SingleWrapSection } from "@shared/ui/SingleWrapSection";
 import { DownloadMenu } from "@shared/ui/DownloadMenu";
 import ShikiHighlighter from "react-shiki";
 import { ComponentStat } from "@features/ComponentStat";
 import { InfoRow } from "@shared/ui/InfoRow";
+import { TagsArray } from "@shared/ui/TagsArray";
 // import StatCard from "StatCard" // Пример для компонентов
 // import MyButton from "shawarmaRepo/shawarma.js" // пример для реп
 // import Why from "useGetComponentSourceQueryRepo/EnterprisePricingShowcase.js"
 
 export const ComponentSingleSection = () => {
+  const { username, name } = useParams<{ username: string; name: string }>();
+  const { data: component, isLoading } = useGetComponentByIdQuery({
+    username: username!,
+    name: name!,
+  });
+
+  const { data: text } = useGetComponentSourceQuery(
+    { id: component?.result?.buildId! },
+    { skip: !component?.result?.buildId },
+  );
+
   const [tab, setTab] = useState<"preview" | "code">("code");
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -28,29 +40,18 @@ export const ComponentSingleSection = () => {
     return () => window.removeEventListener('message', handler);
   }, []);
 
-  const { username, name } = useParams<{ username: string; name: string }>();
-
-  const { data: component, isLoading } = useGetComponentByIdQuery({
-    username: username!,
-    name: name!,
-  });
-
-  const { data: text } = useGetComponentSourceQuery({
-    id: component?.id!,
-  });
-
   if (isLoading) return <SingleWrapSection state="loading" />;
 
   if (!component) return <SingleWrapSection state="not_found" />;
 
-  const packageId = `${username}/${name}/${component.version}`;
+  const packageId = `${username}/${name}/${component.result!.version}`;
 
   return (
     <SingleWrapSection
       entity={component}
       state="success"
-      title={component.name}
-      path={`${component.username}/${component.name}`}
+      title={component.result!.name}
+      path={`${component.result!.username}/${component.result!.name}`}
       icon={<FiCode size={32} />}
       username={username}
       extraActions={
@@ -58,7 +59,7 @@ export const ComponentSingleSection = () => {
           downloadUrl={`http://localhost:8080/api/components/load/${packageId}`}
         />
       }
-      extraSide={<ComponentStat id={component.id} />}
+      extraSide={<ComponentStat id={component.result!.id} />}
       extraChildren={
         <div className={styled.ComponentSingleSection}>
           <div
@@ -96,10 +97,10 @@ export const ComponentSingleSection = () => {
             <div className={styled.ComponentSingleSection__Body}>
               {tab === "preview" && (
                 <>
-                  {component?.id && (
+                  {component?.result?.id && (
                     <iframe
                       ref={iframeRef}
-                      src={`http://localhost:8080/api/components/previews/${component.id}/page`}
+                      src={`http://localhost:8080/api/components/previews/${component.result!.id}/page`}
                       sandbox="allow-scripts"
                       className={styled.ComponentSingleSection__Preview}
                       style={{ height: 0 }}
@@ -117,7 +118,9 @@ export const ComponentSingleSection = () => {
         </div>
       }
     >
-      <InfoRow label="framework" value={component.framework} icon={<FiPackage size={14} />} />
+      <InfoRow label="framework" value={component.result!.framework} icon={<FiPackage size={14} />} />
+      <InfoRow label="версия" value={component.result!.version} icon={<FiGitBranch size={14} />} />
+      <TagsArray tags={component.result!.tags} />
     </SingleWrapSection>
   );
 };

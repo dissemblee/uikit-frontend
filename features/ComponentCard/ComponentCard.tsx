@@ -1,6 +1,7 @@
 import type { ComponentDto } from "@entities/component";
 import styles from "./ComponentCard.module.scss";
 import { BaseCard } from "@shared/ui/BaseCard";
+import { FiCode } from "react-icons/fi";
 
 interface ComponentCardProps {
   component: ComponentDto;
@@ -12,22 +13,22 @@ export const ComponentCard = ({ component, index = 0 }: ComponentCardProps) => {
     <BaseCard
       to={`/components/${component.username}/${component.name}`}
       index={index}
-      icon="🧩"
+      icon={<FiCode size={18} />}
       name={component.name}
       sub={component.description}
       meta={component.framework}
       date={component.createdAt}
-      extra={
-        component.type && (
-          <span className={styles.ComponentCard__Type}>
-            {component.type}
-          </span>
-        )
-      }
+      username={component.username}
       right={
-        <span className={styles.ComponentCard__Version}>
-          v{component.version}
-        </span>
+        component.tags && (
+          <>
+            {component.tags.map((tag) => (
+              <span key={tag} className={styles.ComponentCard__Badge}>
+                {tag}
+              </span>
+            ))}
+          </>
+        )
       }
     />
   );

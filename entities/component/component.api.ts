@@ -4,6 +4,7 @@ import type {
   ComponentCreateResultDto,
   ComponentCursorResultDto,
   ComponentResultDto,
+  ComponentFiltersDto
 } from "./component.dto";
 
 const ENDPOINT = "components";
@@ -12,30 +13,58 @@ export const componentsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllComponents: builder.query<
       ComponentCursorResultDto,
-      {
-        skip?: number;
-        limit?: number;
-        search?: string;
-        framework?: string;
-        sort?: "asc" | "desc";
-        startDate?: string;
-      }
+      Partial<ComponentFiltersDto> & { sort?: "asc" | "desc" }
     >({
-      query: ({ skip = 0, limit = 10, search, framework, sort, startDate }) => ({
+      query: ({
+        skip = 0,
+        limit = 10,
+        query,
+        framework,
+        username,
+        startDate,
+        tags,
+        sort,
+      } = {}) => ({
         url: `${ENDPOINT}/main`,
         method: "GET",
         params: {
           skip,
           limit,
-          ...(search && { query: search }),
+          ...(query && { query }),
           ...(framework && { framework }),
-          ...(sort && { sort }),
+          ...(username && { username }),
           ...(startDate && { startDate }),
+          ...(tags?.length && { tags }),
+          ...(sort && { sort }),
         },
-        service: "components"
+        service: "components",
       }),
       serializeQueryArgs: ({ queryArgs }) => {
-        return JSON.stringify(queryArgs);
+        const { skip: _s, startDate: _d, ...rest } = queryArgs;
+        return JSON.stringify(rest);
+      },
+      merge: (currentCache, newItems, { arg }) => {
+        if (!arg.skip && !arg.startDate) {
+          return newItems;
+        }
+        const currentData = currentCache.result?.data ?? [];
+        const newData = newItems.result?.data ?? [];
+        const existingIds = new Set(currentData.map((c) => c.id));
+        const mergedData = [
+          ...currentData,
+          ...newData.filter((c) => !existingIds.has(c.id)),
+        ];
+
+        currentCache.result = {
+          ...(newItems.result ?? {}),
+          data: mergedData,
+        } as typeof newItems.result;
+      },
+      forceRefetch: ({ currentArg, previousArg }) => {
+        return (
+          currentArg?.skip !== previousArg?.skip ||
+          currentArg?.startDate !== previousArg?.startDate
+        );
       },
       providesTags: (result) => {
         const components = result?.result?.data;
@@ -56,17 +85,6 @@ export const componentsApi = baseApi.injectEndpoints({
         { type: "Components", id: `${username}/${name}` },
       ],
     }),
-    getComponentsByUser: builder.query<
-      ComponentCursorResultDto,
-      { username: string; skip?: number; limit?: number; startDate?: string }
-    >({
-      query: ({ username, skip = 0, limit = 10, startDate }) => ({
-        url: `${ENDPOINT}/main/${username}`,
-        method: "GET",
-        params: { skip, limit, startDate },
-        service: "components"
-      }),
-    }),
     createComponent: builder.mutation<ComponentCreateResultDto, FormData>({
       query: (formData) => ({
         url: `${ENDPOINT}/main/upload`,
@@ -77,17 +95,9 @@ export const componentsApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [{ type: "Components", id: "LIST" }],
     }),
-    getComponentPackage: builder.query<Blob, { username: string; name: string }>({
-      query: ({ username, name }) => ({
-        url: `${ENDPOINT}/main/package/${username}/${name}`,
-        method: "GET",
-        service: "components",
-        responseHandler: (response: { blob: () => any; }) => response.blob(),
-      }),
-    }),
     getComponentSource: builder.query<string, { id: string }>({
       query: ({ id }) => ({
-        url: `${ENDPOINT}/source/text/${id}`,
+        url: `${ENDPOINT}/builds/${id}/source`,
         method: "GET",
         service: "components",
         responseHandler: (response: any) => response.text(),
@@ -114,8 +124,6 @@ export const {
   useGetAllComponentsQuery,
   useCreateComponentMutation,
   useGetComponentByIdQuery,
-  useGetComponentsByUserQuery,
-  useLazyGetComponentPackageQuery,
   useGetComponentSourceQuery,
   useGetComponentStatQuery,
   useGetUserStatQuery,

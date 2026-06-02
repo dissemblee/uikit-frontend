@@ -95,7 +95,6 @@ export const ListWrapSection = ({
         )}
       </div>
 
-      {/* ── Main panel card ── */}
       <div className={styled.ListWrapSection__Panel}>
 
         {filters && (

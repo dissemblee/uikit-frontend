@@ -3,20 +3,40 @@
 
 .FormTipsButton {
   @include flexCenter;
-  @include glassSurface;
-  padding: $value-1_5;
+  width: $value-8;
+  height: $value-8;
   border-radius: $rounded-full;
+  border: 1px solid $border-color;
+  background: transparent;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  font-size: $value-5;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.2s ease;
+  font-size: $value-4;
   color: $subtitle-color;
+  flex-shrink: 0;
 
   &:hover {
-    @include glassSurfaceHover;
+    background: rgba(127, 119, 221, 0.08);
+    border-color: rgba(127, 119, 221, 0.35);
+    color: $accent;
     transform: rotate(15deg);
   }
 
   &:active {
-    transform: rotate(15deg) scale(0.94);
+    transform: rotate(15deg) scale(0.93);
+  }
+}
+
+.FormTipsButton--active {
+  background: rgba(127, 119, 221, 0.12);
+  border-color: rgba(127, 119, 221, 0.45);
+  color: $accent;
+
+  &:hover {
+    background: rgba(127, 119, 221, 0.18);
+    transform: rotate(-15deg);
+  }
+
+  &:active {
+    transform: rotate(-15deg) scale(0.93);
   }
 }
