@@ -87,7 +87,6 @@ export const OwnProfile = () => {
               <ChangePassword />
             </div>
           )}
-          <br />
         </>
       }
       stats={<UserStat username={user.username} />}

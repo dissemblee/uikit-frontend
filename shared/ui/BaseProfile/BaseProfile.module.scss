@@ -8,36 +8,20 @@
 }
 
 .BaseProfile__Card {
-  display: grid;
-  border-radius: $rounded-2xl;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  align-items: stretch;
   background: #fff;
-  @media (max-width: 900px) {
-    grid-template-columns: 1fr;
-  }
+  border: 1px solid $border-color;
+  border-radius: $rounded-2xl;
+  overflow: hidden;
+  @include boxShadow;
+  animation: fadeUp 0.35s ease both;
 }
 
 .BaseProfile__Header {
-  border-top-left-radius: $rounded-2xl;
-  @include flexColumn;
-  @include divider;
   background: $accent-background;
+  border-bottom: 1px solid $border-color;
   padding: $value-6 $value-7;
+  @include flexColumn;
   gap: $value-5;
-}
-
-.BaseProfile__Main {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  min-width: 0;
-}
-
-.BaseProfile__Stats {
-  position: sticky;
-  top: 16px;
-  min-width: 0;
 }
 
 .BaseProfile__HeaderTop {
@@ -73,6 +57,11 @@
   color: $subtitle-color;
   transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
 
+  svg {
+    flex-shrink: 0;
+    transition: transform 0.15s ease;
+  }
+
   &:hover {
     color: $accent;
     background: rgba(127, 119, 221, 0.08);
@@ -92,6 +81,7 @@
   display: flex;
   gap: $value-3;
   padding: $value-5 $value-7;
+  border-top: 1px solid $border-color;
   flex-wrap: wrap;
 
   > * {
@@ -107,14 +97,11 @@
 }
 
 .BaseProfile__Stats {
-  padding: $value-5 $value-2 $value-5;
+  padding: $value-5 $value-7 $value-6;
+  border-top: 1px solid $border-color;
 }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY($value-2); }
   to   { opacity: 1; transform: translateY(0); }
-}
-
-.BaseProfile__Card[data-has-stats="false"] {
-  grid-template-columns: 1fr;
 }

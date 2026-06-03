@@ -25,54 +25,49 @@ export const BaseProfile = ({
 }: Props) => {
   return (
     <section className={styles.BaseProfile}>
-       <div
-          className={styles.BaseProfile__Card}
-          data-has-stats={stats ? "true" : "false"}
-        >
-        <div className={styles.BaseProfile__Main}>
-          <div className={styles.BaseProfile__Header}>
-            <div className={styles.BaseProfile__HeaderTop}>
-              <UserIcon username={username} />
-              <div>
-                <h2>
-                  {username} <br />
-                  {badge}
-                </h2>
-                {subtitle && (
-                  <span className={styles.BaseProfile__Sub}>{subtitle}</span>
-                )}
-              </div>
-            </div>
-
-            <nav className={styles.BaseProfile__Nav}>
-              <Link
-                to={`/repositories/${username}`}
-                className={styles.BaseProfile__NavLink}
-              >
-                <FiGitBranch size={12} /> репозитории
-              </Link>
-              <Link
-                to={`/components/${username}`}
-                className={styles.BaseProfile__NavLink}
-              >
-                <FiBox size={12} /> компоненты
-              </Link>
-            </nav>
-          </div>
-
-          {(infoRows || actions) && (
-            <div className={styles.BaseProfile__Body}>
-              {infoRows}
-              {actions && (
-                <div className={styles.BaseProfile__Actions}>{actions}</div>
+      <div className={styles.BaseProfile__Card}>
+        <div className={styles.BaseProfile__Header}>
+          <div className={styles.BaseProfile__HeaderTop}>
+            <UserIcon username={username} />
+            <div>
+              <h2>
+                {username} <br />
+                {badge}
+              </h2>
+              {subtitle && (
+                <span className={styles.BaseProfile__Sub}>{subtitle}</span>
               )}
             </div>
-          )}
+          </div>
 
-          {extra}
+          <nav className={styles.BaseProfile__Nav}>
+            <Link
+              to={`/repositories/${username}`}
+              className={styles.BaseProfile__NavLink}
+            >
+              <FiGitBranch size={12} /> репозитории
+            </Link>
+            <Link
+              to={`/components/${username}`}
+              className={styles.BaseProfile__NavLink}
+            >
+              <FiBox size={12} /> компоненты
+            </Link>
+          </nav>
         </div>
 
-        {stats && <aside className={styles.BaseProfile__Stats}>{stats}</aside>}
+        {(infoRows || actions) && (
+          <div className={styles.BaseProfile__Body}>
+            {infoRows}
+            {actions && (
+              <div className={styles.BaseProfile__Actions}>{actions}</div>
+            )}
+          </div>
+        )}
+
+        {extra}
+
+        {stats && <div className={styles.BaseProfile__Stats}>{stats}</div>}
       </div>
     </section>
   );
