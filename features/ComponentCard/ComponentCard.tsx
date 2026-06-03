@@ -8,7 +8,13 @@ interface ComponentCardProps {
   index?: number;
 }
 
+const MAX_VISIBLE_TAGS = 3;
+
 export const ComponentCard = ({ component, index = 0 }: ComponentCardProps) => {
+  const tags = component.tags ?? [];
+  const visibleTags = tags.slice(0, MAX_VISIBLE_TAGS);
+  const hiddenCount = tags.length - visibleTags.length;
+
   return (
     <BaseCard
       to={`/components/${component.username}/${component.name}`}
@@ -20,13 +26,21 @@ export const ComponentCard = ({ component, index = 0 }: ComponentCardProps) => {
       date={component.createdAt}
       username={component.username}
       right={
-        component.tags && (
+        tags.length > 0 && (
           <>
-            {component.tags.map((tag) => (
+            {visibleTags.map((tag) => (
               <span key={tag} className={styles.ComponentCard__Badge}>
-                {tag}
+                {tag.replace(/_/g, " ")}
               </span>
             ))}
+            {hiddenCount > 0 && (
+              <span
+                className={styles.ComponentCard__More}
+                title={tags.slice(MAX_VISIBLE_TAGS).join(", ")}
+              >
+                +{hiddenCount}
+              </span>
+            )}
           </>
         )
       }

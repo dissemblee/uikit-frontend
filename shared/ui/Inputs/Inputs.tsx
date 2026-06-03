@@ -6,7 +6,7 @@ import type {
   DragEvent,
   ChangeEvent
 } from "react"
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import styles from './Inputs.module.scss'
 import { FiUpload, FiX, FiCheck, FiArchive } from "react-icons/fi"
 
@@ -407,6 +407,130 @@ export const MultiSelect = ({
           )
         })}
       </div>
+      {error && <div className={styles.Input__Error}>{error}</div>}
+    </div>
+  )
+}
+
+interface TagInputProps {
+  label: string
+  options: string[]
+  value: string[]
+  onChange: (value: string[]) => void
+  placeholder?: string
+  error?: string
+  icon?: ReactElement
+  maxSuggestions?: number
+}
+
+export const TagInput = ({
+  label,
+  options,
+  value,
+  onChange,
+  placeholder = "введите тег...",
+  error,
+  icon,
+  maxSuggestions = 8,
+}: TagInputProps) => {
+  const [query, setQuery] = useState("")
+  const [isOpen, setIsOpen] = useState(false)
+  const wrapperRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handler)
+    return () => document.removeEventListener("mousedown", handler)
+  }, [])
+
+  const normalizedQuery = query.trim().toLowerCase()
+  const suggestions = options
+    .filter((opt) => !value.includes(opt))
+    .filter((opt) => !normalizedQuery || opt.toLowerCase().includes(normalizedQuery))
+    .slice(0, maxSuggestions)
+
+  const addTag = (tag: string) => {
+    if (!value.includes(tag)) {
+      onChange([...value, tag])
+    }
+    setQuery("")
+  }
+
+  const removeTag = (tag: string) => {
+    onChange(value.filter((t) => t !== tag))
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Backspace" && !query && value.length > 0) {
+      removeTag(value[value.length - 1])
+    } else if (e.key === "Enter" && suggestions.length > 0) {
+      e.preventDefault()
+      addTag(suggestions[0])
+    } else if (e.key === "Escape") {
+      setIsOpen(false)
+    }
+  }
+
+  return (
+    <div className={styles.Input} ref={wrapperRef}>
+      <label className={styles.Input__Label}>
+        {icon}
+        // {label}
+      </label>
+
+      <div
+        className={[
+          styles.TagInput__Box,
+          error && styles["TagInput__Box--error"],
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
+        {value.map((tag) => (
+          <span key={tag} className={styles.TagInput__Chip}>
+            {tag.replace(/_/g, " ")}
+            <button
+              type="button"
+              className={styles.TagInput__ChipRemove}
+              onClick={() => removeTag(tag)}
+              aria-label={`удалить тег ${tag}`}
+            >
+              <FiX size={12} />
+            </button>
+          </span>
+        ))}
+        <input
+          className={styles.TagInput__Field}
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value)
+            setIsOpen(true)
+          }}
+          onFocus={() => setIsOpen(true)}
+          onKeyDown={handleKeyDown}
+          placeholder={value.length === 0 ? placeholder : ""}
+        />
+      </div>
+
+      {isOpen && suggestions.length > 0 && (
+        <div className={styles.TagInput__Dropdown}>
+          {suggestions.map((opt) => (
+            <button
+              key={opt}
+              type="button"
+              className={styles.TagInput__Suggestion}
+              onClick={() => addTag(opt)}
+            >
+              {opt.replace(/_/g, " ")}
+            </button>
+          ))}
+        </div>
+      )}
+
       {error && <div className={styles.Input__Error}>{error}</div>}
     </div>
   )

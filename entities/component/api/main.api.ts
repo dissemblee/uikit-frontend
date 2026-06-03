@@ -1,13 +1,14 @@
 import { baseApi } from "@shared/api";
 import type {
-  ComponentCreateDto,
   ComponentCreateResultDto,
   ComponentCursorResultDto,
   ComponentResultDto,
-  ComponentFiltersDto
-} from "./component.dto";
+  ComponentFiltersDto,
+  ComponentNewVersionResultDto,
+  ComponentNewVersionDto,
+} from "../dto/component.dto";
 
-const ENDPOINT = "components";
+const ENDPOINT = "components/main";
 
 export const componentsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -25,7 +26,7 @@ export const componentsApi = baseApi.injectEndpoints({
         tags,
         sort,
       } = {}) => ({
-        url: `${ENDPOINT}/main`,
+        url: `${ENDPOINT}`,
         method: "GET",
         params: {
           skip,
@@ -34,7 +35,7 @@ export const componentsApi = baseApi.injectEndpoints({
           ...(framework && { framework }),
           ...(username && { username }),
           ...(startDate && { startDate }),
-          ...(tags?.length && { tags }),
+          ...(tags?.length && { tags: tags.join(",") }),
           ...(sort && { sort }),
         },
         service: "components",
@@ -75,19 +76,23 @@ export const componentsApi = baseApi.injectEndpoints({
         ];
       },
     }),
-    getComponentById: builder.query<ComponentResultDto, { username: string; name: string }>({
-      query: ({ username, name }) => ({
-        url: `${ENDPOINT}/main/${username}/${name}`,
+    getComponentById: builder.query<
+      ComponentResultDto,
+      { username: string; name: string; version?: number }
+    >({
+      query: ({ username, name, version }) => ({
+        url: `${ENDPOINT}/${username}/${name}`,
         method: "GET",
-        service: "components"
+        params: version != null ? { version } : undefined,
+        service: "components",
       }),
-      providesTags: (_result, _error, { username, name }) => [
-        { type: "Components", id: `${username}/${name}` },
+      providesTags: (_result, _error, { username, name, version }) => [
+        { type: "Components", id: `${username}/${name}${version ? `/v${version}` : ""}` },
       ],
     }),
     createComponent: builder.mutation<ComponentCreateResultDto, FormData>({
       query: (formData) => ({
-        url: `${ENDPOINT}/main/upload`,
+        url: `${ENDPOINT}/upload`,
         method: "POST",
         body: formData,
         service: "components",
@@ -95,27 +100,15 @@ export const componentsApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [{ type: "Components", id: "LIST" }],
     }),
-    getComponentSource: builder.query<string, { id: string }>({
-      query: ({ id }) => ({
-        url: `${ENDPOINT}/builds/${id}/source`,
-        method: "GET",
+    newVersionComponent: builder.mutation<ComponentNewVersionResultDto, { username: string; name: string; formData: FormData, }>({
+      query: ({ username, name, formData }) => ({
+        url: `${ENDPOINT}/${username}/${name}/version`,
+        method: "POST",
+        body: formData,
         service: "components",
-        responseHandler: (response: any) => response.text(),
+        formData: true,
       }),
-    }),
-    getComponentStat: builder.query<any, { id: string }>({
-      query: ({ id }) => ({
-        url: `${ENDPOINT}/stat/components/${id}`,
-        method: "GET",
-        service: "components",
-      }),
-    }),
-    getUserStat: builder.query<any, { username: string }>({
-      query: ({ username }) => ({
-        url: `${ENDPOINT}/stat/users/${username}`,
-        method: "GET",
-        service: "components",
-      }),
+      invalidatesTags: [{ type: "Components", id: "LIST" }],
     }),
   }),
 });
@@ -124,7 +117,5 @@ export const {
   useGetAllComponentsQuery,
   useCreateComponentMutation,
   useGetComponentByIdQuery,
-  useGetComponentSourceQuery,
-  useGetComponentStatQuery,
-  useGetUserStatQuery,
+  useNewVersionComponentMutation,
 } = componentsApi;

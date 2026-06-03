@@ -1,0 +1,41 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.Tabs {
+  @include flexColumn;
+  gap: $value-3;
+  min-width: 0;
+}
+
+.Tabs__Header {
+  display: flex;
+  gap: $value-1;
+  padding: $value-1;
+  background: #F4F3FB;
+  border: 1px solid $border-color;
+  border-radius: $rounded-lg;
+}
+
+.Tabs__Tab {
+  flex: 1;
+  padding: $value-2 $value-3;
+  background: transparent;
+  border: none;
+  border-radius: $rounded-md;
+  font-family: 'Geist Mono', monospace;
+  font-size: $value-3;
+  font-weight: 500;
+  color: $subtitle-color;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+
+  &:hover {
+    color: $title-color;
+    background: rgba(127, 119, 221, 0.08);
+  }
+}
+
+.Tabs__Content {
+  min-width: 0;
+}

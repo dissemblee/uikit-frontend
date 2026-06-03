@@ -1,6 +1,6 @@
 import { useForm } from "@shared/hooks/useForm"
 import { Button } from "@shared/ui/Button"
-import { FileInput, Input, Select, Textarea, MultiSelect } from "@shared/ui/Inputs"
+import { FileInput, Input, Select, Textarea, TagInput } from "@shared/ui/Inputs"
 import { FiCode, FiFileText, FiPackage, FiTag, FiUpload } from "react-icons/fi"
 import { useCreateComponentMutation, Framework, ComponentTag } from "@entities/component"
 import { useState } from "react"
@@ -11,6 +11,8 @@ export const CreateComponentForm = () => {
   const [create, { isLoading }] = useCreateComponentMutation()
   const [file, setFile] = useState<File | null>(null)
   const navigate = useNavigate()
+
+  const tagOptions = Object.values(ComponentTag)
 
   const form = useForm({
     initialValues: {
@@ -48,7 +50,7 @@ export const CreateComponentForm = () => {
         throw result.error
       }
 
-      navigate("/components")
+      navigate(`/components/${result.data.result?.username}/${result.data.result?.name}`)
     },
   })
 
@@ -56,11 +58,6 @@ export const CreateComponentForm = () => {
     { value: Framework.REACT, label: "⚛️ React" },
     { value: Framework.VANILLA, label: "🍦 Vanilla" },
   ]
-
-  const tagOptions = Object.values(ComponentTag).map((tag) => ({
-    value: tag,
-    label: tag,
-  }))
 
   return (
     <form onSubmit={form.handleSubmit}>
@@ -85,15 +82,17 @@ export const CreateComponentForm = () => {
         placeholder="Кнопка для отправки форм"
       />
 
-      <MultiSelect
+      <TagInput
         label="Теги"
         options={tagOptions}
         value={form.values.tags}
-        onChange={(tags) => form.setValues((prev) => ({
-          ...prev,
-          tags: tags as ComponentTag[],
-        }))}
-        icon={<FiTag />}
+        onChange={(next) =>
+          form.setValues((prev) => ({
+            ...prev,
+            tags: next as ComponentTag[],
+          }))
+        }
+        placeholder="начните вводить..."
       />
 
       <FileInput

@@ -1,36 +1,52 @@
-@use '../../shared/styles/variables' as *;
-@use '../../shared/styles/mixins' as *;
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
 
-.ProfileSection {
+.BaseProfile {
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
-.ProfileSection__Card {
-  background: #fff;
-  border: 1px solid $border-color;
+.BaseProfile__Card {
+  display: grid;
   border-radius: $rounded-2xl;
-  overflow: hidden;
-  @include boxShadow;
-  animation: fadeUp 0.35s ease both;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: stretch;
+  background: #fff;
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
 }
 
-.ProfileSection__Header {
-  background: $accent-background;
-  border-bottom: 1px solid $border-color;
-  padding: $value-6 $value-7;
+.BaseProfile__Header {
+  border-top-left-radius: $rounded-2xl;
   @include flexColumn;
+  @include divider;
+  background: $accent-background;
+  padding: $value-6 $value-7;
   gap: $value-5;
 }
 
-.ProfileSection__HeaderTop {
+.BaseProfile__Main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.BaseProfile__Stats {
+  position: sticky;
+  top: 16px;
+  min-width: 0;
+}
+
+.BaseProfile__HeaderTop {
   display: flex;
   align-items: center;
   gap: $value-4;
 }
 
-.ProfileSection__Sub {
+.BaseProfile__Sub {
   font-size: $value-3_5;
   color: $subtitle-color;
   overflow: hidden;
@@ -38,14 +54,14 @@
   white-space: nowrap;
 }
 
-.ProfileSection__Nav {
+.BaseProfile__Nav {
   display: flex;
   align-items: center;
   gap: $value-2;
   flex-wrap: wrap;
 }
 
-.ProfileSection__NavLink {
+.BaseProfile__NavLink {
   display: inline-flex;
   align-items: center;
   gap: $value-1_5;
@@ -56,11 +72,6 @@
   letter-spacing: 0.03em;
   color: $subtitle-color;
   transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
-
-  svg {
-    flex-shrink: 0;
-    transition: transform 0.15s ease;
-  }
 
   &:hover {
     color: $accent;
@@ -73,15 +84,14 @@
   }
 }
 
-.ProfileSection__Body {
+.BaseProfile__Body {
   @include flexColumn;
 }
 
-.ProfileSection__Actions {
+.BaseProfile__Actions {
   display: flex;
   gap: $value-3;
   padding: $value-5 $value-7;
-  border-top: 1px solid $border-color;
   flex-wrap: wrap;
 
   > * {
@@ -90,32 +100,21 @@
   }
 }
 
-.ProfileSection__FormSection {
+.BaseProfile__FormSection {
   @include flexColumn;
   gap: $value-4;
   padding: $value-5 $value-7;
 }
 
-.ProfileSection__Stats {
-  padding: $value-5 $value-7 $value-6;
-  border-top: 1px solid $border-color;
-}
-
-.ProfileSection__BannedBadge {
-  display: inline-flex;
-  align-items: center;
-  font-size: $value-3;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #b91c1c;
-  background: rgba(239, 68, 68, 0.09);
-  border: 1px solid rgba(239, 68, 68, 0.25);
-  border-radius: $rounded-full;
-  padding: $value-0_5 $value-2_5;
+.BaseProfile__Stats {
+  padding: $value-5 $value-2 $value-5;
 }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY($value-2); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+.BaseProfile__Card[data-has-stats="false"] {
+  grid-template-columns: 1fr;
 }

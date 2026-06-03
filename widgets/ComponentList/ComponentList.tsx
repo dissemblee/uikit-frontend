@@ -4,11 +4,12 @@ import { ComponentCard } from "@features/ComponentCard";
 import { ListWrapSection } from "@shared/ui/ListWrapSection";
 import { ButtonCreate } from "@shared/ui/ButtonCreate";
 import {
+  ComponentTag,
   Framework,
   useGetAllComponentsQuery,
   type ComponentDto,
 } from "@entities/component";
-import { Input, Select } from "@shared/ui/Inputs";
+import { Input, Select, TagInput } from "@shared/ui/Inputs";
 import { useCursorPagination } from "@shared/hooks/useCursorPagination";
 import { LoadMoreButton } from "@shared/ui/LoadMoreButton/LoadMoreButton";
 
@@ -20,11 +21,14 @@ export const ComponentList = () => {
 
   const [search, setSearch] = useState("");
   const [framework, setFramework] = useState<Framework | "">("");
+  const [tags, setTags] = useState<ComponentTag[]>([]);
+  const tagOptions = Object.values(ComponentTag);
+
   const [sort, setSort] = useState<SortType>("desc");
 
   const { cursor, loadMore, isFirstPage } = useCursorPagination({
     limit,
-    resetOn: [search, framework, sort, username],
+    resetOn: [search, framework, tags, sort, username],
   });
 
   const { data, isLoading, isError, isFetching } = useGetAllComponentsQuery({
@@ -32,11 +36,12 @@ export const ComponentList = () => {
     limit,
     startDate: cursor.startDate,
     sort,
-    ...(username
+      ...(username
       ? { username }
       : {
           query: search || undefined,
           framework: framework || undefined,
+          tags: tags.length ? tags : undefined,
         }),
   });
 
@@ -90,6 +95,13 @@ export const ComponentList = () => {
               onChange={(e) => setSort(e.target.value as SortType)}
               options={descOptions}
               label="Сортировка по времени"
+            />
+            <TagInput
+              label="Теги"
+              options={tagOptions}
+              value={tags}
+              onChange={(next) => setTags(next as ComponentTag[])}
+              placeholder="начните вводить..."
             />
           </div>
         )

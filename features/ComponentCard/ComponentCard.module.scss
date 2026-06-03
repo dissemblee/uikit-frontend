@@ -4,3 +4,12 @@
 .ComponentCard__Badge {
   @include badgeBase;
 }
+
+.ComponentCard__More {
+  @include badgeBase;
+  background: transparent;
+  color: $subtitle-color;
+  border-style: dashed;
+  flex-shrink: 0;
+  cursor: help;
+}

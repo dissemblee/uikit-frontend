@@ -31,6 +31,7 @@ export default [
     ]),
     ...prefix("components", [
       route("create", "routes/componentCreateRoute.tsx"),
+      route("/:username/:name/version", "routes/componentVersionRoute.tsx"),
       route("/:username/:name", "routes/componentSingleRoute.tsx"),
     ]),
     ...prefix("builds", [

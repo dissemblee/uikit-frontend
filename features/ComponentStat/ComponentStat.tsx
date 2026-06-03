@@ -7,8 +7,8 @@ const formatDay = (iso: string) => {
   return `${d}.${m}`;
 };
 
-export const ComponentStat = ({ id }: { id: string }) => {
-  const { data, isLoading } = useGetComponentStatQuery({ id });
+export const ComponentStat = ({ componentId }: { componentId: string }) => {
+  const { data, isLoading } = useGetComponentStatQuery({ componentId });
 
   if (isLoading) return <div className={styles.ComponentStat__Loading}>загрузка статистики...</div>;
   if (!data?.result) return null;

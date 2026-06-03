@@ -1,0 +1,1 @@
+export { OwnProfile } from "./OwnProfile";

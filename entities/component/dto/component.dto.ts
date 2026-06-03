@@ -20,8 +20,13 @@ export interface ComponentCreateDto {
   dependencies?: Record<string, string>;
 }
 
+export interface ComponentNewVersionDto {
+  dependencies?: Record<string, string>;
+}
+
 export interface ComponentCursorResultDto extends CursorResultDto<ComponentDto> {}
 export interface ComponentCreateResultDto extends ResultDto<ComponentDto> {}
+export interface ComponentNewVersionResultDto extends ResultDto<ComponentDto> {}
 export interface ComponentResultDto extends ResultDto<ComponentDto> {}
 
 export enum Framework {

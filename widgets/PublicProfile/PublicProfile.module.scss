@@ -1,0 +1,16 @@
+@use '../../shared/styles/variables' as *;
+@use '../../shared/styles/mixins' as *;
+
+.PublicProfile__BannedBadge {
+  display: inline-flex;
+  align-items: center;
+  font-size: $value-3;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #b91c1c;
+  background: rgba(239, 68, 68, 0.09);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: $rounded-full;
+  padding: $value-0_5 $value-2_5;
+}

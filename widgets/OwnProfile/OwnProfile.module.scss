@@ -1,0 +1,12 @@
+@use '../../shared/styles/variables' as *;
+@use '../../shared/styles/mixins' as *;
+
+.OwnProfile__FormSection {
+  @include flexColumn;
+  gap: $value-2;
+  padding: 0 $value-7;
+}
+
+.OwnProfile__Back {
+  display: flex; // или inline-flex
+}

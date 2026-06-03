@@ -1,36 +1,41 @@
 import { useGetUserStatQuery } from "@entities/component";
 import styles from "./UserStat.module.scss";
+import { AreaChartStat } from "@shared/ui/AreaChart";
 
 export const UserStat = ({ username }: { username: string }) => {
-  const { data: stat, isLoading } = useGetUserStatQuery({ username });
+  const { data, isLoading } = useGetUserStatQuery({ username });
+  const stat = data?.result;
 
   if (isLoading || !stat) {
     return null;
   }
 
-  const successRate = stat.totalBuilds > 0
-    ? Math.round((stat.successBuilds / stat.totalBuilds) * 100)
-    : 0;
+  const successRate =
+    stat.totalBuilds > 0
+      ? Math.round((stat.successBuilds / stat.totalBuilds) * 100)
+      : 0;
+
+  const loadsTotal = stat.dailyLoadsChart.reduce(
+    (sum, point) => sum + point.count,
+    0,
+  );
+
+  const cards = [
+    { label: "компонентов", value: stat.totalComponents },
+    { label: "сборок", value: stat.totalBuilds },
+    { label: "успешных", value: stat.successBuilds },
+    { label: "упало", value: stat.failedBuilds },
+  ];
 
   return (
     <div className={styles.UserStat}>
       <div className={styles.UserStat__StatGrid}>
-        <div className={styles.UserStat__StatCard}>
-          <span className={styles.UserStat__StatLabel}>компонентов</span>
-          <span className={styles.UserStat__StatValue}>{stat.totalComponents}</span>
-        </div>
-        <div className={styles.UserStat__StatCard}>
-          <span className={styles.UserStat__StatLabel}>сборок</span>
-          <span className={styles.UserStat__StatValue}>{stat.totalBuilds}</span>
-        </div>
-        <div className={styles.UserStat__StatCard}>
-          <span className={styles.UserStat__StatLabel}>успешных</span>
-          <span className={styles.UserStat__StatValue}>{stat.successBuilds}</span>
-        </div>
-        <div className={styles.UserStat__StatCard}>
-          <span className={styles.UserStat__StatLabel}>упало</span>
-          <span className={styles.UserStat__StatValue}>{stat.failedBuilds}</span>
-        </div>
+        {cards.map(({ label, value }) => (
+          <div key={label} className={styles.UserStat__StatCard}>
+            <span className={styles.UserStat__StatLabel}>{label}</span>
+            <span className={styles.UserStat__StatValue}>{value}</span>
+          </div>
+        ))}
       </div>
 
       <div className={styles.UserStat__StatBar}>
@@ -45,6 +50,11 @@ export const UserStat = ({ username }: { username: string }) => {
           />
         </div>
       </div>
+
+      <AreaChartStat
+        chartData={stat.dailyLoadsChart}
+        loadsTotal={loadsTotal}
+      />
     </div>
   );
 };

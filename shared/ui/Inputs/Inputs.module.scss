@@ -431,3 +431,120 @@ $input-transition:   all 0.18s ease;
     @include boxShadow;
   }
 }
+
+.TagInput__Box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $value-1_5;
+  min-height: $value-10;
+  padding: $value-1_5 $value-2;
+  background: $input-bg;
+  border: 0.5px solid $input-border;
+  border-radius: $input-radius;
+  transition: $input-transition;
+  cursor: text;
+
+  &:hover {
+    border-color: $input-border-hover;
+    background: $input-bg-hover;
+  }
+
+  &:focus-within {
+    background: $input-bg-focus;
+    border-color: $accent;
+    @include boxShadow;
+  }
+}
+
+.TagInput__Box--error {
+  border-color: $input-border-error;
+  background: rgba(226, 75, 74, 0.04);
+
+  &:focus-within {
+    border-color: $input-border-error;
+    box-shadow: 0 0 0 3px rgba(226, 75, 74, 0.10);
+  }
+}
+
+.TagInput__Chip {
+  display: inline-flex;
+  align-items: center;
+  gap: $value-1;
+  padding: 2px $value-2;
+  background: #EEEDFE;
+  border: 0.5px solid $accent;
+  border-radius: $rounded-md;
+  font-size: $value-3;
+  font-family: 'Geist Mono', monospace;
+  color: $accent;
+}
+
+.TagInput__ChipRemove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: $accent;
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.TagInput__Field {
+  flex: 1;
+  min-width: 80px;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: $value-3_5;
+  font-family: 'Geist Mono', monospace;
+  color: $title-color;
+
+  &::placeholder {
+    color: #a0a0b0;
+  }
+}
+
+.TagInput__Dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: $value-1;
+  max-height: 220px;
+  overflow-y: auto;
+  background: #ffffff;
+  border: 0.5px solid $input-border;
+  border-radius: $input-radius;
+  box-shadow: 0 8px 24px rgba(127, 119, 221, 0.12);
+  z-index: 10;
+}
+
+.TagInput__Suggestion {
+  display: block;
+  width: 100%;
+  padding: $value-2 $value-3;
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: $value-3_5;
+  font-family: 'Geist Mono', monospace;
+  color: $title-color;
+  transition: background 0.12s ease;
+
+  &:hover {
+    background: $input-bg-hover;
+    color: $accent;
+  }
+}
