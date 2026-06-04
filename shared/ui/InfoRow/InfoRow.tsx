@@ -1,3 +1,4 @@
+import { formatDate } from "@shared/lib/time";
 import styles from "./InfoRow.module.scss";
 import type { ReactNode } from "react";
 
@@ -7,21 +8,6 @@ type Props = {
   isDate?: boolean;
   icon?: ReactNode
   className?: string;
-};
-
-const formatDate = (dateStr?: string) => {
-  if (!dateStr) return "";
-
-  return new Date(dateStr).toLocaleString(
-    "ru-RU",
-    {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    },
-  );
 };
 
 export const InfoRow = ({

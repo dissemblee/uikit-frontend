@@ -10,38 +10,22 @@
 }
 
 .BuildCard__Status {
-  display: inline-flex;
-  align-items: center;
-  gap: $value-1_5;
-  padding: $value-0_5 $value-2_5;
-  border-radius: $rounded-md;
-  font-size: $value-3;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
+  display: contents;
 }
 
 .BuildCard__Status--pending {
-  background: rgba(234, 179, 8, 0.10);
-  border: 1px solid rgba(234, 179, 8, 0.30);
   color: #854d0e;
 }
 
 .BuildCard__Status--in_progress {
-  background: rgba(59, 130, 246, 0.10);
-  border: 1px solid rgba(59, 130, 246, 0.28);
   color: #1e40af;
 }
 
 .BuildCard__Status--completed {
-  background: rgba(34, 197, 94, 0.10);
-  border: 1px solid rgba(34, 197, 94, 0.28);
   color: #166534;
 }
 
 .BuildCard__Status--failed {
-  background: rgba(239, 68, 68, 0.09);
-  border: 1px solid rgba(239, 68, 68, 0.28);
   color: #991b1b;
 }
 

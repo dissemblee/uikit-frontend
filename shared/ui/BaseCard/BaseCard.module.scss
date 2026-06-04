@@ -34,7 +34,6 @@
   background: #F4F3FB;
   border-bottom: 1px solid $border-color;
   font-size: $value-3;
-  font-family: 'Geist Mono', 'JetBrains Mono', Menlo, monospace;
   transition: background 0.18s ease;
   min-width: 0;
 }
@@ -78,7 +77,6 @@
   display: flex;
   align-items: center;
   gap: $value-2_5;
-  flex: 0 0 220px;
   min-width: 0;
 }
 
@@ -106,10 +104,7 @@
   font-size: $value-3_5;
   font-weight: 600;
   color: $title-color;
-  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
-  font-family: 'Geist Mono', 'JetBrains Mono', Menlo, monospace;
   transition: color 0.18s ease;
 
   .BaseCard:hover & {

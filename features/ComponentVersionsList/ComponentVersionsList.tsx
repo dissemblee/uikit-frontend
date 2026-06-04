@@ -4,6 +4,7 @@ import { useGetAllBuildsQuery } from "@entities/component";
 import { Button } from "@shared/ui/Button";
 import styles from "./ComponentVersionsList.module.scss";
 import { BuildStatus } from "@entities/build/build.dto";
+import { formatDate } from "@shared/lib/time";
 
 interface Props {
   componentId: string;
@@ -11,17 +12,6 @@ interface Props {
 }
 
 const PAGE_SIZE = 10;
-
-const formatDate = (iso: string) =>
-  iso !== "none"
-    ? new Date(iso).toLocaleString("ru", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      })
-    : "—";
 
 export const ComponentVersionsList = ({ componentId, currentBuildId }: Props) => {
   const [page, setPage] = useState(0);

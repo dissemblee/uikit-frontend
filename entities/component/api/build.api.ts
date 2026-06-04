@@ -15,6 +15,7 @@ export const buildsApi = baseApi.injectEndpoints({
         username,
         startDate,
         sort,
+        query,
         componentId,
         status
       } = {}) => ({
@@ -24,6 +25,7 @@ export const buildsApi = baseApi.injectEndpoints({
           skip,
           limit,
           ...(componentId && { componentId }),
+          ...(query && { query }),
           ...(status && { status }),
           ...(username && { username }),
           ...(startDate && { startDate }),

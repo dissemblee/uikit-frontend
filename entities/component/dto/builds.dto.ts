@@ -1,4 +1,5 @@
 import type { EntityDto, CursorResultDto, ResultDto } from "@shared/types/api";
+import type { ComponentDto } from "./component.dto";
 
 export interface BuildDto extends EntityDto {
   componentId: string;
@@ -8,6 +9,7 @@ export interface BuildDto extends EntityDto {
   finishedAt: string;
   logs: string;
   sourceFileText: string;
+  component: ComponentDto;
 }
 
 export interface BuildCursorResultDto extends CursorResultDto<BuildDto> {}
@@ -17,6 +19,7 @@ export interface BuildFiltersDto {
   componentId?: string;
   status?: string;
   username?: string;
+  query?: string;
   limit?: number;
   skip?: number;
   startDate?: string;

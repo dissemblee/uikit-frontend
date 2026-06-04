@@ -2,6 +2,7 @@ import { Link } from "react-router"
 import moment from "moment"
 import styles from "./BaseCard.module.scss"
 import type { ReactNode } from "react"
+import { formatDate } from "@shared/lib/time"
 
 interface BaseCardProps {
   to: string
@@ -30,15 +31,6 @@ export const BaseCard = ({
   right,
   username
 }: BaseCardProps) => {
-
-  const formatDate = (dateStr: string) => {
-    const d   = moment(dateStr)
-    const now = moment()
-    if (d.isSame(now, "day")) return `сегодня ${d.format("HH:mm")}`
-    if (d.isSame(now.clone().subtract(1, "day"), "day")) return `вчера ${d.format("HH:mm")}`
-    return d.format("DD MMM HH:mm")
-  }
-
   const truncate = (text: string, max = 60) =>
     text.length <= max ? text : text.slice(0, max).trim() + "…"
 

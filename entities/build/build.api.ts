@@ -46,16 +46,6 @@ export const buildsApi = baseApi.injectEndpoints({
         { type: 'Builds' as const, id: `${username}/${componentName}` },
       ],
     }),
-
-    getBuildById: builder.query<BuildDto, { buildId: string; service: 'repo' | 'components' }>({
-      query: ({ buildId, service }) => ({
-        url: `${service}/builds/${buildId}`,
-        method: 'GET',
-        service,
-      }),
-      providesTags: (_result, _error, { buildId }) => [{ type: 'Builds', id: buildId }],
-    }),
-
     getBuildLogs: builder.query<BuildLogsResponse, { buildId: string; service: 'repo' | 'components' }>({
       query: ({ buildId, service }) => ({
         url: `${service}/builds/${buildId}/logs`,
@@ -71,6 +61,5 @@ export const {
   useGetUserBuildsQuery,
   useGetRepoBuildsQuery,
   useGetComponentBuildsQuery,
-  useGetBuildByIdQuery,
   useGetBuildLogsQuery,
 } = buildsApi;

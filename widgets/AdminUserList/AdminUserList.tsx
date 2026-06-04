@@ -7,6 +7,7 @@ import { Button } from "@shared/ui/Button";
 import { Input, Select } from "@shared/ui/Inputs";
 import styles from "./AdminUserList.module.scss";
 import { useGetAllUsersQuery, useUnbanUserMutation } from "@entities/auth";
+import { formatDate } from "@shared/lib/time";
 
 type SortType = "asc" | "desc";
 type BanFilter = "" | "banned" | "active";
@@ -75,17 +76,6 @@ export const AdminUserList = () => {
     } finally {
       setUnbanTarget(null);
     }
-  };
-
-  const formatDate = (dateStr?: string) => {
-    if (!dateStr) return "—";
-    return new Date(dateStr).toLocaleString("ru-RU", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
   };
 
   return (
