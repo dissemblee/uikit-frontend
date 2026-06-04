@@ -71,8 +71,7 @@ export const CreateRepositoryForm = () => {
       const dto: RepositoryCreateDto = {
         name: values.name,
         description: values.description,
-        components: selectedComponents,
-        version: "0.0.0.0"
+        componentBuildIds: selectedComponents,
       }
       
       const result = await create(dto)
@@ -149,7 +148,7 @@ export const CreateRepositoryForm = () => {
                 <div
                   key={component.id}
                   className={styles.ComponentSearch__Result}
-                  onClick={() => handleAddComponent(component.id)}
+                  onClick={() => handleAddComponent(component!.buildId)}
                 >
                   <div className={styles.ComponentSearch__ResultInfo}>
                     <span className={styles.ComponentSearch__ResultName}>

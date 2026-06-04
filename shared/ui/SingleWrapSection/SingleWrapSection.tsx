@@ -100,13 +100,13 @@ export const SingleWrapSection = (props: SingleWrapSectionProps) => {
           <Link to={`/profile/${props.username}`} className={styles.SingleWrapSection__LinkProfile}>
             <InfoRow label='автор' icon={<FiUser size={12} />} value={props.username} />
           </Link>
-          <InfoRow label='создан' icon={<FiCalendar size={12} />} value={props.entity?.result?.createdAt || props.entity?.result?.startedAt} isDate />
+          <InfoRow label='создан' icon={<FiCalendar size={12} />} value={props.entity?.createdAt || props.entity?.startedAt} isDate />
           {props.children}
 
-          {props.entity?.result?.description && (
+          {props.entity?.description && (
             <div className={styles.SingleWrapSection__Description}>
               <h4>описание</h4>
-              <p>{props.entity?.result?.description}</p>
+              <p>{props.entity?.description}</p>
             </div>
           )}
 

@@ -1,2 +1,15 @@
-export type { RepositoryCreateDto, RepositoryDto, RepositoryUpdateDto, RepositoryCursorResultDto, RepositoryCreateResultDto, RepositoryResultDto } from "./repository.dto"
-export { repositoriesApi, useCreateRepositoryMutation, useDeleteRepositoryMutation, useGetAllRepositoriesQuery, useGetRepositoryByIdQuery, useUpdateRepositoryMutation } from "./repository.api"
+export {
+  repositoriesApi,
+  useCreateRepositoryMutation,
+  useGetAllRepositoriesQuery,
+  useGetRepositoryByIdQuery,
+} from "./api/main.api"
+export type {
+  RepoFiltersDto,
+  RepositoryCreateDto,
+  RepositoryCreateResultDto,
+  RepositoryCursorResultDto,
+  RepositoryDto,
+  RepositoryResultDto,
+  RepositoryUpdateDto
+} from "./dto/main.dto"

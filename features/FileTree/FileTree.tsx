@@ -1,23 +1,26 @@
-import { useGetComponentByIdQuery, useGetComponentSourceQuery } from "@entities/component";
+import { useGetBuildSourceQuery } from "@entities/component";
 import { useState } from "react";
 import ShikiHighlighter from "react-shiki";
-import styles from "./FileRow.module.scss";
+import styles from "./FileTree.module.scss";
 import { FiChevronDown, FiChevronRight, FiCode, FiExternalLink } from "react-icons/fi";
 import { Link } from "react-router";
 
-export const FileTree = ({ componentPath }: { componentPath: string }) => {
+interface FileTreeProps {
+  component: {
+    componentId: string;
+    buildId: string;
+    name: string;
+    username: string;
+    version: number;
+  };
+}
+
+export const FileTree = ({ component }: FileTreeProps) => {
   const [open, setOpen] = useState(false);
 
-  const [compUsername, compName] = componentPath.split("/");
-
-  const { data: component } = useGetComponentByIdQuery(
-    { username: compUsername, name: compName },
-    { skip: !open }
-  );
-
-  const { data: source, isLoading: sourceLoading } = useGetComponentSourceQuery(
-    { id: component?.id! },
-    { skip: !open || !component?.id }
+  const { data: source, isLoading: sourceLoading } = useGetBuildSourceQuery(
+    { id: component.buildId },
+    // { skip: !open },
   );
 
   return (
@@ -36,12 +39,14 @@ export const FileTree = ({ componentPath }: { componentPath: string }) => {
         <FiCode size={13} className={styles.FileTree__FileIcon} />
 
         <span className={styles.FileTree__FileName}>
-          {compName}
+          {component.name}
           <span className={styles.FileTree__FileExt}>.tsx</span>
         </span>
 
+        <span className={styles.FileTree__FileVersion}>v{component.version}</span>
+
         <Link
-          to={`/components/${compUsername}/${compName}`}
+          to={`/components/${component.username}/${component.name}`}
           className={styles.FileTree__FileLink}
           title="Открыть компонент"
         >

@@ -8,19 +8,19 @@ export const RepositoryCard = ({ repo, index = 0 }: { repo: RepositoryDto; index
 
   return (
     <BaseCard
-      to={`/repositories/${repo.id}`}
+      to={`/repositories/${repo.username}/${repo.name}`}
       index={index}
       icon={<FiBox />}
-      name={repo.id}
+      name={repo.name}
       sub={repo.description}
-      meta={repo.meta}
-      date={repo.updatedAt && repo.createdAt}
-      right={
-        <span className={`${styles.RepositoryCard__Badge} ${styles[isPublic ? 'RepositoryCard__Badge--public' : 'RepositoryCard__Badge--private']}`}>
-          {isPublic ? <FiUnlock /> : <FiLock />}
-          {isPublic ? 'public' : 'private'}
-        </span>
-      }
+      username={repo.username}
+      date={repo.createdAt}
+      // right={
+      //   <span className={`${styles.RepositoryCard__Badge} ${styles[isPublic ? 'RepositoryCard__Badge--public' : 'RepositoryCard__Badge--private']}`}>
+      //     {isPublic ? <FiUnlock /> : <FiLock />}
+      //     {isPublic ? 'public' : 'private'}
+      //   </span>
+      // }
     />
   );
 };

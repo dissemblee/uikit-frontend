@@ -33,7 +33,6 @@ export const BuildSingleSection = () => {
       path={`${build?.component.username}/${build?.component.name}`}
       icon={<FiPackage size={32} />}
     >
-      <InfoRow label="Начало" value={build.updatedAt} icon={<FiClock size={14} />} isDate />
       <InfoRow label="Завершен" value={build.finishedAt} icon={<FiCalendar size={14} />} isDate />
       <InfoRow label="Продолжительность" value={duration} icon={<FiClock size={14} />} />
       <InfoRow

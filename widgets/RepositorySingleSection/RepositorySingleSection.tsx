@@ -1,57 +1,67 @@
 import { useParams } from "react-router";
-import { FiBox, FiFolder, FiGitCommit } from "react-icons/fi";
+import { FiBox, FiFolder, FiGitBranch, FiGitCommit } from "react-icons/fi";
 import styles from "./RepositorySingleSection.module.scss";
 import { SingleWrapSection } from "@shared/ui/SingleWrapSection";
-import { useGetRepositoryByIdQuery } from "@entities/repository/repository.api";
 import { DownloadMenu } from "@shared/ui/DownloadMenu";
 import { FileTree } from "@features/FileTree";
+import { useGetRepositoryByIdQuery } from "@entities/repository";
+import { InfoRow } from "@shared/ui/InfoRow";
+
+const pluralComponents = (n: number) => {
+  if (n === 1) return "компонент";
+  if (n < 5) return "компонента";
+  return "компонентов";
+};
 
 export const RepositorySingleSection = () => {
   const { username, name } = useParams<{ username: string; name: string }>();
 
-  const { data: repo, isLoading: repoLoading } = useGetRepositoryByIdQuery({
+  const { data, isLoading } = useGetRepositoryByIdQuery({
     username: username!,
     name: name!,
   });
 
-  if (repoLoading) return <SingleWrapSection state="loading" />;
+  const repo = data?.result;
+
+  if (isLoading) return <SingleWrapSection state="loading" />;
+
   if (!repo) return <SingleWrapSection state="not_found" />;
 
-  const packageId = `${username}/${name}`;
-  const downloadUrl = `http://localhost:8082/api/repo/package/${packageId}`;
-  const components: string[] = repo?.components ?? [];
+  const latestBuild = repo.builds?.[0];
+  const components = latestBuild?.componentBuilds ?? [];
 
   return (
     <SingleWrapSection
       entity={repo}
       state="success"
-      title={repo?.id}
-      path={`${repo?.id}`}
+      title={repo.name}
+      path={`${repo.username}/${repo.name}`}
       icon={<FiBox size={32} />}
       username={username}
-      extraActions={<DownloadMenu downloadUrl={downloadUrl} />}
+      extraActions={
+        <DownloadMenu downloadUrl={`http://localhost:8082/api/repo/builds/${repo.latestBuildId}/package`} />
+      }
       extraChildren={
         components.length > 0 ? (
           <div className={styles.FileTree}>
             <div className={styles.FileTree__Header}>
               <FiGitCommit size={14} />
               <span>
-                {components.length} компонент
-                {components.length === 1 ? "" : components.length < 5 ? "а" : "ов"}
+                {components.length} {pluralComponents(components.length)}
               </span>
             </div>
 
             <div className={styles.FileTree__Root}>
               <div className={styles.FileTree__RootRow}>
                 <FiFolder size={14} className={styles.FileTree__FolderIcon} />
-                <span className={styles.FileTree__RootName}>{name}</span>
+                <span className={styles.FileTree__RootName}>{repo.name}</span>
               </div>
 
               <div className={styles.FileTree__Files}>
-                {components.map((componentPath) => (
+                {components.map((component) => (
                   <FileTree
-                    key={componentPath}
-                    componentPath={componentPath}
+                    key={component.componentId}
+                    component={component}
                   />
                 ))}
               </div>
@@ -60,7 +70,7 @@ export const RepositorySingleSection = () => {
         ) : null
       }
     >
-      <></>
+      <InfoRow label="версия" value={repo!.latestBuildVersion} icon={<FiGitBranch size={14} />} />
     </SingleWrapSection>
   );
 };
