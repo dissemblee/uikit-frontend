@@ -35,7 +35,7 @@ export const buildsApi = baseApi.injectEndpoints({
       }),
       serializeQueryArgs: ({ queryArgs }) => {
         const { skip: _s, startDate: _d, ...rest } = queryArgs;
-        return JSON.stringify(rest);
+        return `component:${JSON.stringify(rest)}`;
       },
       merge: (currentCache, newItems, { arg }) => {
         if (!arg.skip && !arg.startDate) {
