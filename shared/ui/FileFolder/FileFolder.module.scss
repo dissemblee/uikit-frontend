@@ -1,0 +1,54 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+
+.FileFolder {
+  animation: fadeUp 0.3s ease both;
+  animation-delay: 0.1s;
+  border: 1px solid $border-color;
+  border-radius: $rounded-lg;
+  overflow: hidden;
+}
+
+.FileFolder__Header {
+  display: flex;
+  align-items: center;
+  gap: $value-2;
+  padding: $value-2_5 $value-4;
+  font-size: $value-3;
+  color: $subtitle-color;
+  background: rgba(255, 255, 255, 0.04);
+  @include divider;
+}
+
+.FileFolder__Root {
+  padding: $value-3 $value-4;
+}
+
+.FileFolder__RootRow {
+  display: flex;
+  align-items: center;
+  gap: $value-2;
+  padding: $value-2 0;
+  font-size: $value-3_5;
+  color: $title-color;
+  font-weight: 500;
+}
+
+.FileFolder__FolderIcon {
+  color: #e3b341;
+  flex-shrink: 0;
+}
+
+.FileFolder__Files {
+  display: flex;
+  flex-direction: column;
+  padding-left: $value-3;
+  margin-top: $value-1;
+  border-left: 1px solid $border-color;
+  margin-left: 6px;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY($value-2); }
+  to   { opacity: 1; transform: translateY(0); }
+}

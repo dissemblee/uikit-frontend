@@ -39,6 +39,44 @@ export const ComponentSingleSection = () => {
 
   if (!component) return <SingleWrapSection state="not_found" />;
 
+  const Action = (
+    <div style={{ display: "flex", gap: "5px" }}>
+      {username === component.username && 
+        <Link
+          to={`/components/${component.username}/${component.name}/version`}
+        >
+          <Button variant="secondary">Версионировать</Button>
+        </Link>
+      }
+      <DownloadMenu
+        downloadUrl={`http://localhost:8080/api/components/builds/${component!.buildId}/package`}
+      />
+    </div>
+  )
+
+  const SideTabs = (
+    <Tabs
+      items={[
+        {
+          key: "stat",
+          label: "статистика",
+          content: <StatSection data={stat?.result} isLoading={statLoading} />,
+        },
+        {
+          key: "versions",
+          label: "версии",
+          content: (
+            <ComponentVersionsList
+              componentId={component.id}
+              currentBuildId={component.buildId}
+              type="component"
+            />
+          ),
+        },
+      ]}
+    />
+  )
+
   return (
     <SingleWrapSection
       entity={component}
@@ -47,44 +85,9 @@ export const ComponentSingleSection = () => {
       path={`${component!.username}/${component!.name}`}
       icon={<FiCode size={32} />}
       username={username}
-      extraActions={
-        <div style={{ display: "flex", gap: "5px" }}>
-          {username === component.username && 
-            <Link
-              to={`/components/${component.username}/${component.name}/version`}
-            >
-              <Button variant="secondary">Версионировать</Button>
-            </Link>
-          }
-          <DownloadMenu
-            downloadUrl={`http://localhost:8080/api/components/builds/${component!.buildId}/package`}
-          />
-        </div>
-      }
-      extraSide={
-        <Tabs
-          items={[
-            {
-              key: "stat",
-              label: "статистика",
-              content: <StatSection data={stat?.result} isLoading={statLoading} />,
-            },
-            {
-              key: "versions",
-              label: "версии",
-              content: (
-                <ComponentVersionsList
-                  componentId={component.id}
-                  currentBuildId={component.buildId}
-                />
-              ),
-            },
-          ]}
-        />
-      }
-      extraChildren={
-        <ComponentPlayground buildId={component!.buildId} text={text} />
-      }
+      extraActions={Action}
+      extraSide={SideTabs}
+      extraChildren={ <ComponentPlayground buildId={component!.buildId} text={text} /> }
     >
       <InfoRow label="framework" value={component!.framework} icon={<FiPackage size={14} />} />
       <InfoRow label="версия" value={component!.version} icon={<FiGitBranch size={14} />} />

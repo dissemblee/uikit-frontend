@@ -1,28 +1,59 @@
 import { useState } from "react";
-import { useSearchParams, useNavigate } from "react-router";
+import { useSearchParams } from "react-router";
 import { useGetAllBuildsQuery } from "@entities/component";
+import { useGetAllRepoBuildsQuery } from "@entities/repository";
 import { Button } from "@shared/ui/Button";
 import styles from "./ComponentVersionsList.module.scss";
 import { BuildStatus } from "@entities/build/build.dto";
 import { formatDate } from "@shared/lib/time";
 
-interface Props {
-  componentId: string;
+interface BaseProps {
   currentBuildId?: string;
 }
 
+interface ComponentProps extends BaseProps {
+  type: "component";
+  componentId: string;
+}
+
+interface RepoProps extends BaseProps {
+  type: "repo";
+  repoId: string;
+}
+
+type Props = ComponentProps | RepoProps;
+
 const PAGE_SIZE = 10;
 
-export const ComponentVersionsList = ({ componentId, currentBuildId }: Props) => {
+export const ComponentVersionsList = (props: Props) => {
+  const { currentBuildId } = props;
   const [page, setPage] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { data, isFetching } = useGetAllBuildsQuery({
-    componentId,
-    skip: page * PAGE_SIZE,
-    limit: PAGE_SIZE,
-    status: BuildStatus.SUCCESS,
-  });
+  const isRepo = props.type === "repo";
+
+  const { data: componentData, isFetching: componentFetching } = useGetAllBuildsQuery(
+    {
+      componentId: !isRepo ? (props as ComponentProps).componentId : undefined,
+      skip: page * PAGE_SIZE,
+      limit: PAGE_SIZE,
+      status: BuildStatus.SUCCESS,
+    },
+    { skip: isRepo }
+  );
+
+  const { data: repoData, isFetching: repoFetching } = useGetAllRepoBuildsQuery(
+    {
+      repoId: isRepo ? (props as RepoProps).repoId : undefined,
+      skip: page * PAGE_SIZE,
+      limit: PAGE_SIZE,
+      status: BuildStatus.SUCCESS,
+    },
+    { skip: !isRepo }
+  );
+
+  const data = isRepo ? repoData : componentData;
+  const isFetching = isRepo ? repoFetching : componentFetching;
 
   const builds = data?.result?.data ?? [];
   const itemsLeft = data?.result?.itemsLeft ?? 0;

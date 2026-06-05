@@ -1,1 +1,1 @@
-export { RepositorySingleSection } from "./RepositorySingleSection"
+export { RepositorySingleSection } from "./RepositorySingleSection";

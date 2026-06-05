@@ -1,6 +1,5 @@
-import { Link, useParams } from "react-router";
-import { FiBox, FiFolder, FiGitBranch, FiGitCommit } from "react-icons/fi";
-import styles from "./RepositorySingleSection.module.scss";
+import { Link, useParams, useSearchParams } from "react-router";
+import { FiBox, FiGitBranch } from "react-icons/fi";
 import { SingleWrapSection } from "@shared/ui/SingleWrapSection";
 import { DownloadMenu } from "@shared/ui/DownloadMenu";
 import { FileTree } from "@features/FileTree";
@@ -8,19 +7,19 @@ import { useGetRepositoryByIdQuery, useGetRepositoryStatQuery } from "@entities/
 import { InfoRow } from "@shared/ui/InfoRow";
 import { Button } from "@shared/ui/Button";
 import { StatSection } from "@features/StatSection";
-
-const pluralComponents = (n: number) => {
-  if (n === 1) return "компонент";
-  if (n < 5) return "компонента";
-  return "компонентов";
-};
+import { FileFolder } from "@shared/ui/FileFolder";
+import { Tabs } from "@shared/ui/Tabs";
+import { ComponentVersionsList } from "@features/ComponentVersionsList";
 
 export const RepositorySingleSection = () => {
   const { username, name } = useParams<{ username: string; name: string }>();
+  const [searchParams] = useSearchParams();
+  const version = searchParams.get("version");
 
   const { data, isLoading } = useGetRepositoryByIdQuery({
     username: username!,
     name: name!,
+    version: version ? Number(version) : undefined,
   });
 
   const repo = data?.result;
@@ -37,6 +36,64 @@ export const RepositorySingleSection = () => {
   const latestBuild = repo.builds?.[0];
   const components = latestBuild?.componentBuilds ?? [];
 
+  const SideTabs = (
+    <Tabs
+      items={[
+        {
+          key: "stat",
+          label: "статистика",
+          content: (
+            <StatSection
+              data={stat?.result}
+              isLoading={statLoading}
+            />
+          )
+        },
+        {
+          key: "versions",
+          label: "версии",
+          content: (
+            <ComponentVersionsList
+              repoId={repo.id}
+              currentBuildId={latestBuild?.id}
+              type="repo"
+            />
+          ),
+        },
+      ]}
+    />
+  )
+
+  const Folder = (
+    <FileFolder
+      length={components.length}
+      name={repo.name}
+      fileTree={
+        components.map((component) => (
+          <FileTree
+            key={component.componentId}
+            component={component}
+          />
+        ))
+      } 
+    />
+  )
+
+  const Action = (
+    <div style={{ display: "flex", gap: "5px" }}>
+      {username === repo.username && 
+        <Link
+          to={`/repositories/${repo.username}/${repo.name}/version`}
+        >
+          <Button variant="secondary">Версионировать</Button>
+        </Link>
+      }
+      <DownloadMenu
+        downloadUrl={`http://localhost:8082/api/repo/builds/${repo.latestBuildId}/package`}
+      />
+    </div>
+  )
+
   return (
     <SingleWrapSection
       entity={repo}
@@ -45,51 +102,9 @@ export const RepositorySingleSection = () => {
       path={`${repo.username}/${repo.name}`}
       icon={<FiBox size={32} />}
       username={username}
-      extraActions={
-        <div style={{ display: "flex", gap: "5px" }}>
-          {username === repo.username && 
-            <Link
-              to={`/repositories/${repo.username}/${repo.name}/version`}
-            >
-              <Button variant="secondary">Версионировать</Button>
-            </Link>
-          }
-          <DownloadMenu
-            downloadUrl={`http://localhost:8082/api/repo/builds/${repo.latestBuildId}/package`}
-          />
-        </div>
-      }
-      extraSide={
-        <StatSection data={stat?.result} isLoading={statLoading} />
-      }
-      extraChildren={
-        components.length > 0 ? (
-          <div className={styles.FileTree}>
-            <div className={styles.FileTree__Header}>
-              <FiGitCommit size={14} />
-              <span>
-                {components.length} {pluralComponents(components.length)}
-              </span>
-            </div>
-
-            <div className={styles.FileTree__Root}>
-              <div className={styles.FileTree__RootRow}>
-                <FiFolder size={14} className={styles.FileTree__FolderIcon} />
-                <span className={styles.FileTree__RootName}>{repo.name}</span>
-              </div>
-
-              <div className={styles.FileTree__Files}>
-                {components.map((component) => (
-                  <FileTree
-                    key={component.componentId}
-                    component={component}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        ) : null
-      }
+      extraActions={Action}
+      extraSide={SideTabs}
+      extraChildren={Folder}
     >
       <InfoRow label="версия" value={repo!.latestBuildVersion} icon={<FiGitBranch size={14} />} />
     </SingleWrapSection>
