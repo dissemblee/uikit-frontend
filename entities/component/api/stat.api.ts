@@ -12,7 +12,7 @@ export const statApi = baseApi.injectEndpoints({
         service: "components",
       }),
     }),
-    getUserStat: builder.query<UserStatResultDto, { username: string }>({
+    getUserComponentStat: builder.query<UserStatResultDto, { username: string }>({
       query: ({ username }) => ({
         url: `${ENDPOINT}/users/${username}`,
         method: "GET",
@@ -24,5 +24,5 @@ export const statApi = baseApi.injectEndpoints({
 
 export const {
   useGetComponentStatQuery,
-  useGetUserStatQuery,
+  useGetUserComponentStatQuery,
 } = statApi;

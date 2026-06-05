@@ -1,26 +1,26 @@
 @use '../../shared/styles/variables' as *;
 @use '../../shared/styles/mixins' as *;
 
-.ComponentStat {
+.StatSection {
   @include flexColumn;
   gap: $value-4;
   animation: fadeUp 0.3s ease both;
   animation-delay: 0.1s;
 }
 
-.ComponentStat__Loading {
+.StatSection__Loading {
   font-size: $value-3;
   color: $subtitle-color;
   padding: $value-4 0;
 }
 
-.ComponentStat__Grid {
+.StatSection__Grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: $value-3;
 }
 
-.ComponentStat__Card {
+.StatSection__Card {
   @include flexColumn;
   gap: $value-1;
   background: $accent-background;
@@ -30,7 +30,7 @@
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 
-.ComponentStat__CardLabel {
+.StatSection__CardLabel {
   font-size: $value-2_5;
   color: $subtitle-color;
   text-transform: uppercase;
@@ -38,7 +38,7 @@
   font-weight: 500;
 }
 
-.ComponentStat__CardValue {
+.StatSection__CardValue {
   font-size: $value-4;
   font-weight: 700;
   color: $title-color;

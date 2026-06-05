@@ -1,16 +1,16 @@
 import { Link, useParams, useSearchParams } from "react-router";
-import { useGetComponentByIdQuery } from "@entities/component";
+import { useGetComponentByIdQuery, useGetComponentStatQuery } from "@entities/component";
 import { useGetBuildSourceQuery } from "@entities/component";
 import { FiCode, FiGitBranch, FiPackage, } from "react-icons/fi";
 import { SingleWrapSection } from "@shared/ui/SingleWrapSection";
 import { DownloadMenu } from "@shared/ui/DownloadMenu";
-import { ComponentStat } from "@features/ComponentStat";
 import { InfoRow } from "@shared/ui/InfoRow";
 import { TagsArray } from "@shared/ui/TagsArray";
 import { ComponentPlayground } from "@shared/ui/ComponentPlayground";
 import { ComponentVersionsList } from "@features/ComponentVersionsList";
 import { Tabs } from "@shared/ui/Tabs";
 import { Button } from "@shared/ui/Button";
+import { StatSection } from "@features/StatSection";
 
 export const ComponentSingleSection = () => {
   const { username, name } = useParams<{ username: string; name: string }>();
@@ -24,6 +24,11 @@ export const ComponentSingleSection = () => {
   });
 
   const component = data?.result
+
+  const { data: stat, isLoading: statLoading } = useGetComponentStatQuery(
+    { componentId: component?.id! },
+    { skip: !component?.id },
+  );
 
   const { data: text } = useGetBuildSourceQuery(
     { id: component?.buildId! },
@@ -62,7 +67,7 @@ export const ComponentSingleSection = () => {
             {
               key: "stat",
               label: "статистика",
-              content: <ComponentStat componentId={component.id} />,
+              content: <StatSection data={stat?.result} isLoading={statLoading} />,
             },
             {
               key: "versions",

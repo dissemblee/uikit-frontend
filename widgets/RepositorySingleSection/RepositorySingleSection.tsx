@@ -1,11 +1,13 @@
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { FiBox, FiFolder, FiGitBranch, FiGitCommit } from "react-icons/fi";
 import styles from "./RepositorySingleSection.module.scss";
 import { SingleWrapSection } from "@shared/ui/SingleWrapSection";
 import { DownloadMenu } from "@shared/ui/DownloadMenu";
 import { FileTree } from "@features/FileTree";
-import { useGetRepositoryByIdQuery } from "@entities/repository";
+import { useGetRepositoryByIdQuery, useGetRepositoryStatQuery } from "@entities/repository";
 import { InfoRow } from "@shared/ui/InfoRow";
+import { Button } from "@shared/ui/Button";
+import { StatSection } from "@features/StatSection";
 
 const pluralComponents = (n: number) => {
   if (n === 1) return "компонент";
@@ -23,6 +25,11 @@ export const RepositorySingleSection = () => {
 
   const repo = data?.result;
 
+  const { data: stat, isLoading: statLoading } = useGetRepositoryStatQuery(
+    { repoId: repo?.id! },
+    { skip: !repo?.id },
+  );
+
   if (isLoading) return <SingleWrapSection state="loading" />;
 
   if (!repo) return <SingleWrapSection state="not_found" />;
@@ -39,7 +46,21 @@ export const RepositorySingleSection = () => {
       icon={<FiBox size={32} />}
       username={username}
       extraActions={
-        <DownloadMenu downloadUrl={`http://localhost:8082/api/repo/builds/${repo.latestBuildId}/package`} />
+        <div style={{ display: "flex", gap: "5px" }}>
+          {username === repo.username && 
+            <Link
+              to={`/components/${repo.username}/${repo.name}/version`}
+            >
+              <Button variant="secondary">Версионировать</Button>
+            </Link>
+          }
+          <DownloadMenu
+            downloadUrl={`http://localhost:8082/api/repo/builds/${repo.latestBuildId}/package`}
+          />
+        </div>
+      }
+      extraSide={
+        <StatSection data={stat?.result} isLoading={statLoading} />
       }
       extraChildren={
         components.length > 0 ? (

@@ -1,30 +1,43 @@
-import { useGetUserStatQuery } from "@entities/component";
+import { useGetUserComponentStatQuery } from "@entities/component";
 import styles from "./UserStat.module.scss";
 import { AreaChartStat } from "@shared/ui/AreaChart";
+import { useGetUserRepoStatQuery } from "@entities/repository";
 
 export const UserStat = ({ username }: { username: string }) => {
-  const { data, isLoading } = useGetUserStatQuery({ username });
-  const stat = data?.result;
+  const { data: componentData, isLoading: componentLoading } = useGetUserComponentStatQuery({ username });
+  const { data: repoData, isLoading: repoLoading } = useGetUserRepoStatQuery({ username });
 
-  if (isLoading || !stat) {
+  const componentStat = componentData?.result;
+  const repoStat = repoData?.result;
+
+  if (componentLoading || repoLoading || !componentStat || !repoStat) {
     return null;
   }
 
-  const successRate =
-    stat.totalBuilds > 0
-      ? Math.round((stat.successBuilds / stat.totalBuilds) * 100)
-      : 0;
+  const totalBuilds = componentStat.totalBuilds + repoStat.totalBuilds;
+  const successBuilds = componentStat.successBuilds + repoStat.successBuilds;
+  const failedBuilds = componentStat.failedBuilds + repoStat.failedBuilds;
 
-  const loadsTotal = stat.dailyLoadsChart.reduce(
-    (sum, point) => sum + point.count,
-    0,
-  );
+  const successRate = totalBuilds > 0
+    ? Math.round((successBuilds / totalBuilds) * 100)
+    : 0;
+
+  const mergedChartMap = new Map<string, number>();
+  [...componentStat.dailyLoadsChart, ...repoStat.dailyLoadsChart].forEach(({ date, count }) => {
+    mergedChartMap.set(date, (mergedChartMap.get(date) ?? 0) + count);
+  });
+  const mergedChart = Array.from(mergedChartMap.entries())
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([date, count]) => ({ date, count }));
+
+  const loadsTotal = mergedChart.reduce((sum, point) => sum + point.count, 0);
 
   const cards = [
-    { label: "компонентов", value: stat.totalComponents },
-    { label: "сборок", value: stat.totalBuilds },
-    { label: "успешных", value: stat.successBuilds },
-    { label: "упало", value: stat.failedBuilds },
+    { label: "компонентов", value: componentStat.totalComponents },
+    { label: "репозиториев", value: repoStat.totalRepos },
+    { label: "сборок", value: totalBuilds },
+    { label: "успешных", value: successBuilds },
+    { label: "упало", value: failedBuilds },
   ];
 
   return (
@@ -51,10 +64,7 @@ export const UserStat = ({ username }: { username: string }) => {
         </div>
       </div>
 
-      <AreaChartStat
-        chartData={stat.dailyLoadsChart}
-        loadsTotal={loadsTotal}
-      />
+      <AreaChartStat chartData={mergedChart} loadsTotal={loadsTotal} />
     </div>
   );
 };

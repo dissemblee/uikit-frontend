@@ -50,7 +50,7 @@ export const CreateComponentForm = () => {
         throw result.error
       }
 
-      navigate(`/components/${result.data.result?.username}/${result.data.result?.name}`)
+      navigate(`/components`)
     },
   })
 

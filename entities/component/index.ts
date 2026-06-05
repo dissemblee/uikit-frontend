@@ -14,7 +14,7 @@ export {
 export {
   statApi,
   useGetComponentStatQuery,
-  useGetUserStatQuery
+  useGetUserComponentStatQuery
 } from "./api/stat.api"
 export type {
   BuildCursorResultDto,
