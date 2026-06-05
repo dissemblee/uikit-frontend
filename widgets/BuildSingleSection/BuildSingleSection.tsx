@@ -8,9 +8,11 @@ import { getDuration } from "@shared/lib/time";
 import type { BuildStatus } from "@entities/build";
 import { useGetBuildByIdQuery } from "@entities/component";
 import { useGetRepoBuildByIdQuery } from "@entities/repository";
+import { useUserInfo } from "@shared/hooks/useUserInfo";
 
 export const BuildSingleSection = () => {
   const { service, buildId } = useParams<{ service: string; buildId: string }>();
+  const { displayName } = useUserInfo();
 
   if (!buildId || !service) return <SingleWrapSection state="not_found" />;
 
@@ -37,16 +39,16 @@ export const BuildSingleSection = () => {
   const duration = getDuration(build.startedAt, build.finishedAt);
 
   const title = isRepo
-    ? (build as any).name
+    ? `${displayName}/${(build as any).name}`
     : `${(build as any).component?.username}/${(build as any).component?.name}`;
 
   const linkPath = isComponent
     ? `/components/${(build as any).component?.username}/${(build as any).component?.name}?version=${build.version}`
-    : `/repositories/${(build as any).repoId}`;
+    : `/repositories/${displayName}/${(build as any).name}?version=${build.version}`;
 
   const linkLabel = isComponent
     ? `${(build as any).component?.username}/${(build as any).component?.name}-v${build.version}`
-    : `${(build as any).name}-v${build.version}`;
+    : `${displayName}/${(build as any).name}-v${build.version}`;
 
   return (
     <SingleWrapSection
