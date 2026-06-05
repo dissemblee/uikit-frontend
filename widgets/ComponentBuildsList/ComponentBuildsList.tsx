@@ -5,7 +5,7 @@ import { useGetAllBuildsQuery } from "@entities/component/api/build.api";
 import { Input, Select } from "@shared/ui/Inputs";
 import { useState } from "react";
 import { useCursorPagination } from "@shared/hooks/useCursorPagination";
-import { LoadMoreButton } from "@shared/ui/LoadMoreButton/LoadMoreButton";
+import { LoadMoreButton } from "@shared/ui/LoadMoreButton";
 
 const statusOptions = [
   { value: "", label: "Все статусы" },

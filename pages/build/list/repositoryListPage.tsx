@@ -10,15 +10,20 @@ export const BuildListPage = () => {
         className={styles.repositoryListPage}
         items={[
           {
-            key: "components",
-            label: "компоненты",
-            content: <ComponentBuildsList />,
-          },
-          {
             key: "repositories",
             label: "репозитории",
-            content: <>заглушка</>,
+            content: <RepositoryBuildsList />,
           },
+          // {
+          //   key: "components",
+          //   label: "компоненты",
+          //   content: <ComponentBuildsList />,
+          // },
+          {
+            key: "components",
+            label: "компоненты",
+            content: <>заглушка</>,
+          }
         ]}
       />
     </main>

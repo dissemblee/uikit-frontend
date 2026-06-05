@@ -1,5 +1,5 @@
 import type { BuildStatus } from "@entities/build";
-import type { EntityDto } from "@shared/types/api";
+import type { CursorResultDto, EntityDto, ResultDto } from "@shared/types/api";
 
 export interface ComponentBuildDto {
   componentId: string;
@@ -9,7 +9,7 @@ export interface ComponentBuildDto {
   buildId: string;
 }
 
-export interface BuildDto extends EntityDto {
+export interface BuildRepoDto extends EntityDto {
   status: BuildStatus;
   version: number;
   logs: string;
@@ -17,4 +17,18 @@ export interface BuildDto extends EntityDto {
   finishedAt: string;
   repoId: string;
   componentBuilds?: ComponentBuildDto[];
+  name: string;
+}
+
+export interface BuildCursorResultDto extends CursorResultDto<BuildRepoDto> {}
+export interface BuildResultDto extends ResultDto<BuildRepoDto> {}
+
+export interface BuildFiltersDto {
+  repoId?: string;
+  username?: string;
+  status?: string;
+  startDate?: string;
+  skip?: number;
+  limit?: number;
+  query?: string;
 }

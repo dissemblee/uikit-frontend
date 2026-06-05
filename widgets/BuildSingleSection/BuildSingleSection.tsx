@@ -7,30 +7,53 @@ import { buildStatusConfig } from "@shared/ui/BuildStatusConfig";
 import { getDuration } from "@shared/lib/time";
 import type { BuildStatus } from "@entities/build";
 import { useGetBuildByIdQuery } from "@entities/component";
+import { useGetRepoBuildByIdQuery } from "@entities/repository";
 
 export const BuildSingleSection = () => {
   const { service, buildId } = useParams<{ service: string; buildId: string }>();
 
-  if (!buildId || !service) return <SingleWrapSection state="not_found" />
+  if (!buildId || !service) return <SingleWrapSection state="not_found" />;
 
-  const serviceType: 'repo' | 'components' = service === "repo" ? "repo" : "components";
+  const isRepo = service === "repositories";
+  const isComponent = service === "components";
 
-  const { data, isLoading: buildLoading } = useGetBuildByIdQuery({ buildId}, {skip: service !== "components"});
-  const build = data?.result
+  const { data: componentData, isLoading: componentLoading } = useGetBuildByIdQuery(
+    { buildId },
+    { skip: !isComponent }
+  );
 
-  if (buildLoading) return <SingleWrapSection state="loading" />;
+  const { data: repoData, isLoading: repoLoading } = useGetRepoBuildByIdQuery(
+    { buildId },
+    { skip: !isRepo }
+  );
 
-  if (!build) return <SingleWrapSection state="not_found" />
+  const isLoading = componentLoading || repoLoading;
+  const build = componentData?.result ?? repoData?.result;
+
+  if (isLoading) return <SingleWrapSection state="loading" />;
+  if (!build) return <SingleWrapSection state="not_found" />;
 
   const status = buildStatusConfig[build.status as BuildStatus];
   const duration = getDuration(build.startedAt, build.finishedAt);
+
+  const title = isRepo
+    ? (build as any).name
+    : `${(build as any).component?.username}/${(build as any).component?.name}`;
+
+  const linkPath = isComponent
+    ? `/components/${(build as any).component?.username}/${(build as any).component?.name}?version=${build.version}`
+    : `/repositories/${(build as any).repoId}`;
+
+  const linkLabel = isComponent
+    ? `${(build as any).component?.username}/${(build as any).component?.name}-v${build.version}`
+    : `${(build as any).name}-v${build.version}`;
 
   return (
     <SingleWrapSection
       entity={build}
       state="success"
-      title={build?.id}
-      path={`${build?.component.username}/${build?.component.name}`}
+      title={build.id}
+      path={title}
       icon={<FiPackage size={32} />}
     >
       <InfoRow label="Завершен" value={build.finishedAt} icon={<FiCalendar size={14} />} isDate />
@@ -40,18 +63,13 @@ export const BuildSingleSection = () => {
         value={status.label}
         icon={status.icon}
         className={`${styles.BuildSingleSection__Status} ${
-          styles[
-            `BuildSingleSection__Status--${status.className}`
-          ]
+          styles[`BuildSingleSection__Status--${status.className}`]
         }`}
       />
-      <Link
-        to={`/components/${build?.component.username}/${build?.component.name}?version=${build.version}`}
-        className={styles.SingleWrapSection__LinkProfile}
-      >
+      <Link to={linkPath} className={styles.SingleWrapSection__LinkProfile}>
         <InfoRow
-          label={"Компонент"}
-          value={`${build?.component.username}/${build?.component.name}-v${build.version}`}
+          label={isComponent ? "Компонент" : "Репозиторий"}
+          value={linkLabel}
           icon={<FiCode size={14} />}
         />
       </Link>
@@ -61,10 +79,9 @@ export const BuildSingleSection = () => {
           <div className={styles.BuildSingleSection__LogsHeader}>
             <span>build.log</span>
           </div>
-
           <pre className={styles.BuildSingleSection__Logs}>
             <code>
-              {build?.logs
+              {build.logs
                 ?.split("\n")
                 .filter(Boolean)
                 .map((line, index) => {
@@ -76,15 +93,11 @@ export const BuildSingleSection = () => {
                     : "info";
 
                   const className =
-                    level === "error"
-                      ? styles["BuildSingleSection__Logs--error"]
-                      : level === "warn"
-                      ? styles["BuildSingleSection__Logs--warn"]
-                      : level === "success"
-                      ? styles["BuildSingleSection__Logs--success"]
-                      : level === "debug"
-                      ? styles["BuildSingleSection__Logs--debug"]
-                      : "";
+                    level === "error" ? styles["BuildSingleSection__Logs--error"]
+                    : level === "warn" ? styles["BuildSingleSection__Logs--warn"]
+                    : level === "success" ? styles["BuildSingleSection__Logs--success"]
+                    : level === "debug" ? styles["BuildSingleSection__Logs--debug"]
+                    : "";
 
                   return (
                     <div key={index} className={className}>
@@ -98,4 +111,4 @@ export const BuildSingleSection = () => {
       </div>
     </SingleWrapSection>
   );
-}
+};

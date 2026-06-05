@@ -5,22 +5,13 @@ import type { BuildDto } from "@entities/component"
 import { BaseCard } from "@shared/ui/BaseCard";
 import { buildStatusConfig } from "@shared/ui/BuildStatusConfig";
 import { getDuration } from "@shared/lib/time";
-
-interface RepoBuild {
-  id: string;
-  name: string;
-  type: string;
-  version: string;
-  status: string;
-  startedAt: string;
-  finishedAt?: string | null;
-}
+import type { BuildRepoDto } from "@entities/repository";
 
 type BuildCardProps = {
   index?: number;
 } & (
   | { componentBuild: BuildDto; repoBuild?: never }
-  | { repoBuild: RepoBuild; componentBuild?: never }
+  | { repoBuild: BuildRepoDto; componentBuild?: never }
 );
 
 export const BuildCard = ({ componentBuild, repoBuild, index = 0 }: BuildCardProps) => {
@@ -31,12 +22,12 @@ export const BuildCard = ({ componentBuild, repoBuild, index = 0 }: BuildCardPro
 
   const to = componentBuild
     ? `/builds/components/${build.id}`
-    : `/builds/${repoBuild!.type}/${build.id}`;
+    : `/builds/repositories/${build.id}`;
 
   const name = componentBuild ? componentBuild.id : build.id;
   const sub = componentBuild
     ? `${componentBuild.component.name}-v${componentBuild.version}`
-    : `${repoBuild!.name}-${repoBuild!.version}`;
+    : `${repoBuild.name}-${repoBuild!.version}`;
 
   return (
     <BaseCard

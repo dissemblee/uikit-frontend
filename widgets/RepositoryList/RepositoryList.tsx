@@ -5,7 +5,7 @@ import { ListWrapSection } from "@shared/ui/ListWrapSection";
 import { ButtonCreate } from "@shared/ui/ButtonCreate";
 import { useState } from "react";
 import { useCursorPagination } from "@shared/hooks/useCursorPagination";
-import { LoadMoreButton } from "@shared/ui/LoadMoreButton/LoadMoreButton";
+import { LoadMoreButton } from "@shared/ui/LoadMoreButton";
 import { Input, Select } from "@shared/ui/Inputs";
 
 type SortType = "asc" | "desc";

@@ -9,6 +9,11 @@ export {
   useGetRepositoryStatQuery,
   useGetUserRepoStatQuery,
 } from "./api/stat.api"
+export {
+  buildsApi,
+  useGetAllRepoBuildsQuery,
+  useGetRepoBuildByIdQuery
+} from "./api/build.api"
 export type {
   RepoFiltersDto,
   RepositoryCreateDto,
@@ -25,3 +30,10 @@ export type {
   UserStatDto,
   UserStatResultDto
 } from "./dto/stat.dto"
+export type {
+  BuildCursorResultDto,
+  BuildRepoDto,
+  BuildFiltersDto,
+  BuildResultDto,
+  ComponentBuildDto
+} from "./dto/build.dto"

@@ -11,7 +11,7 @@ import {
 } from "@entities/component";
 import { Input, Select, TagInput } from "@shared/ui/Inputs";
 import { useCursorPagination } from "@shared/hooks/useCursorPagination";
-import { LoadMoreButton } from "@shared/ui/LoadMoreButton/LoadMoreButton";
+import { LoadMoreButton } from "@shared/ui/LoadMoreButton";
 
 type SortType = "asc" | "desc";
 
