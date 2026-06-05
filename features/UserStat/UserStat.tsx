@@ -3,12 +3,21 @@ import styles from "./UserStat.module.scss";
 import { AreaChartStat } from "@shared/ui/AreaChart";
 import { useGetUserRepoStatQuery } from "@entities/repository";
 
+const EMPTY_STAT = {
+  totalBuilds: 0,
+  successBuilds: 0,
+  failedBuilds: 0,
+  dailyLoadsChart: [] as { date: string; count: number }[],
+  totalComponents: 0,
+  totalRepos: 0,
+};
+
 export const UserStat = ({ username }: { username: string }) => {
   const { data: componentData, isLoading: componentLoading } = useGetUserComponentStatQuery({ username });
   const { data: repoData, isLoading: repoLoading } = useGetUserRepoStatQuery({ username });
 
-  const componentStat = componentData?.result;
-  const repoStat = repoData?.result;
+  const componentStat = componentData?.result ?? EMPTY_STAT;
+  const repoStat = repoData?.result ?? EMPTY_STAT;
 
   if (componentLoading || repoLoading || !componentStat || !repoStat) {
     return null;

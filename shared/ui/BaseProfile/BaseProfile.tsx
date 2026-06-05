@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { FiGitBranch, FiBox } from "react-icons/fi";
+import { FiGitBranch, FiBox, FiCode } from "react-icons/fi";
 import { UserIcon } from "@features/UserIcon";
 import styles from "./BaseProfile.module.scss";
 import type { ReactNode } from "react";
@@ -45,13 +45,13 @@ export const BaseProfile = ({
               to={`/repositories/${username}`}
               className={styles.BaseProfile__NavLink}
             >
-              <FiGitBranch size={12} /> репозитории
+              <FiBox size={12} /> репозитории
             </Link>
             <Link
               to={`/components/${username}`}
               className={styles.BaseProfile__NavLink}
             >
-              <FiBox size={12} /> компоненты
+              <FiCode size={12} /> компоненты
             </Link>
           </nav>
         </div>

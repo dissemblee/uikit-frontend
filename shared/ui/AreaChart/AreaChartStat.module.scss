@@ -57,3 +57,14 @@
     font-size: $value-3;
   }
 }
+
+.AreaChartStat__Empty {
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #7F77DD;
+  font-size: 13px;
+}
