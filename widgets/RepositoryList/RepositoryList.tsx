@@ -57,23 +57,21 @@ export const RepositoryList = () => {
       totalCount={repositories.length}
       loadTime={performance.now()}
       filters={
-        !username && (
-          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-            <Input
-              type="text"
-              placeholder="Поиск..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              label="Поиск по имени"
-            />
-            <Select
-              value={sort}
-              onChange={(e) => setSort(e.target.value as SortType)}
-              options={descOptions}
-              label="Сортировка по времени"
-            />
-          </div>
-        )
+        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+          <Input
+            type="text"
+            placeholder="Поиск..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            label="Поиск по имени"
+          />
+          <Select
+            value={sort}
+            onChange={(e) => setSort(e.target.value as SortType)}
+            options={descOptions}
+            label="Сортировка по времени"
+          />
+        </div>
       }
     >
       {repositories.map((repo, i) => (

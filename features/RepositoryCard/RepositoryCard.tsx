@@ -3,8 +3,12 @@ import { FiBox, FiLock, FiUnlock } from "react-icons/fi";
 import styles from "./RepositoryCard.module.scss";
 import { BaseCard } from "@shared/ui/BaseCard";
 
+const MAX_VISIBLE_TAGS = 3;
+
 export const RepositoryCard = ({ repo, index = 0 }: { repo: RepositoryDto; index?: number }) => {
-  const isPublic = true;
+  const tags = repo.tags ?? [];
+  const visibleTags = tags.slice(0, MAX_VISIBLE_TAGS);
+  const hiddenCount = tags.length - visibleTags.length;
 
   return (
     <BaseCard
@@ -15,12 +19,25 @@ export const RepositoryCard = ({ repo, index = 0 }: { repo: RepositoryDto; index
       sub={repo.description}
       username={repo.username}
       date={repo.createdAt}
-      // right={
-      //   <span className={`${styles.RepositoryCard__Badge} ${styles[isPublic ? 'RepositoryCard__Badge--public' : 'RepositoryCard__Badge--private']}`}>
-      //     {isPublic ? <FiUnlock /> : <FiLock />}
-      //     {isPublic ? 'public' : 'private'}
-      //   </span>
-      // }
+      right={
+        tags.length > 0 && (
+          <>
+            {visibleTags.map((tag) => (
+              <span key={tag} className={styles.ComponentCard__Badge}>
+                {tag.replace(/_/g, " ")}
+              </span>
+            ))}
+            {hiddenCount > 0 && (
+              <span
+                className={styles.ComponentCard__More}
+                title={tags.slice(MAX_VISIBLE_TAGS).join(", ")}
+              >
+                +{hiddenCount}
+              </span>
+            )}
+          </>
+        )
+      }
     />
   );
 };

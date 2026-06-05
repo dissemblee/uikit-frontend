@@ -1,7 +1,7 @@
 import { useCreateRepositoryMutation } from "@entities/repository"
 import { useForm } from "@shared/hooks/useForm"
 import { Button } from "@shared/ui/Button"
-import { Input, Textarea } from "@shared/ui/Inputs"
+import { Input, TagInput, Textarea } from "@shared/ui/Inputs"
 import type { RepositoryCreateDto } from "@entities/repository"
 import { FiCode, FiFileText, FiSearch, FiX, FiPlus } from "react-icons/fi"
 import { FormError } from "@shared/ui/FormError"
@@ -9,6 +9,7 @@ import { useGetAllComponentsQuery } from "@entities/component"
 import { useState, useMemo, useRef, useEffect } from "react"
 import styles from "./CreateRepositoryForm.module.scss"
 import { useNavigate } from "react-router"
+import { RepoTag } from "@entities/repository/dto/main.dto"
 
 export const CreateRepositoryForm = () => {
   const [create, { isLoading, isSuccess }] = useCreateRepositoryMutation()
@@ -17,7 +18,7 @@ export const CreateRepositoryForm = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const searchRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
-
+  const tagOptions = Object.values(RepoTag)
   const { data: componentsData, isLoading: componentsLoading } = useGetAllComponentsQuery({
     skip: 0,
     limit: 100
@@ -54,6 +55,7 @@ export const CreateRepositoryForm = () => {
     initialValues: {
       name: "",
       description: "",
+      tags: [] as RepoTag[],
     },
 
     validate(values) {
@@ -72,6 +74,7 @@ export const CreateRepositoryForm = () => {
         name: values.name,
         description: values.description,
         componentBuildIds: selectedComponents.map(c => c.buildId),
+        tags: values.tags,
       }
 
       const result = await create(dto)
@@ -115,6 +118,19 @@ export const CreateRepositoryForm = () => {
         {...form.field("description")}
         icon={<FiFileText />}
         placeholder="Коллекция полезных UI компонентов для React"
+      />
+
+      <TagInput
+        label="Теги"
+        options={tagOptions}
+        value={form.values.tags}
+        onChange={(next) =>
+          form.setValues((prev) => ({
+            ...prev,
+            tags: next as RepoTag[],
+          }))
+        }
+        placeholder="начните вводить..."
       />
 
       <div className={styles.ComponentSearch} ref={searchRef}>

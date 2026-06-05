@@ -75,36 +75,34 @@ export const ComponentList = () => {
       errorMessage="Не удалось загрузить компоненты"
       totalCount={items.length}
       filters={
-        !username && (
-          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-            <Input
-              type="text"
-              placeholder="Поиск..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              label="Поиск по имени"
-            />
-            <Select
-              value={framework}
-              onChange={(e) => setFramework(e.target.value as Framework | "")}
-              options={frameworkOptions}
-              label="Фреймворки"
-            />
-            <Select
-              value={sort}
-              onChange={(e) => setSort(e.target.value as SortType)}
-              options={descOptions}
-              label="Сортировка по времени"
-            />
-            <TagInput
-              label="Теги"
-              options={tagOptions}
-              value={tags}
-              onChange={(next) => setTags(next as ComponentTag[])}
-              placeholder="начните вводить..."
-            />
-          </div>
-        )
+        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+          <Input
+            type="text"
+            placeholder="Поиск..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            label="Поиск по имени"
+          />
+          <Select
+            value={framework}
+            onChange={(e) => setFramework(e.target.value as Framework | "")}
+            options={frameworkOptions}
+            label="Фреймворки"
+          />
+          <Select
+            value={sort}
+            onChange={(e) => setSort(e.target.value as SortType)}
+            options={descOptions}
+            label="Сортировка по времени"
+          />
+          <TagInput
+            label="Теги"
+            options={tagOptions}
+            value={tags}
+            onChange={(next) => setTags(next as ComponentTag[])}
+            placeholder="начните вводить..."
+          />
+        </div>
       }
     >
       {items.map((comp: ComponentDto) => (

@@ -10,6 +10,7 @@ import { StatSection } from "@features/StatSection";
 import { FileFolder } from "@shared/ui/FileFolder";
 import { Tabs } from "@shared/ui/Tabs";
 import { ComponentVersionsList } from "@features/ComponentVersionsList";
+import { TagsArray } from "@shared/ui/TagsArray";
 
 export const RepositorySingleSection = () => {
   const { username, name } = useParams<{ username: string; name: string }>();
@@ -107,6 +108,7 @@ export const RepositorySingleSection = () => {
       extraChildren={Folder}
     >
       <InfoRow label="версия" value={repo!.latestBuildVersion} icon={<FiGitBranch size={14} />} />
+      <TagsArray tags={repo!.tags} />
     </SingleWrapSection>
   );
 };
