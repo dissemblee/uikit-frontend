@@ -27,6 +27,7 @@ export default [
   layout("provider/ProtectedRoute.tsx", [
     ...prefix("repositories", [
       route("create", "routes/repositoryCreateRoute.tsx"),
+      route("/:username/:name/version", "routes/repositoryVersionRoute.tsx"),
       route("/:username/:name", "routes/repositorySingleRoute.tsx"),
     ]),
     ...prefix("components", [

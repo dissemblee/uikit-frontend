@@ -1,43 +1,62 @@
-import { useCreateRepositoryMutation } from "@entities/repository"
 import { useForm } from "@shared/hooks/useForm"
 import { Button } from "@shared/ui/Button"
-import { Input, Textarea } from "@shared/ui/Inputs"
-import type { RepositoryCreateDto } from "@entities/repository"
-import { FiCode, FiFileText, FiSearch, FiX, FiPlus } from "react-icons/fi"
+import { FiSearch, FiX, FiPlus } from "react-icons/fi"
 import { FormError } from "@shared/ui/FormError"
 import { useGetAllComponentsQuery } from "@entities/component"
 import { useState, useMemo, useRef, useEffect } from "react"
 import styles from "./CreateRepositoryForm.module.scss"
-import { useNavigate } from "react-router"
+import { useNavigate, useParams } from "react-router"
+import { useGetRepositoryByIdQuery, useNewVersionRepositoryMutation } from "@entities/repository"
 
-export const CreateRepositoryForm = () => {
-  const [create, { isLoading, isSuccess }] = useCreateRepositoryMutation()
+export const VersionRepositoryForm = () => {
+  const { username, name } = useParams<{ username: string; name: string }>()
+  const navigate = useNavigate()
+
+  const { data: repoData, isLoading: repoLoading } = useGetRepositoryByIdQuery({
+    username: username!,
+    name: name!,
+  })
+
+  const repo = repoData?.result
+  const latestBuild = repo?.builds?.[0]
+  const existingComponents = latestBuild?.componentBuilds ?? []
+
+  const [newVersion, { isLoading }] = useNewVersionRepositoryMutation()
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedComponents, setSelectedComponents] = useState<{ buildId: string; name: string; username: string }[]>([])
   const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [initialized, setInitialized] = useState(false)
   const searchRef = useRef<HTMLDivElement>(null)
-  const navigate = useNavigate()
 
   const { data: componentsData, isLoading: componentsLoading } = useGetAllComponentsQuery({
     skip: 0,
-    limit: 100
+    limit: 100,
   })
 
   const allComponents = componentsData?.result?.data || []
 
+  useEffect(() => {
+    if (!initialized && existingComponents.length > 0) {
+      setSelectedComponents(
+        existingComponents.map((cb: { buildId: any; name: any; username: any }) => ({
+          buildId: cb.buildId,
+          name: cb.name,
+          username: cb.username,
+        }))
+      )
+      setInitialized(true)
+    }
+  }, [existingComponents, initialized])
+
   const filteredComponents = useMemo(() => {
     if (!searchQuery.trim()) return []
-    
     const query = searchQuery.toLowerCase()
-    return allComponents.filter(component => {
-      const componentName = component.name?.toLowerCase() || ""
-      const componentId = component.id?.toLowerCase() || ""
-      const username = component.username?.toLowerCase() || ""
-      
-      return componentName.includes(query) || 
-             componentId.includes(query) || 
-             username.includes(query)
-    }).filter(component => !selectedComponents.some(s => s.buildId === component.buildId))
+    return allComponents
+      .filter(c =>
+        c.name?.toLowerCase().includes(query) ||
+        c.username?.toLowerCase().includes(query)
+      )
+      .filter(c => !selectedComponents.some(s => s.buildId === c.buildId))
   }, [searchQuery, allComponents, selectedComponents])
 
   useEffect(() => {
@@ -50,48 +69,11 @@ export const CreateRepositoryForm = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
-  const form = useForm({
-    initialValues: {
-      name: "",
-      description: "",
-    },
-
-    validate(values) {
-      const errors: any = {}
-
-      if (!values.name) errors.name = "Введите имя"
-      if (!values.description) errors.description = "Введите описание"
-      if (values.description.length >= 300) errors.description = "Слишком длинное описание, максимум 300 символов"
-      if (selectedComponents.length === 0) errors.components = "Добавьте хотя бы один компонент"
-      
-      return errors
-    },
-
-    async onSubmit(values) {
-      const dto: RepositoryCreateDto = {
-        name: values.name,
-        description: values.description,
-        componentBuildIds: selectedComponents.map(c => c.buildId),
-      }
-
-      const result = await create(dto)
-
-      if ('error' in result) {
-        throw result.error
-      }
-
-      navigate('/repositories')
-    }
-  })
-
   const handleAddComponent = (component: typeof allComponents[0]) => {
-    const buildId = component.buildId
-    if (!buildId) return
-
-    setSelectedComponents(prev => [...prev, { 
-      buildId,
-      name: component.name || component.id || "",
-      username: component.username || "",
+    setSelectedComponents(prev => [...prev, {
+      buildId: component.buildId!,
+      name: component.name,
+      username: component.username,
     }])
     setSearchQuery("")
     setIsSearchOpen(false)
@@ -101,27 +83,38 @@ export const CreateRepositoryForm = () => {
     setSelectedComponents(prev => prev.filter(c => c.buildId !== buildId))
   }
 
-  return(
+  const form = useForm({
+    initialValues: {},
+    validate() {
+      const errors: any = {}
+      if (selectedComponents.length === 0) errors.components = "Добавьте хотя бы один компонент"
+      return errors
+    },
+    async onSubmit() {
+      const dto = {
+        componentBuildIds: selectedComponents.map(c => c.buildId),
+      }
+
+      const result = await newVersion({
+        repoId: repo!.id,
+        dto
+      })
+
+      if ('error' in result) throw result.error
+      navigate(`/repositories/${username}/${name}`)
+    },
+  })
+
+  if (repoLoading) return <div>Загрузка...</div>
+  if (!repo) return <div>Репозиторий не найден</div>
+
+  return (
     <form onSubmit={form.handleSubmit} className={styles.Form}>
-      <Input
-        label="Имя репозитория"
-        {...form.field("name")}
-        icon={<FiCode />}
-        placeholder="моя-библиотека-компонентов"
-      />
-
-      <Textarea
-        label="Описание"
-        {...form.field("description")}
-        icon={<FiFileText />}
-        placeholder="Коллекция полезных UI компонентов для React"
-      />
-
       <div className={styles.ComponentSearch} ref={searchRef}>
         <label className={styles.ComponentSearch__Label}>
           // Компоненты
         </label>
-        
+
         <div className={styles.ComponentSearch__InputWrapper}>
           <FiSearch className={styles.ComponentSearch__SearchIcon} />
           <input
@@ -137,14 +130,13 @@ export const CreateRepositoryForm = () => {
           />
         </div>
         <br />
+
         {isSearchOpen && searchQuery && (
           <div className={styles.ComponentSearch__Results}>
             {componentsLoading ? (
               <div className={styles.ComponentSearch__Loading}>Загрузка компонентов...</div>
             ) : filteredComponents.length === 0 ? (
-              <div className={styles.ComponentSearch__Empty}>
-                {searchQuery ? "Ничего не найдено" : "Начните вводить название компонента"}
-              </div>
+              <div className={styles.ComponentSearch__Empty}>Ничего не найдено</div>
             ) : (
               filteredComponents.map(component => (
                 <div
@@ -153,9 +145,7 @@ export const CreateRepositoryForm = () => {
                   onClick={() => handleAddComponent(component)}
                 >
                   <div className={styles.ComponentSearch__ResultInfo}>
-                    <span className={styles.ComponentSearch__ResultName}>
-                      {component.name}
-                    </span>
+                    <span className={styles.ComponentSearch__ResultName}>{component.name}</span>
                     <span className={styles.ComponentSearch__ResultMeta}>
                       {component.username} • {component.framework}
                     </span>
@@ -196,15 +186,15 @@ export const CreateRepositoryForm = () => {
       )}
 
       <FormError message={form.submitError} />
-      
-      <Button 
-        type="submit" 
-        disabled={form.isSubmitting} 
-        loading={isLoading} 
-        loadingText="Создаем репозиторий..." 
+
+      <Button
+        type="submit"
+        disabled={form.isSubmitting}
+        loading={isLoading}
+        loadingText="Создаём версию..."
         nonBlock
       >
-        Создать репозиторий
+        Создать версию
       </Button>
     </form>
   )

@@ -3,6 +3,7 @@ export {
   useCreateRepositoryMutation,
   useGetAllRepositoriesQuery,
   useGetRepositoryByIdQuery,
+  useNewVersionRepositoryMutation
 } from "./api/main.api"
 export {
   statApi,

@@ -49,7 +49,7 @@ export const RepositorySingleSection = () => {
         <div style={{ display: "flex", gap: "5px" }}>
           {username === repo.username && 
             <Link
-              to={`/components/${repo.username}/${repo.name}/version`}
+              to={`/repositories/${repo.username}/${repo.name}/version`}
             >
               <Button variant="secondary">Версионировать</Button>
             </Link>

@@ -7,6 +7,8 @@ import type {
   RepositoryCreateResultDto,
   RepositoryResultDto,
   RepoFiltersDto,
+  RepositoryNewVersionResultDto,
+  RepositoryNewVersionDto,
 } from "../dto/main.dto";
 
 const ENDPOINT = "repo/main";
@@ -106,6 +108,15 @@ export const repositoriesApi = baseApi.injectEndpoints({
             ]
           : [{ type: "Repositories", id: "LIST" }],
     }),
+    newVersionRepository: builder.mutation<RepositoryNewVersionResultDto, { repoId: string; dto: RepositoryNewVersionDto, }>({
+      query: ({ repoId, dto }) => ({
+        url: `${ENDPOINT}/${repoId}/version`,
+        method: "POST",
+        body: dto,
+        service: "repo",
+      }),
+      invalidatesTags: [{ type: "Repositories", id: "LIST" }],
+    }),
   }),
 });
 
@@ -113,4 +124,5 @@ export const {
   useGetAllRepositoriesQuery,
   useGetRepositoryByIdQuery,
   useCreateRepositoryMutation,
+  useNewVersionRepositoryMutation,
 } = repositoriesApi;

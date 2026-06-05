@@ -1,5 +1,5 @@
 import type { CursorResultDto, EntityDto, ResultDto } from "@shared/types/api";
-import type { BuildDto } from "./build.dto";
+import type { BuildRepoDto } from "./build.dto";
 
 export interface RepositoryDto extends EntityDto {
   username: string;
@@ -7,7 +7,7 @@ export interface RepositoryDto extends EntityDto {
   description: string;
   latestBuildId: string;
   latestBuildVersion: string;
-  builds: BuildDto[];
+  builds: BuildRepoDto[];
 }
 
 export interface RepositoryCreateDto {
@@ -23,10 +23,9 @@ export interface RepositoryUpdateDto {
 }
 
 export interface RepositoryCursorResultDto extends CursorResultDto<RepositoryDto> {}
-
 export interface RepositoryCreateResultDto extends ResultDto<RepositoryDto> {}
-
 export interface RepositoryResultDto extends ResultDto<RepositoryDto> {}
+export interface RepositoryNewVersionResultDto extends ResultDto<RepositoryDto> {}
 
 export class RepoFiltersDto {
   username?: string;
@@ -35,4 +34,8 @@ export class RepoFiltersDto {
   skip: number = 0;
   limit: number = 10;
   sort?: 'asc' | 'desc';
+}
+
+export interface RepositoryNewVersionDto {
+  componentBuildIds: string[];
 }
