@@ -11,7 +11,7 @@
 
 .AdminUserList__TableHead {
   display: grid;
-  grid-template-columns: 1.5fr 0.8fr 1.5fr 1fr 1.2fr 0.8fr;
+  grid-template-columns: 1fr 0.8fr 1.5fr 1fr 1.2fr 1.2fr;
   background: rgba(127, 119, 221, 0.07);
   border-bottom: 1px solid $border-color;
   padding: $value-3 $value-4;
@@ -28,7 +28,7 @@
 
 .AdminUserList__TableRow {
   display: grid;
-  grid-template-columns: 1.5fr 0.8fr 1.5fr 1fr 1.2fr 0.8fr;
+  grid-template-columns: 1fr 0.8fr 1.5fr 1fr 1.2fr 1.2fr;
   align-items: center;
   padding: $value-3 $value-4;
   gap: $value-3;
