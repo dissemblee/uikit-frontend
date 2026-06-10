@@ -26,6 +26,7 @@ export const repositoriesApi = baseApi.injectEndpoints({
         username,
         startDate,
         sort,
+        tags
       } = {}) => ({
         url: `${ENDPOINT}`,
         method: "GET",
@@ -36,6 +37,7 @@ export const repositoriesApi = baseApi.injectEndpoints({
           ...(username && { username }),
           ...(startDate && { startDate }),
           ...(sort && { sort }),
+          ...(tags?.length && { tags: tags.join(",") }),
         },
         service: "repo",
       }),

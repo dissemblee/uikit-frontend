@@ -36,6 +36,7 @@ export class RepoFiltersDto {
   skip: number = 0;
   limit: number = 10;
   sort?: 'asc' | 'desc';
+  tags?: string[];
 }
 
 export interface RepositoryNewVersionDto {
