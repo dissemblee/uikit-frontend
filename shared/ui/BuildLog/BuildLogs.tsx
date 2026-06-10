@@ -11,30 +11,15 @@ export const BuildLogs = ({build}: {build: BuildDto | BuildRepoDto}) => {
         </div>
         <pre className={styles.BuildLogs__Logs}>
           <code>
-            {build.logs
-              ?.split("\n")
-              .filter(Boolean)
-              .map((line, index) => {
-                const level =
-                  line.includes("[ERROR]") ? "error"
-                  : line.includes("[WARN]") ? "warn"
-                  : line.includes("[DEBUG]") ? "debug"
-                  : line.includes("[SUCCESS]") ? "success"
-                  : "info";
-
-                const className =
-                  level === "error" ? styles["BuildLogs__Logs--error"]
-                  : level === "warn" ? styles["BuildLogs__Logs--warn"]
-                  : level === "success" ? styles["BuildLogs__Logs--success"]
-                  : level === "debug" ? styles["BuildLogs__Logs--debug"]
-                  : "";
-
-                return (
-                  <div key={index} className={className}>
-                    {line}
-                  </div>
-                );
-              })}
+            {build.logs?.split("\n").filter(Boolean).map((line, index) => {
+              const level =
+                line.includes("[ERROR]") ? "error"
+                : line.includes("[WARN]") ? "warn"
+                : line.includes("[DEBUG]") ? "debug"
+                : line.includes("[SUCCESS]") ? "success"
+                : "info";
+              return <div key={index} className={styles[`BuildLogs__Logs--${level}`]}>{line}</div>;
+            })}
           </code>
         </pre>
       </div>

@@ -40,9 +40,26 @@ export const useAuth = () => {
   );
 
   const logout = useCallback(async () => {
-    await logoutMutation().unwrap();
+    try {
+      await logoutMutation().unwrap();
+    } catch {
+      
+    }
+
     tokenStore.clear();
   }, [logoutMutation]);
+
+  useEffect(() => {
+    const handleLogoutEvent = () => {
+      logout();
+    };
+
+    window.addEventListener("auth:logout", handleLogoutEvent);
+
+    return () => {
+      window.removeEventListener("auth:logout", handleLogoutEvent);
+    };
+  }, [logout]);
 
   return {
     user,

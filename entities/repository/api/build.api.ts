@@ -37,6 +37,12 @@ export const buildsApi = baseApi.injectEndpoints({
         const { skip: _s, startDate: _d, ...rest } = queryArgs;
         return `repo:${JSON.stringify(rest)}`;
       },
+      forceRefetch: ({ currentArg, previousArg }) => {
+        return (
+          currentArg?.skip !== previousArg?.skip ||
+          currentArg?.startDate !== previousArg?.startDate
+        );
+      },
       merge: (currentCache, newItems, { arg }) => {
         if (!arg.skip && !arg.startDate) {
           return newItems;
@@ -53,12 +59,6 @@ export const buildsApi = baseApi.injectEndpoints({
           ...(newItems.result ?? {}),
           data: mergedData,
         } as typeof newItems.result;
-      },
-      forceRefetch: ({ currentArg, previousArg }) => {
-        return (
-          currentArg?.skip !== previousArg?.skip ||
-          currentArg?.startDate !== previousArg?.startDate
-        );
       },
       providesTags: (result) => {
         const repository = result?.result?.data;
