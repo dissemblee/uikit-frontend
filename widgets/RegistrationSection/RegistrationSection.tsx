@@ -4,7 +4,7 @@ import { FormWrapSection } from "@shared/ui/FormWrapSection";
 export const RegistrationSection = () => {
   const tips = [
     "Придумайте надежный пароль" ,
-    "Введите ваш обычный логин",
+    "Введите ваш обычный логин, его нельзя будет изменить",
     "Незабудем про почту, это важно",
   ];
 

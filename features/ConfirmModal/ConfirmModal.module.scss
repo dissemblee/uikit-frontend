@@ -1,0 +1,68 @@
+@use '../../shared/styles/variables' as *;
+@use '../../shared/styles/mixins' as *;
+
+.ConfirmModal__Overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 20, 60, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.15s ease both;
+}
+
+.ConfirmModal {
+  @include baseCard;
+  @include flexColumn;
+  width: 100%;
+  max-width: 420px;
+  gap: $value-5;
+  animation: slideUp 0.2s ease both;
+}
+
+.ConfirmModal__Header {
+  @include divider;
+}
+
+.ConfirmModal__Title {
+  font-size: $value-4;
+  color: $title-color;
+  display: flex;
+  align-items: center;
+  gap: $value-2;
+  flex-wrap: wrap;
+}
+
+.ConfirmModal__Comment {
+  color: $subtitle-color;
+}
+
+.ConfirmModal__Body {
+  @include flexColumn;
+  gap: $value-3;
+}
+
+.ConfirmModal__Message {
+  font-size: $value-3_5;
+  color: $subtitle-color;
+  line-height: 1.5;
+}
+
+.ConfirmModal__Actions {
+  display: flex;
+  gap: $value-3;
+  justify-content: flex-end;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY($value-4); }
+  to   { opacity: 1; transform: translateY(0); }
+}

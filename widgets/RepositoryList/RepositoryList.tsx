@@ -6,7 +6,8 @@ import { ButtonCreate } from "@shared/ui/ButtonCreate";
 import { useState } from "react";
 import { useCursorPagination } from "@shared/hooks/useCursorPagination";
 import { LoadMoreButton } from "@shared/ui/LoadMoreButton";
-import { Input, Select } from "@shared/ui/Inputs";
+import { Input, Select, TagInput } from "@shared/ui/Inputs";
+import { RepoTag } from "@entities/repository/dto/main.dto";
 
 type SortType = "asc" | "desc";
 
@@ -14,6 +15,8 @@ export const RepositoryList = () => {
   const { username } = useParams();
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<SortType>("desc");
+  const [tags, setTags] = useState<RepoTag[]>([]);
+  const tagOptions = Object.values(RepoTag);
   const limit = 10;
 
   const { cursor, loadMore, isFirstPage } = useCursorPagination({
@@ -70,6 +73,13 @@ export const RepositoryList = () => {
             onChange={(e) => setSort(e.target.value as SortType)}
             options={descOptions}
             label="Сортировка по времени"
+          />
+          <TagInput
+            label="Теги"
+            options={tagOptions}
+            value={tags}
+            onChange={(next) => setTags(next as RepoTag[])}
+            placeholder="начните вводить..."
           />
         </div>
       }

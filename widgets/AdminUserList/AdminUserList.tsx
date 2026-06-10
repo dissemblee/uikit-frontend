@@ -5,23 +5,31 @@ import { BanUserModal } from "@features/BanUserModal";
 import { ListWrapSection } from "@shared/ui/ListWrapSection";
 import { Button } from "@shared/ui/Button";
 import { Input, Select } from "@shared/ui/Inputs";
+import { useCursorPagination } from "@shared/hooks/useCursorPagination";
+import { LoadMoreButton } from "@shared/ui/LoadMoreButton";
 import styles from "./AdminUserList.module.scss";
 import { useGetAllUsersQuery, useUnbanUserMutation } from "@entities/auth";
 import { formatDate } from "@shared/lib/time";
+import { ConfirmModal } from "@features/ConfirmModal";
 
 type SortType = "asc" | "desc";
 type BanFilter = "" | "banned" | "active";
 
 export const AdminUserList = () => {
-  const [currentSkip, setCurrentSkip] = useState(0);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<SortType>("desc");
   const [banFilter, setBanFilter] = useState<BanFilter>("");
   const limit = 10;
 
-  const { data, isLoading, isError, isFetching } = useGetAllUsersQuery({
-    skip: currentSkip,
+  const { cursor, loadMore, isFirstPage } = useCursorPagination({
     limit,
+    resetOn: [search, sort],
+  });
+
+  const { data, isLoading, isError, isFetching } = useGetAllUsersQuery({
+    skip: cursor.skip,
+    limit,
+    startDate: cursor.startDate,
     search: search || undefined,
     sort,
   });
@@ -30,24 +38,17 @@ export const AdminUserList = () => {
 
   const [banTarget, setBanTarget] = useState<string | null>(null);
   const [unbanTarget, setUnbanTarget] = useState<string | null>(null);
+  const [adminTarget, setAdminTarget] = useState<string | null>(null);
 
   const users = data?.result?.data || [];
   const itemsLeft = data?.result?.itemsLeft ?? 0;
-  const hasMore = itemsLeft > 0;
-
-  const loadMore = () => {
-    const nextSkip = data?.result?.skipWithCurrentTimestamp;
-    if (nextSkip) setCurrentSkip(nextSkip);
-  };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
-    setCurrentSkip(0);
   };
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSort(e.target.value as SortType);
-    setCurrentSkip(0);
   };
 
   const handleBanFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -78,11 +79,17 @@ export const AdminUserList = () => {
     }
   };
 
+  const handleMakeAdmin = () => {
+    // TODO: вызов мутации назначения админом
+    console.log("Назначен админом:", adminTarget);
+    setAdminTarget(null);
+  };
+
   return (
     <>
       <ListWrapSection
         title="управление пользователями"
-        isLoading={isLoading && currentSkip === 0}
+        isLoading={isLoading && isFirstPage}
         isError={isError}
         isEmpty={visibleUsers.length === 0 && !isLoading}
         emptyMessage="Пользователи не найдены"
@@ -117,12 +124,11 @@ export const AdminUserList = () => {
           <div className={styles.AdminUserList__TableHead}>
             <div className={styles.AdminUserList__Cell}>пользователь</div>
             <div className={styles.AdminUserList__Cell}>статус</div>
-            <div className={styles.AdminUserList__Cell}>причина бана</div>
-            <div className={styles.AdminUserList__Cell}>забанил</div>
-            <div className={styles.AdminUserList__Cell}>{users.map(user => user.isBanned ? "дата бана": "дата разбана")}</div>
+            <div className={styles.AdminUserList__Cell}>причина</div>
+            <div className={styles.AdminUserList__Cell}>кем</div>
+            <div className={styles.AdminUserList__Cell}>дата</div>
             <div className={styles.AdminUserList__Cell}>действия</div>
           </div>
-
           {visibleUsers.map((user: UserPublicDto) => (
             <div
               key={user.id}
@@ -153,49 +159,65 @@ export const AdminUserList = () => {
 
               <div className={styles.AdminUserList__Cell}>
                 <span className={styles.AdminUserList__Muted}>
-                  {user.bannedBy ?? "—"}
+                  {user.isBanned
+                    ? (user.bannedBy ?? "—")
+                    : (user.unbannedBy ?? "—")}
                 </span>
               </div>
 
               <div className={styles.AdminUserList__Cell}>
                 <span className={styles.AdminUserList__Muted}>
-                  {formatDate(user.bannedAt)}
+                  {user.isBanned
+                    ? (user.bannedAt ? formatDate(user.bannedAt) : "—")
+                    : (user.unbannedAt ? formatDate(user.unbannedAt) : "—")}
                 </span>
               </div>
 
               <div className={styles.AdminUserList__Cell}>
-                {user.isBanned ? (
-                  <Button
-                    variant="secondary"
-                    nonBlock
-                    onClick={() => handleUnban(user.id)}
-                    loading={isUnbanning && unbanTarget === user.id}
-                    loadingText="..."
-                    className={styles.AdminUserList__ActionBtn}
-                  >
-                    разбанить
-                  </Button>
-                ) : (
-                  <Button
-                    variant="cancel"
-                    nonBlock
-                    onClick={() => setBanTarget(user.id)}
-                    className={styles.AdminUserList__ActionBtn}
-                  >
-                    забанить
-                  </Button>
-                )}
+                <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+                  {user.isBanned ? (
+                    <Button
+                      variant="secondary"
+                      nonBlock
+                      onClick={() => handleUnban(user.id)}
+                      loading={isUnbanning && unbanTarget === user.id}
+                      loadingText="..."
+                      className={styles.AdminUserList__ActionBtn}
+                    >
+                      разбанить
+                    </Button>
+                  ) : (
+                    <>
+                      <Button
+                        variant="cancel"
+                        nonBlock
+                        onClick={() => setBanTarget(user.id)}
+                        className={styles.AdminUserList__ActionBtn}
+                      >
+                        забанить
+                      </Button>
+                      <Button
+                        variant="secondary"
+                        nonBlock
+                        onClick={() => setAdminTarget(user.id)}
+                        className={styles.AdminUserList__ActionBtn}
+                      >
+                        назначить админом
+                      </Button>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           ))}
         </div>
 
-        {hasMore && (
-          <div style={{ textAlign: "center", marginTop: "24px" }}>
-            <Button onClick={loadMore} disabled={isFetching} variant="secondary">
-              {isFetching ? "Загрузка..." : `Показать еще (осталось ${itemsLeft})`}
-            </Button>
-          </div>
+        {itemsLeft > 0 && (
+          <LoadMoreButton
+            itemsLeft={itemsLeft}
+            isFetching={isFetching}
+            onClick={() => loadMore(data?.result)}
+          />
         )}
       </ListWrapSection>
 
@@ -203,6 +225,15 @@ export const AdminUserList = () => {
         <BanUserModal
           userId={banTarget}
           onClose={() => setBanTarget(null)}
+        />
+      )}
+
+      {adminTarget && (
+        <ConfirmModal
+          title="Назначить админом"
+          message={`Вы уверены, что хотите назначить пользователя ${adminTarget} администратором?`}
+          onConfirm={handleMakeAdmin}
+          onClose={() => setAdminTarget(null)}
         />
       )}
     </>
