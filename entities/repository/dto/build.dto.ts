@@ -1,5 +1,4 @@
-import type { BuildStatus } from "@entities/build";
-import type { CursorResultDto, EntityDto, ResultDto } from "@shared/types/api";
+import type { BuildStatus, CursorResultDto, EntityDto, ResultDto } from "@shared/types/api";
 
 export interface ComponentBuildDto {
   componentId: string;

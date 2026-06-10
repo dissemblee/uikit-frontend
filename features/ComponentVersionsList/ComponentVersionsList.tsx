@@ -4,8 +4,8 @@ import { useGetAllBuildsQuery } from "@entities/component";
 import { useGetAllRepoBuildsQuery } from "@entities/repository";
 import { Button } from "@shared/ui/Button";
 import styles from "./ComponentVersionsList.module.scss";
-import { BuildStatus } from "@entities/build/build.dto";
 import { formatDate } from "@shared/lib/time";
+import { BuildStatus } from "@shared/types/api";
 
 interface BaseProps {
   currentBuildId?: string;

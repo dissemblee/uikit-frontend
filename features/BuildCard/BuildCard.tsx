@@ -1,11 +1,10 @@
-import moment from "moment";
 import styles from "./BuildCard.module.scss";
-import { BuildStatus } from "@entities/build";
 import type { BuildDto } from "@entities/component"
 import { BaseCard } from "@shared/ui/BaseCard";
 import { buildStatusConfig } from "@shared/ui/BuildStatusConfig";
 import { getDuration } from "@shared/lib/time";
 import type { BuildRepoDto } from "@entities/repository";
+import { BuildStatus } from "@shared/types/api";
 
 type BuildCardProps = {
   index?: number;

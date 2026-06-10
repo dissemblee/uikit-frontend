@@ -5,11 +5,11 @@ import styles from "./BuildSingleSection.module.scss";
 import { InfoRow } from "@shared/ui/InfoRow";
 import { buildStatusConfig } from "@shared/ui/BuildStatusConfig";
 import { getDuration } from "@shared/lib/time";
-import type { BuildStatus } from "@entities/build";
 import { useGetBuildByIdQuery, type BuildDto } from "@entities/component";
 import { useGetRepoBuildByIdQuery, type BuildRepoDto } from "@entities/repository";
 import { useUserInfo } from "@shared/hooks/useUserInfo";
 import { BuildLogs } from "@shared/ui/BuildLog";
+import type { BuildStatus } from "@shared/types/api";
 
 export const BuildSingleSection = () => {
   const { service, buildId } = useParams<{ service: string; buildId: string }>();

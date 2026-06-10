@@ -24,3 +24,10 @@ export interface CursorDto<T> {
 }
 
 export interface CursorResultDto<T> extends ResultDto<CursorDto<T>> {}
+
+export enum BuildStatus {
+  PENDING = 'pending',
+  RUNNING = 'running',
+  SUCCESS = 'success',
+  FAILED = 'failed',
+}

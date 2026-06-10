@@ -1,4 +1,4 @@
-import { BuildStatus } from "@entities/build";
+import { BuildStatus } from "@shared/types/api";
 import { FiCheckCircle, FiClock, FiLoader, FiXCircle } from "react-icons/fi";
 
 export const buildStatusConfig: Record<
