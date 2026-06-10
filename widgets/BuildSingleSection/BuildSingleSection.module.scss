@@ -1,10 +1,6 @@
 @use '../../shared/styles/variables' as *;
 @use '../../shared/styles/mixins' as *;
 
-.BuildSingleSection__InfoWrapper {
-  padding: $value-3 $value-6;
-}
-
 .BuildSingleSection__Status {
   display: inline-flex;
   align-items: center;
@@ -47,66 +43,4 @@
   background: rgba(220, 60, 60, 0.10);
   border: 1px solid rgba(220, 60, 60, 0.30);
   color: rgba(160, 30, 30, 0.85);
-}
-
-.BuildSingleSection__LogsCard {
-  border: 1px solid $border-color;
-  border-radius: $rounded-xl;
-  background: $accent-background;
-}
-
-.BuildSingleSection__LogsHeader {
-  padding: $value-3 $value-4;
-  border-bottom: 1px solid $border-color;
-
-  span {
-    font-size: $value-3;
-    font-weight: 700;
-    color: $title-color;
-    letter-spacing: 0.04em;
-  }
-}
-
-.BuildSingleSection__Logs {
-  padding: $value-4;
-  overflow-y: auto;
-  overflow-x: hidden;
-
-  font-size: 14px;
-  line-height: 1.7;
-
-  color: $subtitle-color;
-  white-space: pre-wrap;
-  word-break: break-word;
-
-  &::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.12);
-    border-radius: 999px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-}
-
-.BuildSingleSection__Logs--error {
-  color: #ff6b6b;
-}
-
-.BuildSingleSection__Logs--warn {
-  color: #e9b741;
-}
-
-.BuildSingleSection__Logs--success {
-  color: #80ed99;
-}
-
-.BuildSingleSection__Logs--debug {
-  color: #23bebe;
-  font-style: italic;
 }

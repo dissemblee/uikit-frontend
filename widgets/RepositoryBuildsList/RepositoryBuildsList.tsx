@@ -55,9 +55,8 @@ export const RepositoryBuildsList = () => {
             placeholder="Поиск по имени репозитория..."
             value={search}
             onChange={(e) => {
-  console.log('search changed:', e.target.value);
-  setSearch(e.target.value);
-}}
+              setSearch(e.target.value);
+            }}
             label="Поиск"
           />
           <Select

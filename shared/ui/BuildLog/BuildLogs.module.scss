@@ -1,0 +1,68 @@
+@use '../../../shared/styles/variables' as *;
+@use '../../../shared/styles/mixins' as *;
+
+.BuildLogs__LogsWrapper {
+  padding: $value-3 $value-6;
+}
+
+.BuildLogs__LogsCard {
+  border: 1px solid $border-color;
+  border-radius: $rounded-xl;
+  background: $accent-background;
+}
+
+.BuildLogs__LogsHeader {
+  padding: $value-3 $value-4;
+  border-bottom: 1px solid $border-color;
+
+  span {
+    font-size: $value-3;
+    font-weight: 700;
+    color: $title-color;
+    letter-spacing: 0.04em;
+  }
+}
+
+.BuildLogs__Logs {
+  padding: $value-4;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  font-size: 14px;
+  line-height: 1.7;
+
+  color: $subtitle-color;
+  white-space: pre-wrap;
+  word-break: break-word;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+.BuildLogs__Logs--error {
+  color: #ff6b6b;
+}
+
+.BuildLogs__Logs--warn {
+  color: #e9b741;
+}
+
+.BuildLogs__Logs--success {
+  color: #80ed99;
+}
+
+.BuildLogs__Logs--debug {
+  color: #23bebe;
+  font-style: italic;
+}

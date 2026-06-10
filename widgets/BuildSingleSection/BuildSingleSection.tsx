@@ -6,9 +6,10 @@ import { InfoRow } from "@shared/ui/InfoRow";
 import { buildStatusConfig } from "@shared/ui/BuildStatusConfig";
 import { getDuration } from "@shared/lib/time";
 import type { BuildStatus } from "@entities/build";
-import { useGetBuildByIdQuery } from "@entities/component";
-import { useGetRepoBuildByIdQuery } from "@entities/repository";
+import { useGetBuildByIdQuery, type BuildDto } from "@entities/component";
+import { useGetRepoBuildByIdQuery, type BuildRepoDto } from "@entities/repository";
 import { useUserInfo } from "@shared/hooks/useUserInfo";
+import { BuildLogs } from "@shared/ui/BuildLog";
 
 export const BuildSingleSection = () => {
   const { service, buildId } = useParams<{ service: string; buildId: string }>();
@@ -30,7 +31,7 @@ export const BuildSingleSection = () => {
   );
 
   const isLoading = componentLoading || repoLoading;
-  const build = componentData?.result ?? repoData?.result;
+  const build = (componentData?.result ?? repoData?.result) as BuildDto | BuildRepoDto;
 
   if (isLoading) return <SingleWrapSection state="loading" />;
   if (!build) return <SingleWrapSection state="not_found" />;
@@ -76,41 +77,7 @@ export const BuildSingleSection = () => {
         />
       </Link>
 
-      <div className={styles.BuildSingleSection__InfoWrapper}>
-        <div className={styles.BuildSingleSection__LogsCard}>
-          <div className={styles.BuildSingleSection__LogsHeader}>
-            <span>build.log</span>
-          </div>
-          <pre className={styles.BuildSingleSection__Logs}>
-            <code>
-              {build.logs
-                ?.split("\n")
-                .filter(Boolean)
-                .map((line, index) => {
-                  const level =
-                    line.includes("[ERROR]") ? "error"
-                    : line.includes("[WARN]") ? "warn"
-                    : line.includes("[DEBUG]") ? "debug"
-                    : line.includes("[SUCCESS]") ? "success"
-                    : "info";
-
-                  const className =
-                    level === "error" ? styles["BuildSingleSection__Logs--error"]
-                    : level === "warn" ? styles["BuildSingleSection__Logs--warn"]
-                    : level === "success" ? styles["BuildSingleSection__Logs--success"]
-                    : level === "debug" ? styles["BuildSingleSection__Logs--debug"]
-                    : "";
-
-                  return (
-                    <div key={index} className={className}>
-                      {line}
-                    </div>
-                  );
-                })}
-            </code>
-          </pre>
-        </div>
-      </div>
+      <BuildLogs build={build} />
     </SingleWrapSection>
   );
 };
