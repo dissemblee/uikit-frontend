@@ -8,7 +8,7 @@ import { getDuration } from "@shared/lib/time";
 import { useGetBuildByIdQuery, type BuildDto } from "@entities/component";
 import { useGetRepoBuildByIdQuery, type BuildRepoDto } from "@entities/repository";
 import { useUserInfo } from "@shared/hooks/useUserInfo";
-import { BuildLogs } from "@shared/ui/BuildLog";
+import { BuildLogs } from "@shared/ui/BuildLogs";
 import type { BuildStatus } from "@shared/types/api";
 
 export const BuildSingleSection = () => {

@@ -5,7 +5,7 @@ import { useAuthContext } from "@app/provider/AuthProvider"
 export const AdminRoute = () => {
   const { isAuthenticated } = useAuthContext()
   const { role } = useUserInfo()
-  console.log(role)
+
   if (!isAuthenticated) return <Navigate to="/login" replace />
   if (role !== "ADMIN") return <Navigate to="/" replace />
 

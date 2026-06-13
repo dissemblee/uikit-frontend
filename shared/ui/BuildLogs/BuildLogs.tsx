@@ -1,5 +1,5 @@
 import type { BuildDto } from "@entities/component";
-import styles from "./BuildLog.module.scss";
+import styles from "./BuildLogs.module.scss";
 import type { BuildRepoDto } from "@entities/repository";
 
 export const BuildLogs = ({build}: {build: BuildDto | BuildRepoDto}) => {
