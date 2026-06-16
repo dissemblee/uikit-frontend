@@ -8,7 +8,7 @@ import type {
 } from "react"
 import { useState, useRef, useEffect } from "react"
 import styles from './Inputs.module.scss'
-import { FiUpload, FiX, FiCheck, FiArchive } from "react-icons/fi"
+import { FiUpload, FiX, FiCheck, FiArchive, FiPlus, FiSearch } from "react-icons/fi"
 
 interface BaseInputProps {
   label: string
@@ -527,6 +527,146 @@ export const TagInput = ({
             >
               {opt.replace(/_/g, " ")}
             </button>
+          ))}
+        </div>
+      )}
+
+      {error && <div className={styles.Input__Error}>{error}</div>}
+    </div>
+  )
+}
+
+export interface SearchSelectItem {
+  key: string
+  label: string
+  meta?: string
+}
+
+interface SearchSelectProps {
+  label: string
+  error?: string
+  placeholder?: string
+  items: SearchSelectItem[]
+  selected: SearchSelectItem[]
+  onSelect: (item: SearchSelectItem) => void
+  onRemove: (item: SearchSelectItem) => void
+  isLoading?: boolean
+  emptyText?: string
+  icon?: ReactElement
+}
+
+export const SearchSelect = ({
+  label,
+  error,
+  placeholder = "Поиск...",
+  items,
+  selected,
+  onSelect,
+  onRemove,
+  isLoading = false,
+  emptyText = "Ничего не найдено",
+  icon,
+}: SearchSelectProps) => {
+  const [query, setQuery] = useState("")
+  const [isOpen, setIsOpen] = useState(false)
+  const wrapperRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handler)
+    return () => document.removeEventListener("mousedown", handler)
+  }, [])
+
+  const normalizedQuery = query.trim().toLowerCase()
+
+  const filtered = items.filter((item) => {
+    if (selected.some((s) => s.key === item.key)) return false
+    if (!normalizedQuery) return false
+    return (
+      item.label.toLowerCase().includes(normalizedQuery) ||
+      (item.meta?.toLowerCase().includes(normalizedQuery) ?? false)
+    )
+  })
+
+  const inputClasses = [
+    styles.SearchSelect__Input,
+    error && styles["SearchSelect__Input--error"],
+  ]
+    .filter(Boolean)
+    .join(" ")
+
+  return (
+    <div className={styles.Input} ref={wrapperRef}>
+      <label className={styles.Input__Label}>// {label}</label>
+
+      <div className={styles.SearchSelect__InputWrapper}>
+        <FiSearch className={styles.SearchSelect__SearchIcon} />
+        <input
+          type="text"
+          className={inputClasses}
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value)
+            setIsOpen(true)
+          }}
+          onFocus={() => setIsOpen(true)}
+          placeholder={placeholder}
+        />
+      </div>
+
+      {isOpen && normalizedQuery && (
+        <div className={styles.SearchSelect__Dropdown}>
+          {isLoading ? (
+            <div className={styles.SearchSelect__Status}>Загрузка...</div>
+          ) : filtered.length === 0 ? (
+            <div className={styles.SearchSelect__Status}>{emptyText}</div>
+          ) : (
+            filtered.map((item) => (
+              <button
+                key={item.key}
+                type="button"
+                className={styles.SearchSelect__Option}
+                onClick={() => {
+                  onSelect(item)
+                  setQuery("")
+                  setIsOpen(false)
+                }}
+              >
+                <div className={styles.SearchSelect__OptionInfo}>
+                  <span className={styles.SearchSelect__OptionName}>
+                    {item.label}
+                  </span>
+                  {item.meta && (
+                    <span className={styles.SearchSelect__OptionMeta}>
+                      {item.meta}
+                    </span>
+                  )}
+                </div>
+                <FiPlus className={styles.SearchSelect__AddIcon} />
+              </button>
+            ))
+          )}
+        </div>
+      )}
+
+      {selected.length > 0 && (
+        <div className={styles.SearchSelect__Selected}>
+          {selected.map((item) => (
+            <span key={item.key} className={styles.SearchSelect__Chip}>
+              {item.label}
+              <button
+                type="button"
+                className={styles.SearchSelect__ChipRemove}
+                onClick={() => onRemove(item)}
+                aria-label={`удалить ${item.label}`}
+              >
+                <FiX size={12} />
+              </button>
+            </span>
           ))}
         </div>
       )}

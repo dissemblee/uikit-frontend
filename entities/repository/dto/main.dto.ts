@@ -25,9 +25,9 @@ export interface RepositoryUpdateDto {
 }
 
 export interface RepositoryCursorResultDto extends CursorResultDto<RepositoryDto> {}
-export interface RepositoryCreateResultDto extends ResultDto<RepositoryDto> {}
+export interface RepositoryCreateResultDto extends ResultDto<RepositoryDto & { build?: BuildRepoDto }> {}
 export interface RepositoryResultDto extends ResultDto<RepositoryDto> {}
-export interface RepositoryNewVersionResultDto extends ResultDto<RepositoryDto> {}
+export interface RepositoryNewVersionResultDto extends ResultDto<RepositoryDto & { build?: BuildRepoDto }> {}
 
 export class RepoFiltersDto {
   username?: string;

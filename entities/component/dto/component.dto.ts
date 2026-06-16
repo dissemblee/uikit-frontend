@@ -1,4 +1,5 @@
 import type { EntityDto, CursorResultDto, ResultDto } from "@shared/types/api";
+import type { BuildDto } from "./builds.dto";
 
 export interface ComponentDto extends EntityDto {
   name: string;
@@ -14,9 +15,7 @@ export interface ComponentCreateDto {
   name: string;
   description: string;
   framework: 'react' | 'vanilla';
-  fileExtension: 'ts' | 'tsx' | 'js' | 'jsx';
   file: File;
-  css?: Record<string, any>;
   dependencies?: Record<string, string>;
 }
 
@@ -25,8 +24,8 @@ export interface ComponentNewVersionDto {
 }
 
 export interface ComponentCursorResultDto extends CursorResultDto<ComponentDto> {}
-export interface ComponentCreateResultDto extends ResultDto<ComponentDto> {}
-export interface ComponentNewVersionResultDto extends ResultDto<ComponentDto> {}
+export interface ComponentCreateResultDto extends ResultDto<ComponentDto & { build?: BuildDto }> {}
+export interface ComponentNewVersionResultDto extends ResultDto<ComponentDto & { build?: BuildDto }> {}
 export interface ComponentResultDto extends ResultDto<ComponentDto> {}
 
 export enum Framework {

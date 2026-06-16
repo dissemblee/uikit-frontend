@@ -32,11 +32,12 @@ export const VersionComponentForm = () => {
       formData.append("dependencies", JSON.stringify({ axios: "^1.13.6" }))
 
       const result = await newVersion({formData, name: name!, username: username!})
+
       if ("error" in result) {
         throw result.error
       }
 
-      navigate(`/components/${username}/${name}`)
+      navigate(`/builds/components/${result.data.result?.build?.id}`)
     },
   })
 

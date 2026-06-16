@@ -36,5 +36,5 @@ export type {
   BuildRepoDto,
   BuildFiltersDto,
   BuildResultDto,
-  ComponentBuildDto
+  ComponentsBuildDto
 } from "./dto/build.dto"

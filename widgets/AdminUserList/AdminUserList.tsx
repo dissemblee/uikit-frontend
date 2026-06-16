@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import { type UserPublicDto } from "@entities/auth";
+import { useAssignAdminMutation, type UserPublicDto } from "@entities/auth";
 import { BanUserModal } from "@features/BanUserModal";
 import { ListWrapSection } from "@shared/ui/ListWrapSection";
 import { Button } from "@shared/ui/Button";
@@ -35,6 +35,8 @@ export const AdminUserList = () => {
   });
 
   const [unbanUser, { isLoading: isUnbanning }] = useUnbanUserMutation();
+
+  const [assignAdmin, {isLoading: isAssignAdminLoading}] = useAssignAdminMutation();
 
   const [banTarget, setBanTarget] = useState<string | null>(null);
   const [unbanTarget, setUnbanTarget] = useState<string | null>(null);
@@ -80,8 +82,7 @@ export const AdminUserList = () => {
   };
 
   const handleMakeAdmin = () => {
-    // TODO: вызов мутации назначения админом
-    console.log("Назначен админом:", adminTarget);
+    assignAdmin({userId: adminTarget!})
     setAdminTarget(null);
   };
 

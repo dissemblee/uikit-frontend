@@ -3,10 +3,12 @@ import { AccountCheck } from "@shared/ui/AccountCheck";
 import { Button } from "@shared/ui/Button"
 import { FormError } from "@shared/ui/FormError";
 import { Input } from "@shared/ui/Inputs/Inputs"
+import { useNavigate } from "react-router";
 import { useAuthContext } from "~/provider/AuthProvider";
 
 export const RegistrationForm = () => {
   const { register, loading } = useAuthContext()
+  const navigate = useNavigate()
 
   const form = useForm({
     initialValues: {
@@ -26,7 +28,13 @@ export const RegistrationForm = () => {
     },
 
     async onSubmit(values) {
-      register(values)
+      const result = register(values)
+
+      if ("error" in result) {
+        throw result.error
+      }
+
+      navigate("/login")
     }
   })
 

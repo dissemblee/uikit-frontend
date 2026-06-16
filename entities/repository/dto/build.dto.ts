@@ -1,6 +1,6 @@
 import type { BuildStatus, CursorResultDto, EntityDto, ResultDto } from "@shared/types/api";
 
-export interface ComponentBuildDto {
+export interface ComponentsBuildDto {
   componentId: string;
   name: string;
   username: string;
@@ -15,7 +15,7 @@ export interface BuildRepoDto extends EntityDto {
   startedAt: string;
   finishedAt: string;
   repoId: string;
-  componentBuilds?: ComponentBuildDto[];
+  componentBuilds?: ComponentsBuildDto[];
   name: string;
 }
 

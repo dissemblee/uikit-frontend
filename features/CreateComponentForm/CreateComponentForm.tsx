@@ -50,7 +50,7 @@ export const CreateComponentForm = () => {
         throw result.error
       }
 
-      navigate(`/components`)
+      navigate(`/builds/components/${result.data.result?.build?.id}`)
     },
   })
 

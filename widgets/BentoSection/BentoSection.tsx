@@ -100,7 +100,8 @@ export const BentoSection = () => {
           }
           domain={"мои компоненты"}
           title={"управление опубликованным"}
-          description={"Редактируйте, обновляйте версии и отслеживайте статистику загрузок ваших опубликованных компонентов. Смотрите, как сообщество использует ваши работы."}          linkText={"open repositories"}
+          description={"Редактируйте, обновляйте версии и отслеживайте статистику загрузок ваших опубликованных компонентов. Смотрите, как сообщество использует ваши работы."}
+          linkText={"открыть репозитории"}
           linkTo={"/repositories"}
         />
       </div>
@@ -110,33 +111,12 @@ export const BentoSection = () => {
           icon={
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L11.5 7H16L12.5 10.5L14 15.5L9 12.5L4 15.5L5.5 10.5L2 7H6.5L9 2Z" stroke="#BA7517" strokeWidth="1.2" strokeLinejoin="round"></path></svg>
           }
-          domain={"популярное"}
-          title={"самые скачиваемые за неделю"}
-          linkText={"смотреть всё"}
+          domain={"версионирование"}
+          title={"развивайте проекты"}
           linkTo={"/components"}
           backgroundIconColor="#FAEEDA"
-          extra={
-            <div className={styles.BentoSection__TagContainer} style={{flexDirection: "column" }}>
-              <div className={`${styles.BentoSection__Tag} ${styles.BentoSection__BuildRow}`}>
-                <span className={styles.BentoSection__Title}>
-                  <div className={`${styles.BentoSection__BuildDot} ${styles[`BentoSection__BuildDot--gray`]}`} />
-                  CommandMenu
-                </span>
-              </div>
-              <div className={`${styles.BentoSection__Tag} ${styles.BentoSection__BuildRow}`}>
-                <span className={styles.BentoSection__Title}>
-                  <div className={`${styles.BentoSection__BuildDot} ${styles[`BentoSection__BuildDot--gray`]}`} />
-                  Modal
-                </span>
-              </div>
-              <div className={`${styles.BentoSection__Tag} ${styles.BentoSection__BuildRow}`}>
-                <span className={styles.BentoSection__Title}>
-                  <div className={`${styles.BentoSection__BuildDot} ${styles[`BentoSection__BuildDot--gray`]}`} />
-                  Form
-                </span>
-              </div>
-            </div>
-          }
+          description={"Редактируйте, обновляйте версии и отслеживайте статистику загрузок ваших опубликованных компонентов. Смотрите, как сообщество использует ваши работы."}
+          linkText={"открыть компоненты"}
         />
       </div>
 
@@ -147,7 +127,7 @@ export const BentoSection = () => {
           }
           domain={"документация"}
           title={"документация по платформе"}
-          description={"Узнайте, как публиковать, собирать и устанавливать компоненты. Изучите справочник API для интеграции с CI/CD."}          linkText={"read the docs"}
+          description={"Узнайте, как публиковать, собирать и устанавливать компоненты. Изучите справочник API для интеграции с CI/CD."} linkText={"read the docs"}
           linkTo={"/docs"}
         />
       </div>

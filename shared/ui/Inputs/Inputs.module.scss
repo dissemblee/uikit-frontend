@@ -36,7 +36,6 @@ $input-transition:   all 0.18s ease;
   width: 100%;
   padding: $value-2 $value-3;
   font-size: $value-3_5;
-  font-family: 'Geist Mono', monospace;
   color: $title-color;
   background: $input-bg;
   border: 0.5px solid $input-border;
@@ -48,7 +47,6 @@ $input-transition:   all 0.18s ease;
 
   &::placeholder {
     color: #a0a0b0;
-    font-family: 'Geist Mono', monospace;
   }
 
   &:hover {
@@ -120,7 +118,6 @@ $input-transition:   all 0.18s ease;
   gap: $value-1;
   margin-top: $value-1_5;
   font-size: $value-3;
-  font-family: 'Geist Mono', monospace;
   color: $input-border-error;
 
   &::before {
@@ -149,7 +146,6 @@ $input-transition:   all 0.18s ease;
   gap: $value-2_5;
   cursor: pointer;
   font-size: $value-3_5;
-  font-family: 'Geist Mono', monospace;
   color: $title-color;
   transition: $input-transition;
   user-select: none;
@@ -254,7 +250,6 @@ $input-transition:   all 0.18s ease;
 
 .FileInput__Title {
   font-size: $value-3_5;
-  font-family: 'Geist Mono', monospace;
   font-weight: 500;
   color: $title-color;
   margin-bottom: $value-1_5;
@@ -262,7 +257,6 @@ $input-transition:   all 0.18s ease;
 
 .FileInput__Hint {
   font-size: $value-3;
-  font-family: 'Geist Mono', monospace;
   color: #a0a0b0;
   margin: 2px 0;
 
@@ -293,7 +287,6 @@ $input-transition:   all 0.18s ease;
 
 .FileInput__FileName {
   font-size: $value-3_5;
-  font-family: 'Geist Mono', monospace;
   font-weight: 500;
   color: $title-color;
   white-space: nowrap;
@@ -303,7 +296,6 @@ $input-transition:   all 0.18s ease;
 
 .FileInput__FileSize {
   font-size: $value-3;
-  font-family: 'Geist Mono', monospace;
   color: #7a7a8a;
   margin-top: 2px;
 }
@@ -374,7 +366,6 @@ $input-transition:   all 0.18s ease;
   gap: $value-2;
   padding: $value-1_5 $value-3;
   font-size: $value-3;
-  font-family: 'Geist Mono', monospace;
   color: $title-color;
   background: #ffffff;
   border: 0.5px solid $input-border;
@@ -476,7 +467,6 @@ $input-transition:   all 0.18s ease;
   border: 0.5px solid $accent;
   border-radius: $rounded-md;
   font-size: $value-3;
-  font-family: 'Geist Mono', monospace;
   color: $accent;
 }
 
@@ -507,7 +497,6 @@ $input-transition:   all 0.18s ease;
   border: none;
   outline: none;
   font-size: $value-3_5;
-  font-family: 'Geist Mono', monospace;
   color: $title-color;
 
   &::placeholder {
@@ -539,12 +528,200 @@ $input-transition:   all 0.18s ease;
   text-align: left;
   cursor: pointer;
   font-size: $value-3_5;
-  font-family: 'Geist Mono', monospace;
   color: $title-color;
   transition: background 0.12s ease;
 
   &:hover {
     background: $input-bg-hover;
     color: $accent;
+  }
+}
+
+.SearchSelect__InputWrapper {
+  position: relative;
+}
+
+.SearchSelect__SearchIcon {
+  position: absolute;
+  left: $value-3;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #a0a0b0;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  transition: color 0.18s ease;
+}
+
+.SearchSelect__InputWrapper:focus-within .SearchSelect__SearchIcon {
+  color: $accent;
+}
+
+.SearchSelect__Input {
+  width: 100%;
+  height: $value-10;
+  padding: $value-2 $value-3 $value-2 $value-9;
+  font-size: $value-3_5;
+  color: $title-color;
+  background: $input-bg;
+  border: 0.5px solid $input-border;
+  border-radius: $input-radius;
+  outline: none;
+  transition: $input-transition;
+  appearance: none;
+
+  &::placeholder {
+    color: #a0a0b0;
+  }
+
+  &:hover {
+    border-color: $input-border-hover;
+    background: $input-bg-hover;
+  }
+
+  &:focus {
+    background: $input-bg-focus;
+    border-color: $accent;
+    @include boxShadow;
+
+    &::placeholder {
+      opacity: 0;
+    }
+  }
+}
+
+.SearchSelect__Input--error {
+  border-color: $input-border-error;
+  background: rgba(226, 75, 74, 0.04);
+
+  &:hover {
+    border-color: $input-border-error;
+    background: rgba(226, 75, 74, 0.07);
+  }
+
+  &:focus {
+    border-color: $input-border-error;
+    box-shadow: 0 0 0 3px rgba(226, 75, 74, 0.10);
+  }
+}
+
+.SearchSelect__Dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: $value-1;
+  max-height: 260px;
+  overflow-y: auto;
+  background: #ffffff;
+  border: 0.5px solid $input-border;
+  border-radius: $input-radius;
+  box-shadow: 0 8px 24px rgba(127, 119, 221, 0.12);
+  z-index: 10;
+}
+
+.SearchSelect__Option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: $value-2_5 $value-3;
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.12s ease;
+
+  &:hover {
+    background: $input-bg-hover;
+  }
+
+  & + & {
+    border-top: 0.5px solid rgba($input-border, 0.5);
+  }
+}
+
+.SearchSelect__OptionInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.SearchSelect__OptionName {
+  font-size: $value-3_5;
+  font-weight: 500;
+  color: $title-color;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.SearchSelect__OptionMeta {
+  font-size: $value-3;
+  color: #a0a0b0;
+}
+
+.SearchSelect__AddIcon {
+  color: $accent;
+  opacity: 0;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  transition: opacity 0.15s ease;
+}
+
+.SearchSelect__Option:hover .SearchSelect__AddIcon {
+  opacity: 1;
+}
+
+.SearchSelect__Status {
+  padding: $value-5 $value-3;
+  text-align: center;
+  font-size: $value-3;
+  color: #a0a0b0;
+}
+
+.SearchSelect__Selected {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $value-1_5;
+  margin-top: $value-2;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.SearchSelect__Chip {
+  display: inline-flex;
+  align-items: center;
+  gap: $value-1;
+  padding: 2px $value-2;
+  background: #EEEDFE;
+  border: 0.5px solid $accent;
+  border-radius: $rounded-md;
+  font-size: $value-3;
+  color: $accent;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.SearchSelect__ChipRemove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: $accent;
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
+
+  &:hover {
+    opacity: 1;
   }
 }

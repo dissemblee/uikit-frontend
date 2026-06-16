@@ -146,6 +146,22 @@ export const authApi = baseApi.injectEndpoints({
       ],
     }),
 
+    assignAdmin: builder.mutation<
+      ResultDto<unknown>,
+      { userId: string }
+    >({
+      query: ({ userId }) => ({
+        url: `${ENDPOINT}/assign-admin/${userId}`,
+        method: "POST",
+        service: "auth"
+      }),
+
+      invalidatesTags: (_result, _error, { userId }) => [
+        { type: "Users", id: userId },
+        { type: "Users", id: "LIST" },
+      ],
+    }),
+
     getBanInfo: builder.query<UserBanInfoResultDto, string>({
       query: (userId) => ({
         url: `${ENDPOINT}/ban-info/${userId}`,
@@ -170,6 +186,7 @@ export const {
   useChangePasswordMutation,
   useBanUserMutation,
   useUnbanUserMutation,
+  useAssignAdminMutation,
   useGetBanInfoQuery,
 } = authApi;
 

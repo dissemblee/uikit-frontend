@@ -102,9 +102,9 @@ export const useForm = <T extends Record<string, any>>(options: UseFormOptions<T
   )
 
   const field = useCallback(
-    (name: keyof T) => ({
+    <K extends keyof T>(name: K) => ({
       name,
-      value: values[name],
+      value: values[name] as T[K],
       onChange: handleChange,
       onBlur: handleBlur,
       error: errors[name],

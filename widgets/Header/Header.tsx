@@ -23,7 +23,7 @@ export const Header = () => {
     }
     return `~${path}`;
   };
-  
+
   const { displayName, role } = useUserInfo();
   const isAdmin = role === "ADMIN";
   const isAuth = !!tokenStore.get();
