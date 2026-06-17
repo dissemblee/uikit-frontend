@@ -29,10 +29,33 @@ export const authApi = baseApi.injectEndpoints({
           ...(sort && { sort }),
           ...(startDate && { startDate }),
         },
-        service: "auth"
+        service: "auth",
       }),
       serializeQueryArgs: ({ queryArgs }) => {
-        return JSON.stringify(queryArgs);
+        const { skip: _s, startDate: _d, ...rest } = queryArgs;
+        return JSON.stringify(rest);
+      },
+      merge: (currentCache, newItems, { arg }) => {
+        if (!arg.skip && !arg.startDate) {
+          return newItems;
+        }
+        const currentData = currentCache.result?.data ?? [];
+        const newData = newItems.result?.data ?? [];
+        const existingIds = new Set(currentData.map((u) => u.id));
+        const mergedData = [
+          ...currentData,
+          ...newData.filter((u) => !existingIds.has(u.id)),
+        ];
+        currentCache.result = {
+          ...(newItems.result ?? {}),
+          data: mergedData,
+        } as typeof newItems.result;
+      },
+      forceRefetch: ({ currentArg, previousArg }) => {
+        return (
+          currentArg?.skip !== previousArg?.skip ||
+          currentArg?.startDate !== previousArg?.startDate
+        );
       },
       providesTags: (result) => {
         const users = result?.result?.data;
@@ -43,7 +66,6 @@ export const authApi = baseApi.injectEndpoints({
         ];
       },
     }),
-
     register: builder.mutation<SignUpResultDto, SignUpDto>({
       query: (data) => ({
         url: `${ENDPOINT}/sign-up`,
