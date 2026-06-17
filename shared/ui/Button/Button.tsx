@@ -1,11 +1,11 @@
-import React, { type ButtonHTMLAttributes } from 'react';
+import { type ButtonHTMLAttributes, type ReactNode } from 'react';
 import styles from './Button.module.scss';
 
 type ButtonVariant = 'primary' | 'secondary' | 'cancel' | 'danger';
 type ButtonSize    = 'sm' | 'md' | 'lg';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
+  children: ReactNode;
   onClick?: () => void;
   variant?: ButtonVariant;
   size?: ButtonSize;

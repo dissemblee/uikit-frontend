@@ -13,9 +13,6 @@ import { ReduxProviders } from "./provider/ReduxProvider";
 import { CookiesProvider } from "react-cookie"
 import { Header } from "@widgets/Header";
 import { GlassFilters } from "@shared/ui/GlassFilters";
-import "../shared/mockServer/entites";
-import { initDb } from "@shared/mockServer/mockDb";
-import { useEffect } from "react";
 import { AuthProvider } from "./provider/AuthProvider";
 import { initAuthInterceptor } from "@entities/auth";
 
@@ -33,10 +30,6 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  useEffect(() => {
-    initDb();
-  }, []);
-
   initAuthInterceptor();
   return (
     <html lang="en">

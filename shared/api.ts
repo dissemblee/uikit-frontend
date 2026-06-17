@@ -1,4 +1,4 @@
-import axios, { AxiosError, type AxiosInstance, type AxiosResponse } from "axios";
+import axios, { AxiosError, type AxiosInstance } from "axios";
 import { createApi, type BaseQueryFn } from "@reduxjs/toolkit/query/react";
 import { tokenStore } from "./tokenStore";
 

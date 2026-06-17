@@ -15,7 +15,6 @@ export const Header = () => {
       "/components": "компоненты",
       "/repositories": "репозитории",
       "/builds": "сборки",
-      "/docs": "документация"
     };
     
     if (ruPaths[path]) {
@@ -32,7 +31,6 @@ export const Header = () => {
     { path: "/components", label: "компоненты", command: "cd компоненты" },
     { path: "/repositories", label: "репозитории", command: "ls репозитории" },
     { path: "/builds", label: "сборки", command: "cat сборки" },
-    { path: "/docs", label: "документация", command: "man документация" },
       ...(isAuth && isAdmin
     ? [
         {

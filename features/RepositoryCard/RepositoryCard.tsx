@@ -1,5 +1,5 @@
 import type { RepositoryDto } from "@entities/repository";
-import { FiBox, FiLock, FiUnlock } from "react-icons/fi";
+import { FiBox } from "react-icons/fi";
 import styles from "./RepositoryCard.module.scss";
 import { BaseCard } from "@shared/ui/BaseCard";
 

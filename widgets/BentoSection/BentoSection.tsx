@@ -120,18 +120,6 @@ export const BentoSection = () => {
         />
       </div>
 
-      <div className={styles.BentoSection__7}>
-        <BentoCard 
-          icon={
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 4h10M4 8h7M4 12h5" stroke="#7F77DD" strokeWidth="1.3" strokeLinecap="round"></path></svg>
-          }
-          domain={"документация"}
-          title={"документация по платформе"}
-          description={"Узнайте, как публиковать, собирать и устанавливать компоненты. Изучите справочник API для интеграции с CI/CD."} linkText={"read the docs"}
-          linkTo={"/docs"}
-        />
-      </div>
-
       <div className={styles.BentoSection__8}>
         <BentoCard 
           icon={
