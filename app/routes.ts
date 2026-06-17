@@ -13,6 +13,8 @@ export default [
     route(":username", "routes/repositoryListRoute.tsx", {
       id: "repository-user-list",
     }),
+
+    route("/:username/:name", "routes/repositorySingleRoute.tsx"),
   ]),
   ...prefix("components", [
     index("routes/componentListRoute.tsx", {
@@ -22,24 +24,25 @@ export default [
     route(":username", "routes/componentListRoute.tsx", {
       id: "component-user-list",
     }),
+
+    route("/:username/:name", "routes/componentSingleRoute.tsx"),
   ]),
+
+  route("profile/:username", "routes/profileRoute.tsx"),
 
   layout("provider/ProtectedRoute.tsx", [
     ...prefix("repositories", [
       route("create", "routes/repositoryCreateRoute.tsx"),
       route("/:username/:name/version", "routes/repositoryVersionRoute.tsx"),
-      route("/:username/:name", "routes/repositorySingleRoute.tsx"),
     ]),
     ...prefix("components", [
       route("create", "routes/componentCreateRoute.tsx"),
       route("/:username/:name/version", "routes/componentVersionRoute.tsx"),
-      route("/:username/:name", "routes/componentSingleRoute.tsx"),
     ]),
     ...prefix("builds", [
       route("/", "routes/buildListRoute.tsx"),
       route("/:service/:buildId", "routes/buildSingleRoute.tsx"),
     ]),
-    route("profile/:username", "routes/profileRoute.tsx"),
   ]),
 
   layout("provider/AdminRoute.tsx", [

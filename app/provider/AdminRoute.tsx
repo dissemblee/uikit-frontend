@@ -2,7 +2,7 @@ import { Navigate, Outlet } from "react-router"
 import { useUserInfo } from "@shared/hooks/useUserInfo"
 import { useAuthContext } from "@app/provider/AuthProvider"
 
-export const AdminRoute = () => {
+const AdminRoute = () => {
   const { isAuthenticated } = useAuthContext()
   const { role } = useUserInfo()
 
@@ -11,3 +11,5 @@ export const AdminRoute = () => {
 
   return <Outlet />
 }
+
+export default AdminRoute;

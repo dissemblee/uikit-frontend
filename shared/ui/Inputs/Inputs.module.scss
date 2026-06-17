@@ -617,7 +617,7 @@ $input-transition:   all 0.18s ease;
   border: 0.5px solid $input-border;
   border-radius: $input-radius;
   box-shadow: 0 8px 24px rgba(127, 119, 221, 0.12);
-  z-index: 10;
+  z-index: 9999;
 }
 
 .SearchSelect__Option {

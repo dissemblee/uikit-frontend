@@ -61,7 +61,6 @@
 @mixin baseCard {
   position: relative;
   border-radius: $rounded-lg;
-  overflow: hidden;
   padding: $value-6 $value-6;
   transition: all 0.5s ease;
   background: #FFFFFF;

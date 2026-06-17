@@ -1,29 +1,40 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLoginMutation, useLogoutMutation, useRefreshMutation } from "@entities/auth";
 import { useRegisterMutation } from "@entities/auth";
 import { useCookies } from "react-cookie";
 import { tokenStore } from "@shared/tokenStore";
 import { useGetMeQuery } from "@entities/user";
+import { useNavigate } from "react-router";
 
 export const useAuth = () => {
   const [cookies] = useCookies(["isAuth"]);
   const isAuthCookie = !!cookies.isAuth;
+  const navigate = useNavigate();
 
   const [registerMutation, registerState] = useRegisterMutation();
   const [loginMutation, loginState] = useLoginMutation();
   const [logoutMutation, logoutState] = useLogoutMutation();
   const [refreshMutation, refreshState] = useRefreshMutation();
 
+  const [isRefreshing, setIsRefreshing] = useState(() => {
+    return isAuthCookie && !tokenStore.get();
+  });
+
   useEffect(() => {
     if (isAuthCookie && !tokenStore.get()) {
-      refreshMutation();
+      refreshMutation()
+        .unwrap()
+        .catch(() => {})
+        .finally(() => setIsRefreshing(false));
     }
   }, []);
 
   const hasToken = !!tokenStore.get();
   const isSessionAlive = hasToken || isAuthCookie;
 
-  const { data: user, isLoading: isUserLoading } = useGetMeQuery();
+  const { data: user, isLoading: isUserLoading } = useGetMeQuery(undefined, {
+    skip: !isSessionAlive || isRefreshing,
+  });
 
   const register = useCallback(
     async (data: Parameters<typeof registerMutation>[0]) => {
@@ -42,11 +53,9 @@ export const useAuth = () => {
   const logout = useCallback(async () => {
     try {
       await logoutMutation().unwrap();
-    } catch {
-      
-    }
-
+    } catch {}
     tokenStore.clear();
+    navigate("/login");
   }, [logoutMutation]);
 
   useEffect(() => {
@@ -55,7 +64,6 @@ export const useAuth = () => {
     };
 
     window.addEventListener("auth:logout", handleLogoutEvent);
-
     return () => {
       window.removeEventListener("auth:logout", handleLogoutEvent);
     };
@@ -64,7 +72,7 @@ export const useAuth = () => {
   return {
     user,
     isAuthenticated: !!user,
-    loading: registerState.isLoading || loginState.isLoading || logoutState.isLoading || refreshState.isLoading || isUserLoading,
+    loading: isRefreshing || registerState.isLoading || loginState.isLoading || logoutState.isLoading || refreshState.isLoading || isUserLoading,
     error: registerState.error || loginState.error || logoutState.error,
     register,
     login,

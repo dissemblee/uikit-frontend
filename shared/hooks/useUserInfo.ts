@@ -1,3 +1,4 @@
+import { useAuthContext } from "@app/provider/AuthProvider";
 import { tokenStore } from "@shared/tokenStore";
 import { useMemo } from "react";
 
@@ -7,60 +8,29 @@ type UserInfo = {
 };
 
 export const useUserInfo = (): UserInfo => {
-  const token = tokenStore.get();
+  const { user } = useAuthContext();
 
   return useMemo(() => {
-    const fallback: UserInfo = {
-      displayName: "User",
-      role: "guest",
-    };
+    const fallback: UserInfo = { displayName: "User", role: "guest" };
 
-    if (!token) {
-      return fallback;
-    }
+    if (!user) return fallback;
 
-    try {
-      const parts = token.split(".");
+    const token = tokenStore.get();
+    let role = "guest";
 
-      if (parts.length !== 3) {
-        return fallback;
-      }
-
-      const payload = JSON.parse(atob(parts[1]));
-
-      let rawUsername =
-        payload.username ||
-        payload.userId ||
-        "User";
-
+    if (token) {
       try {
-        rawUsername = decodeURIComponent(
-          escape(rawUsername),
-        );
+        const parts = token.split(".");
+        if (parts.length === 3) {
+          const payload = JSON.parse(atob(parts[1]));
+          role = payload.userRole || payload.role || "guest";
+        }
       } catch {}
-
-      const displayName =
-        rawUsername.includes("Ð") ||
-        rawUsername.length > 20
-          ? "User"
-          : rawUsername;
-
-      const role =
-        payload.userRole ||
-        payload.role ||
-        "guest";
-
-      return {
-        displayName,
-        role,
-      };
-    } catch (error) {
-      console.error(
-        "Failed to decode token:",
-        error,
-      );
-
-      return fallback;
     }
-  }, [token]);
+
+    return {
+      displayName: user.result?.username || "User",
+      role,
+    };
+  }, [user]);
 };
