@@ -9,26 +9,50 @@ import { useGetBuildByIdQuery, type BuildDto } from "@entities/component";
 import { useGetRepoBuildByIdQuery, type BuildRepoDto } from "@entities/repository";
 import { useUserInfo } from "@shared/hooks/useUserInfo";
 import { BuildLogs } from "@shared/ui/BuildLogs";
-import type { BuildStatus } from "@shared/types/api";
+import { BuildStatus } from "@shared/types/api";
+import { useEffect, useState } from "react";
+
+const POLL_INTERVAL = 5000;
 
 export const BuildSingleSection = () => {
   const { service, buildId } = useParams<{ service: string; buildId: string }>();
   const { displayName } = useUserInfo();
+  const [componentPolling, setComponentPolling] = useState(POLL_INTERVAL);
+  const [repoPolling, setRepoPolling] = useState(POLL_INTERVAL);
 
-  if (!buildId || !service) return <SingleWrapSection state="not_found" />;
+  const isActiveBuild = (build?: BuildDto | BuildRepoDto) => {
+    if (!build) return true;
+    const activeStatuses: BuildStatus[] = [BuildStatus.PENDING, BuildStatus.RUNNING];
+    return activeStatuses.includes(build.status as BuildStatus);
+  };
 
   const isRepo = service === "repositories";
   const isComponent = service === "components";
 
   const { data: componentData, isLoading: componentLoading } = useGetBuildByIdQuery(
     { buildId },
-    { skip: !isComponent }
+    {
+      skip: !isComponent,
+      pollingInterval: isComponent ? componentPolling : 0,
+    }
   );
 
   const { data: repoData, isLoading: repoLoading } = useGetRepoBuildByIdQuery(
     { buildId },
-    { skip: !isRepo }
+    {
+      skip: !isRepo,
+      pollingInterval: isRepo ? repoPolling : 0,
+    }
   );
+
+  useEffect(() => {
+    if (componentData?.result && !isActiveBuild(componentData.result)) {
+      setComponentPolling(0);
+    }
+    if (repoData?.result && !isActiveBuild(repoData.result)) {
+      setRepoPolling(0);
+    }
+  }, [componentData, repoData]);
 
   const isLoading = componentLoading || repoLoading;
   const build = (componentData?.result ?? repoData?.result) as BuildDto | BuildRepoDto;
@@ -50,6 +74,8 @@ export const BuildSingleSection = () => {
   const linkLabel = isComponent
     ? `${(build as any).component?.username}/${(build as any).component?.name}-v${build.version}`
     : `${displayName}/${(build as any).name}-v${build.version}`;
+
+  if (!buildId || !service) return <SingleWrapSection state="not_found" />;
 
   return (
     <SingleWrapSection
