@@ -36,16 +36,16 @@ interface ApiArgs {
 
 const SERVICES: Services = {
   components: {
-    baseURL: "http://localhost:8080/api/",
+    baseURL: "http://localhost:80/api/",
   },
   auth: {
     baseURL: "http://localhost:80/api/",
   },
   user: {
-    baseURL: "http://localhost:81/api/",
+    baseURL: "http://localhost:80/api/",
   },
   repo: {
-    baseURL: "http://localhost:8082/api/",
+    baseURL: "http://localhost:80/api/",
   },
 };
 
