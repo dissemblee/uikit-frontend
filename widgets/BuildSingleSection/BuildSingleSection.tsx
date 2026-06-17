@@ -12,7 +12,7 @@ import { BuildLogs } from "@shared/ui/BuildLogs";
 import { BuildStatus } from "@shared/types/api";
 import { useEffect, useState } from "react";
 
-const POLL_INTERVAL = 5000;
+const POLL_INTERVAL = 1000;
 
 export const BuildSingleSection = () => {
   const { service, buildId } = useParams<{ service: string; buildId: string }>();
