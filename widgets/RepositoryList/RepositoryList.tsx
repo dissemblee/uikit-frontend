@@ -33,6 +33,7 @@ export const RepositoryList = () => {
       ? { username }
       : {
           query: search || undefined,
+          tags: tags.length ? tags : undefined,
         }),
   });
 
