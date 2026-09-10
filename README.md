@@ -1,87 +1,117 @@
-# Welcome to React Router!
+# UIKit — клиентская часть реестра UI-компонентов
 
-A modern, production-ready template for building full-stack React applications using React Router.
+Frontend дипломного проекта для публикации, поиска и повторного использования UI-компонентов. Приложение предоставляет интерфейс каталога компонентов и репозиториев, а также сопровождает процесс их сборки.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+## Возможности
 
-## Features
+- регистрация, вход, выход и автоматическое обновление access-токена;
+- просмотр и поиск компонентов и репозиториев, фильтрация по тегам, фреймворку, автору, дате и сортировка;
+- создание компонента из исходного файла (`.ts`, `.tsx`, `.js`, `.jsx`, до 1 МБ), публикация новых версий;
+- создание репозитория из опубликованных сборок компонентов и выпуск новых версий;
+- просмотр статуса, логов, исходного кода и списка сборок;
+- загрузка готовых пакетов и предпросмотр компонентов;
+- публичные профили пользователей со статистикой и редактирование собственного профиля/пароля;
+- административный раздел: поиск пользователей, назначение роли администратора, блокировка и разблокировка.
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+## Технологии
 
-## Getting Started
+- React 19, TypeScript;
+- React Router 7 и Vite;
+- Redux Toolkit Query для запросов, кэширования и обновления данных;
+- Axios с `Bearer`-авторизацией и обработкой обновления токена;
+- SCSS Modules;
+- Recharts, Shiki;
+- Docker и Nginx для production-развёртывания.
 
-### Installation
+## Структура проекта
 
-Install the dependencies:
+Проект следует подходу Feature-Sliced Design:
 
-```bash
-npm install
+```text
+app/        # точка входа, провайдеры, маршрутизация и guards
+pages/      # страницы маршрутов
+widgets/    # самостоятельные блоки страниц
+features/   # пользовательские сценарии: формы, карточки, профиль
+entities/   # модели предметной области и RTK Query API
+shared/     # общие UI-компоненты, хуки, стили и HTTP-клиент
+public/     # статические ассеты
 ```
 
-### Development
+## Быстрый старт
 
-Start the development server with HMR:
+### Требования
+
+- Node.js 20+;
+- npm;
+- доступные backend-сервисы проекта.
+
+### Установка и запуск
 
 ```bash
+npm ci
 npm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+После запуска приложение доступно по адресу `http://localhost:3000`.
 
-## Building for Production
-
-Create a production build:
+### Проверка типов и production-сборка
 
 ```bash
+npm run typecheck
 npm run build
+npm run start
 ```
 
-## Deployment
+`npm run start` поднимает собранный клиент из `build/client`.
 
-### Docker Deployment
+## Подключение backend
 
-To build and run using Docker:
+В текущей реализации адреса API заданы непосредственно в [shared/api.ts](shared/api.ts):
+
+| Назначение | Адрес |
+| --- | --- |
+| Основной API: авторизация, пользователи, компоненты, репозитории | `http://localhost:80/api/` |
+| Загрузка пакета репозитория | `http://localhost:8082/api/repo/builds/:id/package` |
+| Загрузка пакета и предпросмотр компонента | `http://localhost:8080/api/components/...` |
+
+Перед локальным запуском убедитесь, что эти сервисы запущены и разрешают запросы с адреса frontend. Для развёртывания в другом окружении адреса следует вынести в переменные окружения или изменить в `shared/api.ts`; ссылки на скачивание и предпросмотр также используются в виджетах карточек компонентов и репозиториев.
+
+## Маршруты
+
+| Маршрут | Назначение | Доступ |
+| --- | --- | --- |
+| `/` | Главная страница | всем |
+| `/components`, `/components/:username/:name` | Каталог и карточка компонента | всем |
+| `/repositories`, `/repositories/:username/:name` | Каталог и карточка репозитория | всем |
+| `/profile/:username` | Публичный профиль | всем |
+| `/login`, `/registration` | Аутентификация | всем |
+| `/components/create`, `/repositories/create` | Публикация сущностей | авторизованным |
+| `/components/:username/:name/version`, `/repositories/:username/:name/version` | Новая версия | авторизованным |
+| `/builds`, `/builds/:service/:buildId` | Список и детали сборок | авторизованным |
+| `/admin/users` | Управление пользователями | администраторам |
+
+## Docker
+
+Образ собирает приложение в Node.js 20 Alpine, а затем отдаёт статические файлы через Nginx.
 
 ```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
+docker build -t uikit-frontend .
+docker run --rm -p 8080:80 uikit-frontend
 ```
 
-The containerized application can be deployed to any platform that supports Docker, including:
+В контейнере Nginx слушает порт `80`; после команды выше интерфейс будет доступен на `http://localhost:8080`.
 
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
+> При контейнерном развёртывании `localhost` в клиентском коде означает компьютер пользователя, а не другой контейнер. Поэтому для production нужно настроить API-адреса на публичный домен или reverse proxy.
 
-### DIY Deployment
+## Полезные команды
 
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
+| Команда | Назначение |
+| --- | --- |
+| `npm run dev` | Режим разработки с HMR |
+| `npm run typecheck` | Генерация типов маршрутов и проверка TypeScript |
+| `npm run build` | Production-сборка |
+| `npm run start` | Локальный запуск production-сборки |
 
-Make sure to deploy the output of `npm run build`
+## Примечание
 
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
+Репозиторий содержит только клиентскую часть. Для полноценной работы — аутентификации, публикации, сборок, скачивания пакетов и предпросмотра — необходимы совместимые backend-сервисы.
